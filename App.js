@@ -5,8 +5,9 @@ import {
 import { Location, Permissions } from 'expo'
 import Map from './components/Map'
 import Layout from './components/Layout'
-import markers from './constants/testData'
+import socketIOClient from 'socket.io-client'
 
+// window.navigator.userAgent = "react-native"
 
 const deltas = {
   latitudeDelta: 0.0922,
@@ -16,12 +17,34 @@ const deltas = {
 export default class App extends Component {
   state = {
     region: null,
-    spots: markers,
+    spots: [],
     fontLoaded: false,
+    response: false,
+    endpoint: "http://58aac3a7.ngrok.io"
   }
 
   componentDidMount() {
     this.getLocationAsync()
+    const { endpoint } = this.state
+    const socket = socketIOClient(endpoint, {transports: ['websocket']})
+    // socket.on("FromAPI", data => console.log(data))
+    socket.on('connect', () => {
+      console.log("socket connected")
+      socket.emit('YOUR EVENT TO SERVER', {})
+      socket.on("spots", data => {
+        console.log(data)
+        this.setState({spots: data})
+      })
+    })
+
+    socket.on('connect_error', (err) => {
+      console.log(err)
+    })
+
+    socket.on('disconnect', () => {
+      console.log("Disconnected Socket!")
+    })
+
   }
 
   async componentWillMount() {
