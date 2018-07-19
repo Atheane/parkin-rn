@@ -5,7 +5,7 @@ import {
 import { Location, Permissions } from 'expo'
 import Map from './components/Map'
 import Layout from './components/Layout'
-import socketIOClient from 'socket.io-client'
+import { socket } from './services/sockets'
 
 // window.navigator.userAgent = "react-native"
 
@@ -14,13 +14,16 @@ const deltas = {
   longitudeDelta: 0.0421
 }
 
+
+
 export default class App extends Component {
-  state = {
-    userPosition: null,
-    spots: [],
-    fontLoaded: false,
-    response: false,
-    endpoint: "http://fda981dc.ngrok.io"
+  constructor(props) {
+    super(props)
+    this.state = {
+      userPosition: null,
+      spots: [],
+      fontLoaded: false,
+    }
   }
 
   async componentWillMount() {
@@ -34,30 +37,15 @@ export default class App extends Component {
 
   componentDidMount() {
     this.getLocationAsync()
-    const { endpoint, userPosition } = this.state
-    const socket = socketIOClient(endpoint, {transports: ['websocket']})
-    // socket.on("FromAPI", data => console.log(data))
-    socket.on('connect', () => {
-      console.log("socket connected")
-      //to-do comment updater la position au moment où elle est acquise et arrive dans le state
-      //pour le moment elle vaut undefined (parce que le composant est monté 
-      //avant que l'on arrive à récupérer la postion du user)
-      console.log("userPosition", userPosition)
-      socket.emit("userPosition", userPosition )
-      socket.on("spotsAroundMe", data => {
-        console.log(data)
-        this.setState({spots: data})
+    const { userPosition } = this.state
+    // socket.on("FromAPI", data => console.log(data)
+    socket.on("connect", () => {
+      socket.on("spotsAroundMe", (spots) => {
+        console.log("listening on spotsAroundMe")
+        console.log(spots)
+        this.setState({spots})
       })
     })
-
-    socket.on('connect_error', (err) => {
-      console.log(err)
-    })
-
-    socket.on('disconnect', () => {
-      console.log("Disconnected Socket!")
-    })
-
   }
 
   getLocationAsync = async () => {
@@ -76,10 +64,12 @@ export default class App extends Component {
     };
     console.log("Get Current Position", userPosition)
     await this.setState({ userPosition });
+    await socket.emit("userPosition", userPosition)
   }
 
   render() {
     const { userPosition, spots, fontLoaded } = this.state
+
     let display
     if (Platform.OS === 'ios') {
       display = (
