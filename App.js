@@ -7,14 +7,10 @@ import Map from './components/Map'
 import Layout from './components/Layout'
 import { socket } from './services/sockets'
 
-// window.navigator.userAgent = "react-native"
-
 const deltas = {
   latitudeDelta: 0.0922,
   longitudeDelta: 0.0421
 }
-
-
 
 export default class App extends Component {
   constructor(props) {
