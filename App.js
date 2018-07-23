@@ -36,6 +36,7 @@ export default class App extends Component {
     const { userPosition } = this.state
     // socket.on("FromAPI", data => console.log(data)
     socket.on("connect", () => {
+      console.log("socket is connected");
       socket.on("spotsAroundMe", (spots) => {
         console.log("listening on spotsAroundMe")
         console.log(spots)

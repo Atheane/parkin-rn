@@ -1,13 +1,18 @@
 import React, { Component } from 'react'
-import { Platform } from 'react-native'
 import { MapView } from 'expo'
 import { PROVIDER_GOOGLE } from 'react-native-maps'
 import getDirections from 'react-native-google-maps-directions'
 import NightStyle from './NightStyle'
+import { socket } from '../services/sockets'
 
 const Marker = MapView.Marker
 
 export default class Map extends Component {
+
+  unactivateSpot = (e) => {
+      console.log("unactivateSpot");
+      socket.emit("unactivateSpot", e.nativeEvent.coordinate);
+  }
   
   handleGetDirections = (e) => {
     const data = {
@@ -26,7 +31,7 @@ export default class Map extends Component {
         }
       ]
     }
- 
+    
     getDirections(data)
   }
 
@@ -38,7 +43,11 @@ export default class Map extends Component {
           title={place.name}
           coordinate={place.coords}
           image={ require('../assets/parking128.png') }
-          onPress={(position) => this.handleGetDirections(position)}
+          onPress={(point) => {
+              this.unactivateSpot(point)
+              this.handleGetDirections(point)
+            }
+          }
         />
       ))
     }

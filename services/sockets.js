@@ -1,6 +1,6 @@
 import socketIOClient from 'socket.io-client'
 
-const endpoint = "http://78f50a56.ngrok.io"
+const endpoint = "http://b2828ece.ngrok.io"
 
 export const socket = socketIOClient(endpoint)
 
