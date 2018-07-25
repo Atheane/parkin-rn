@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
 import { 
-  StyleSheet, Platform, SafeAreaView, View 
+  StyleSheet,
+  Platform,
+  SafeAreaView,
+  View,
 } from 'react-native'
-import { Location, Permissions } from 'expo'
+import { Permissions, Location } from 'expo'
 import Map from './components/Map'
 import Layout from './components/Layout'
-import { socket } from './services/sockets'
+import { socket } from './utils/sockets'
 
 const deltas = {
   latitudeDelta: 0.0922,
@@ -18,7 +21,7 @@ export default class App extends Component {
     this.state = {
       userPosition: null,
       spots: [],
-      fontLoaded: false,
+      fontLoaded: false
     }
   }
 
