@@ -38,13 +38,10 @@ export default class App extends Component {
     this.getLocationAsync()
     const { userPosition } = this.state
     // socket.on("FromAPI", data => console.log(data)
-    socket.on("connect", () => {
-      console.log("socket is connected");
-      socket.on("spotsAroundMe", (spots) => {
-        console.log("listening on spotsAroundMe")
-        console.log(spots)
-        this.setState({spots})
-      })
+    socket.on("spotsAroundMe", (spots) => {
+      console.log("listening on spotsAroundMe")
+      console.log(spots)
+      this.setState({spots})
     })
   }
 
@@ -69,7 +66,7 @@ export default class App extends Component {
 
   render() {
     const { userPosition, spots, fontLoaded } = this.state
-
+    console.log("spots", spots)
     let display
     if (Platform.OS === 'ios') {
       display = (

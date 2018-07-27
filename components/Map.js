@@ -106,6 +106,7 @@ export default class Map extends Component {
   }
  
   render() {
+
     const { region } = this.props
     console.log(this.state.notification)
     return (
@@ -117,7 +118,7 @@ export default class Map extends Component {
         showsUserLocation
         showsMyLocationButton
         showsTraffic
-        minZoomLevel={14}
+        minZoomLevel={15}
         loadingEnabled
       >
         {this.renderMarkers()}
