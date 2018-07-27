@@ -1,20 +1,19 @@
 import React, { Component } from 'react'
 import { 
-  StyleSheet, Platform, SafeAreaView, View 
+  StyleSheet,
+  Platform,
+  SafeAreaView,
+  View,
 } from 'react-native'
-import { Location, Permissions } from 'expo'
+import { Permissions, Location } from 'expo'
 import Map from './components/Map'
 import Layout from './components/Layout'
-import { socket } from './services/sockets'
-
-// window.navigator.userAgent = "react-native"
+import { socket } from './utils/sockets'
 
 const deltas = {
   latitudeDelta: 0.0922,
   longitudeDelta: 0.0421
 }
-
-
 
 export default class App extends Component {
   constructor(props) {
@@ -22,7 +21,7 @@ export default class App extends Component {
     this.state = {
       userPosition: null,
       spots: [],
-      fontLoaded: false,
+      fontLoaded: false
     }
   }
 
@@ -39,12 +38,10 @@ export default class App extends Component {
     this.getLocationAsync()
     const { userPosition } = this.state
     // socket.on("FromAPI", data => console.log(data)
-    socket.on("connect", () => {
-      socket.on("spotsAroundMe", (spots) => {
-        console.log("listening on spotsAroundMe")
-        console.log(spots)
-        this.setState({spots})
-      })
+    socket.on("spotsAroundMe", (spots) => {
+      console.log("listening on spotsAroundMe")
+      console.log(spots)
+      this.setState({spots})
     })
   }
 
@@ -69,7 +66,7 @@ export default class App extends Component {
 
   render() {
     const { userPosition, spots, fontLoaded } = this.state
-
+    console.log("spots", spots)
     let display
     if (Platform.OS === 'ios') {
       display = (
