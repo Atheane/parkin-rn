@@ -4,8 +4,8 @@ import { socket } from '../utils/sockets'
 import getDirections from 'react-native-google-maps-directions'
 
 const deltas = {
-  latitudeDelta: 0.0922,
-  longitudeDelta: 0.0421
+  latitudeDelta: 0.0522,
+  longitudeDelta: 0.0221
 }
 
 export const getSpots = (WrappedComponent) => {
@@ -75,6 +75,5 @@ export const handleGetDirections = (e) => {
       }
     ]
   }
-  
   getDirections(data)
 }

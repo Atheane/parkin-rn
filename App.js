@@ -5,34 +5,28 @@ import {
   SafeAreaView,
   View,
 } from 'react-native'
-import { compose } from 'recompose'
+import { compose, withHandlers } from 'recompose'
 import Map from './components/Map'
 import Layout from './components/Layout'
-import { getSpots } from './utils/localize'
+import { getSpots, handleGetDirections } from './utils/localize'
 import importFont from './utils/importFont'
+import { unactivateSpot } from './utils/sockets'
+import notify from './utils/notify'
 
 const App = (props) => {
-  const { userPosition, spots, fontLoaded } = props
-  // console.log("spots", spots)
-  console.log("spots", spots)
-
+  const { userPosition, spots, fontLoaded, handleOnPress } = props
+  console.log("Props in App:", props)
   let display
   if (Platform.OS === 'ios') {
     display = (
         <SafeAreaView style={styles.container}>
-          <Map
-            region={userPosition}
-            places={spots}
-          />
+          <Map {...props} />
         </SafeAreaView>
     )
   } else {
     display = (
         <View style={styles.container}>
-          <Map
-            region={userPosition}
-            places={spots}
-          />
+          <Map {...props} />
         </View>
     )
   } 
@@ -50,6 +44,14 @@ const App = (props) => {
 const enhance = compose(
   getSpots,
   importFont,
+  notify,
+  withHandlers({ 
+    handleOnPress: props => e => {
+      unactivateSpot(e)
+      handleGetDirections(e)
+      props.registerForPushNotifications()
+    }
+  })
 )
 
 export default enhance(App)

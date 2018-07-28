@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Permissions } from 'expo'
+import { Permissions, Notifications } from 'expo'
 
 export default (WrappedComponent) => {
   return class extends Component {
@@ -13,7 +13,8 @@ export default (WrappedComponent) => {
       }
     }
 
-    async registerForPushNotifications() {
+    registerForPushNotifications = async () => {
+      console.log("in registerForPushNotifications")
       const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS)
 
       if (status !== 'granted') {
@@ -22,13 +23,11 @@ export default (WrappedComponent) => {
           return
         }
       }
-      const token = await Notifications.getExpoPushTokenAsync()
+      let token = await Notifications.getExpoPushTokenAsync()
       console.log(token)
       this.subscription = Notifications.addListener(this.handleNotification)
-      this.setState({
-        token,
-      });
-      this.sendPushNotification()
+      await this.setState({ token })
+      await this.sendPushNotification()
     }
 
     sendPushNotification(token = this.state.token, title = this.state.title, body = this.state.body) {
@@ -55,7 +54,12 @@ export default (WrappedComponent) => {
 
     render () {
       return (
-        <WrappedComponent {...this.state} {...this.props} handleNotification={this.handleNotification} registerForPushNotifications={this.registerForPushNotifications} />
+        <WrappedComponent 
+          {...this.state} 
+          {...this.props} 
+          handleNotification={this.handleNotification} 
+          registerForPushNotifications={this.registerForPushNotifications}
+        />
       )
     }
   }

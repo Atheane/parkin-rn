@@ -2,23 +2,23 @@ import React from 'react'
 import { MapView } from 'expo'
 import { PROVIDER_GOOGLE } from 'react-native-maps'
 import NightStyle from './NightStyle'
-import MarkerList from './components/MarkerList'
+import MarkerList from './MarkerList'
 
 const Map = (props) => {
-  const { region, places } = props
+  const { userPosition, spots, handleOnPress } = props
   return (
     <MapView
       provider={PROVIDER_GOOGLE}
       customMapStyle={NightStyle}
       style={styles.container}
-      region={region}
+      region={userPosition}
       showsUserLocation
       showsMyLocationButton
       showsTraffic
       minZoomLevel={15}
       loadingEnabled
     >
-      <MarkerList places={places} />
+      <MarkerList {...props} />
     </MapView>
   )
 }

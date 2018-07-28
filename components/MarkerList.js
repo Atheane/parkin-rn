@@ -1,24 +1,17 @@
 import React from 'react'
 import { MapView } from 'expo'
 
-import { unactivateSpot } from '../utils/sockets'
-import { handleGetDirections } from '../utils/localize'
-
 const Marker = MapView.Marker
 
 export default (props) => {
-  const { places } = props
-  return places.map((place, i) => (
+  const { spots, handleOnPress } = props
+  return spots.map((spot, i) => (
     <Marker 
       key={i}
-      title={place.name}
-      coordinate={place.coords}
+      title={spot.name}
+      coordinate={spot.coords}
       image={ require('../assets/parking128.png') }
-      onPress={(e) => {
-          unactivateSpot(e)
-          handleGetDirections(e)
-        }
-      }
+      onPress={handleOnPress}
     />
   ))
 }
