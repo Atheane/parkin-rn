@@ -1,63 +1,58 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { 
   StyleSheet,
   Platform,
   SafeAreaView,
   View,
 } from 'react-native'
+import { compose } from 'recompose'
 import Map from './components/Map'
 import Layout from './components/Layout'
-import localize from './HOC/localize'
-import importFont from './HOC/importFont'
-import { compose } from 'recompose'
+import { getSpots } from './utils/localize'
+import importFont from './utils/importFont'
 
-class AppContainer extends Component {
-  constructor(props) {
-    super(props)
+const App = (props) => {
+  const { userPosition, spots, fontLoaded } = props
+  // console.log("spots", spots)
+  console.log("spots", spots)
+
+  let display
+  if (Platform.OS === 'ios') {
+    display = (
+        <SafeAreaView style={styles.container}>
+          <Map
+            region={userPosition}
+            places={spots}
+          />
+        </SafeAreaView>
+    )
+  } else {
+    display = (
+        <View style={styles.container}>
+          <Map
+            region={userPosition}
+            places={spots}
+          />
+        </View>
+    )
+  } 
+  if (fontLoaded) {
+    display = (
+      <Layout>
+        {display}
+      </Layout>
+    )
   }
-
-  render() {
-    const { userPosition, spots, fontLoaded } = this.props
-    // console.log("spots", spots)
-    console.log("fontLoaded", fontLoaded)
-
-    let display
-    if (Platform.OS === 'ios') {
-      display = (
-          <SafeAreaView style={styles.container}>
-            <Map
-              region={userPosition}
-              places={spots}
-            />
-         </SafeAreaView>
-      )
-    } else {
-      display = (
-          <View style={styles.container}>
-            <Map
-              region={userPosition}
-              places={spots}
-            />
-          </View>
-      )
-    } 
-    if (fontLoaded) {
-      display = (
-        <Layout>
-          {display}
-        </Layout>
-      )
-    }
-    return ( display )
-  }
+  
+  return ( display )
 }
 
 const enhance = compose(
-  localize,
+  getSpots,
   importFont,
 )
 
-export default enhance(AppContainer)
+export default enhance(App)
 
 const styles = StyleSheet.create({
   container: {

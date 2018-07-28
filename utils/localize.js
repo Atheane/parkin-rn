@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import { Permissions, Location } from 'expo'
 import { socket } from '../utils/sockets'
+import getDirections from 'react-native-google-maps-directions'
 
 const deltas = {
   latitudeDelta: 0.0922,
   longitudeDelta: 0.0421
 }
 
-export default (WrappedComponent) => {
+export const getSpots = (WrappedComponent) => {
   return class extends Component {
     constructor(props) {
       super(props)
@@ -51,4 +52,29 @@ export default (WrappedComponent) => {
       )
     }
   }
+}
+
+export const handleGetDirections = (e) => {
+  console.log("handleGetDirections", {
+    latitude: e.nativeEvent.coordinate.latitude,
+    longitude: e.nativeEvent.coordinate.longitude
+  })
+  const data = {
+    destination: {
+      latitude: e.nativeEvent.coordinate.latitude,
+      longitude: e.nativeEvent.coordinate.longitude
+    },
+    params: [
+      {
+        key: "travelmode",
+        value: "driving"        // may be "walking", "bicycling" or "transit" as well
+      },
+      {
+        key: "dir_action",
+        value: "navigate"       // this instantly initializes navigation using the given travel mode 
+      }
+    ]
+  }
+  
+  getDirections(data)
 }

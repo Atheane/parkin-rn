@@ -19,7 +19,6 @@ export default (WrappedComponent) => {
     }
 
     render() {
-      const { fontLoaded } = this.state
       return (
         <WrappedComponent {...this.state} {...this.props} />
       )

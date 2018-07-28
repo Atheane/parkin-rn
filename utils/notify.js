@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import { Permissions, Location } from 'expo'
-import { socket } from '../utils/sockets'
+import { Permissions } from 'expo'
 
 export default (WrappedComponent) => {
   return class extends Component {
@@ -56,7 +55,7 @@ export default (WrappedComponent) => {
 
     render () {
       return (
-        <WrappedComponent {...this.state} handleNotification={this.handleNotification} sendPushNotification={this.sendPushNotification} />
+        <WrappedComponent {...this.state} {...this.props} handleNotification={this.handleNotification} registerForPushNotifications={this.registerForPushNotifications} />
       )
     }
   }

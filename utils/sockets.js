@@ -5,6 +5,11 @@ const endpoint = "http://ced8e4df.ngrok.io"
 
 export const socket = socketIOClient(endpoint, {transports: ['websocket']})
 
+export const unactivateSpot = (e) => {
+  console.log("unactivateSpot", e.nativeEvent.coordinate)
+  socket.emit("unactivateSpot", e.nativeEvent.coordinate)
+}
+
 socket.on('connect_error', (err) => {
   console.log(err)
 })
