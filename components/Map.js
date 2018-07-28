@@ -106,9 +106,7 @@ export default class Map extends Component {
   }
  
   render() {
-
     const { region } = this.props
-    console.log(this.state.notification)
     return (
       <MapView
         provider={PROVIDER_GOOGLE}

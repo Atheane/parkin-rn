@@ -5,68 +5,22 @@ import {
   SafeAreaView,
   View,
 } from 'react-native'
-import { Permissions, Location } from 'expo'
 import Map from './components/Map'
 import Layout from './components/Layout'
-import { socket } from './utils/sockets'
+import localize from './HOC/localize'
+import importFont from './HOC/importFont'
+import { compose } from 'recompose'
 
-const deltas = {
-  latitudeDelta: 0.0922,
-  longitudeDelta: 0.0421
-}
-
-export default class App extends Component {
+class AppContainer extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      userPosition: null,
-      spots: [],
-      fontLoaded: false
-    }
-  }
-
-  async componentWillMount() {
-    await Expo.Font.loadAsync({
-      'Roboto': require('native-base/Fonts/Roboto.ttf'),
-      'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
-      'Ionicons': require('@expo/vector-icons/fonts/Ionicons.ttf'),
-    });
-    this.setState({fontLoaded: true});
-  }
-
-  componentDidMount() {
-    this.getLocationAsync()
-    const { userPosition } = this.state
-    // socket.on("FromAPI", data => console.log(data)
-    socket.on("spotsAroundMe", (spots) => {
-      console.log("listening on spotsAroundMe")
-      console.log(spots)
-      this.setState({spots})
-    })
-  }
-
-  getLocationAsync = async () => {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== 'granted') {
-      this.setState({
-        errorMessage: 'Permission to access location was denied'
-      });
-    }
-
-    let location = await Location.getCurrentPositionAsync({enableHighAccuracy: true})
-    const userPosition = {
-      latitude: location.coords.latitude,
-      longitude: location.coords.longitude,
-      ...deltas
-    };
-    console.log("Get Current Position", userPosition)
-    await this.setState({ userPosition });
-    await socket.emit("userPosition", userPosition)
   }
 
   render() {
-    const { userPosition, spots, fontLoaded } = this.state
-    console.log("spots", spots)
+    const { userPosition, spots, fontLoaded } = this.props
+    // console.log("spots", spots)
+    console.log("fontLoaded", fontLoaded)
+
     let display
     if (Platform.OS === 'ios') {
       display = (
@@ -97,6 +51,13 @@ export default class App extends Component {
     return ( display )
   }
 }
+
+const enhance = compose(
+  localize,
+  importFont,
+)
+
+export default enhance(AppContainer)
 
 const styles = StyleSheet.create({
   container: {
