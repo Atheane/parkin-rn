@@ -25,6 +25,7 @@
     "react": "16.3.1",
     "react-native": "~0.55.2",
     "react-native-google-maps-directions": "^2.0.0",
+    "recompose": "^0.27.1",
     "socket.io-client": "^2.1.1"
   },
   "proxy": "http://127.0.0.1:3000"
