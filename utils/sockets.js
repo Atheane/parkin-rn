@@ -1,11 +1,19 @@
 import socketIOClient from 'socket.io-client'
 
-const endpoint = "http://3894bd14.ngrok.io"
+const endpoint = "http://c44daa5d.ngrok.io"
 // const endpoint = "http://localhost:3000"
 
 export const socket = socketIOClient(endpoint, {transports: ['websocket']})
 
-export const unactivateSpot = (e) => {
+export const onSpotsAroundMe = (callback) => {
+  socket.on("spotsAroundMe", callback)
+}  
+
+export const emitUserPosition = (userPosition) => {
+  socket.emit("userPosition", userPosition)
+}
+
+export const emitUnactivateSpot = (e) => {
   console.log("unactivateSpot", e.nativeEvent.coordinate)
   socket.emit("unactivateSpot", e.nativeEvent.coordinate)
 }

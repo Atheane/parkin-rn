@@ -10,12 +10,12 @@ import Map from './components/Map'
 import Layout from './components/Layout'
 import { getSpots, handleGetDirections } from './utils/localize'
 import importFont from './utils/importFont'
-import { unactivateSpot } from './utils/sockets'
+import { emitUnactivateSpot } from './utils/sockets'
 import notify from './utils/notify'
 
 const App = (props) => {
-  const { userPosition, spots, fontLoaded, handleOnPress } = props
-  console.log("Props in App:", props)
+  const { fontLoaded } = props
+  // console.log("Props in App:", props)
   let display
   if (Platform.OS === 'ios') {
     display = (
@@ -47,7 +47,7 @@ const enhance = compose(
   notify,
   withHandlers({ 
     handleOnPress: props => e => {
-      unactivateSpot(e)
+      emitUnactivateSpot(e)
       handleGetDirections(e)
       props.registerForPushNotifications()
     }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Permissions, Location } from 'expo'
-import { socket } from '../utils/sockets'
+import { onSpotsAroundMe, emitUserPosition } from '../utils/sockets'
 import getDirections from 'react-native-google-maps-directions'
 
 const deltas = {
@@ -14,39 +14,82 @@ export const getSpots = (WrappedComponent) => {
       super(props)
       this.state = {
         userPosition: null,
-        spots: []
+        spots: [],
+        status: null,
+        errorMessage: null,
       }
     }
 
     componentDidMount() {
-      this.getLocationAsync()
-      socket.on("spotsAroundMe", (spots) => {
+      // this.getLocationAsync()
+      onSpotsAroundMe((spots) => {
         console.log("listening on spotsAroundMe")
         console.log(spots)
         this.setState({spots})
       })
+      this.watchId = this.watchPositionAsync()
     }
 
-    getLocationAsync = async () => {
-      let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    // getLocationAsync = async () => {
+    //   console.log("getLocationAsync")
+    //   let { status } = await Permissions.askAsync(Permissions.LOCATION)
+    //   this.setState({ status })
+    //   if (status !== 'granted') {
+    //     this.setState({
+    //       errorMessage: 'Permission to access location was denied'
+    //     })
+    //     console.log(this.state.errorMessage)
+    //   } else {
+    //     let location = await Location.getCurrentPositionAsync({enableHighAccuracy: true})
+    //     const userPosition = {
+    //       latitude: location.coords.latitude,
+    //       longitude: location.coords.longitude,
+    //       ...deltas
+    //     }
+    //     console.log("Get Current Position", userPosition)
+    //     await this.setState({ userPosition })
+    //     await emitUserPosition(userPosition)
+    //   }
+    // }
+
+    watchPositionAsync = async () => {
+      console.log("watchLocationAsync")
+      // const { status } = this.state
+
+      let { status } = await Permissions.askAsync(Permissions.LOCATION)
+      this.setState({ status })
       if (status !== 'granted') {
         this.setState({
           errorMessage: 'Permission to access location was denied'
-        });
+        })
+        console.log(this.state.errorMessage)
+      } else {
+        const options = {
+          enableHighAccuracy: true,
+          distanceInterval: 1,
+        }
+        const callback = (location) => {
+          const userPosition = {
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+            ...deltas
+          }
+          this.setState({userPosition})
+          emitUserPosition(userPosition)
+          console.log("coordonnees", [location.coords.longitude, location.coords.latitude])
+          console.log("accuracy", location.coords.accuracy)
+          console.log("speed", location.coords.speed)
+          console.log("timestamp", location.timestamp)
+        }
+        Location.watchPositionAsync(options, callback)
       }
-  
-      let location = await Location.getCurrentPositionAsync({enableHighAccuracy: true})
-      const userPosition = {
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-        ...deltas
-      };
-      console.log("Get Current Position", userPosition)
-      await this.setState({ userPosition })
-      await socket.emit("userPosition", userPosition)
     }
 
-    render () {
+    componentWillUnmount() {
+      this.watchId.remove()
+    }
+
+    render() {
       return (
         <WrappedComponent {...this.state} />
       )
@@ -55,10 +98,7 @@ export const getSpots = (WrappedComponent) => {
 }
 
 export const handleGetDirections = (e) => {
-  console.log("handleGetDirections", {
-    latitude: e.nativeEvent.coordinate.latitude,
-    longitude: e.nativeEvent.coordinate.longitude
-  })
+  console.log("handleGetDirections")
   const data = {
     destination: {
       latitude: e.nativeEvent.coordinate.latitude,
