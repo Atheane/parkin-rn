@@ -9,8 +9,6 @@ export default (WrappedComponent) => {
       this.state = {
         token: null,
         notification: null,
-        title: 'Hello World',
-        body: 'Say something!',
       }
     }
 
@@ -30,22 +28,6 @@ export default (WrappedComponent) => {
       this.subscription = Notifications.addListener(this.handleNotification)
       await this.setState({ token })
       // await emitTokenPushNotification(token)
-    }
-
-    sendPushNotification(token = this.state.token, title = this.state.title, body = this.state.body) {
-      console.log("should send notification")
-      return fetch('https://exp.host/--/api/v2/push/send', {
-        body: JSON.stringify({
-          to: token,
-          title: title,
-          body: body,
-          data: { message: `${title} - ${body}` },
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        method: 'POST',
-      })
     }
 
     handleNotification = notification => {

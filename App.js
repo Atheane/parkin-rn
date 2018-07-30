@@ -50,7 +50,7 @@ const enhance = compose(
       props.registerForPushNotifications()
       emitSelectSpot(e)
       e.persist()
-      // handleGetDirections(e)
+      handleGetDirections(e)
     }
   })
 )

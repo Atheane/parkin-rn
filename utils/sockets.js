@@ -15,9 +15,14 @@ export const onSpotNearMe = (callback) => {
   socket.on("spotNearMe", callback)
 }
 
-export const emitUserPosition = (userPosition) => {
-  console.log("emitUserPosition", userPosition)
-  socket.emit("userPosition", userPosition)
+export const emitInitialUserPosition = (userPosition) => {
+  console.log("emitInitialUserPosition", userPosition)
+  socket.emit("initialUserPosition", userPosition)
+}
+
+export const emitMovingUserPosition = (userPosition) => {
+  console.log("emitMovingUserPosition", userPosition)
+  socket.emit("movingUserPosition", userPosition)
 }
 
 export const emitTokenPushNotification = (token) => {
@@ -34,6 +39,13 @@ socket.on('connect_error', (err) => {
   console.log(err)
 })
 
-socket.on('disconnect', () => {
-  console.log("Disconnected Socket!")
+socket.on('connect', () => {
+  console.log(socket.id, ' is connected')
+  socket.on('disconnect', () => {
+    console.log(socket.id, ' is disconnected')
+    socket.on('reconnect', (attemptNumber) => {
+      console.log(socket.id, ' is reconnected')
+    })    
+  })
 })
+
