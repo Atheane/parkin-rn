@@ -10,7 +10,7 @@ import Map from './components/Map'
 import Layout from './components/Layout'
 import { getSpots, handleGetDirections } from './utils/localize'
 import importFont from './utils/importFont'
-import { emitUnactivateSpot } from './utils/sockets'
+import { emitSelectSpot } from './utils/sockets'
 import notify from './utils/notify'
 
 const App = (props) => {
@@ -48,9 +48,9 @@ const enhance = compose(
   withHandlers({ 
     handleOnPress: props => e => {
       props.registerForPushNotifications()
-      // emitUnactivateSpot(e)
+      emitSelectSpot(e)
       e.persist()
-      handleGetDirections(e)
+      // handleGetDirections(e)
     }
   })
 )

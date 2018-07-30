@@ -5,12 +5,12 @@ const Marker = MapView.Marker
 
 export default (props) => {
   const { spots, handleOnPress } = props
-  return spots.map((spot, i) => (
+  return spots.map((spotObj, i) => (
     <Marker 
       key={i}
-      title={spot.name}
-      coordinate={spot.coords}
-      image={ require('../assets/parking128.png') }
+      title={spotObj.spot.name}
+      coordinate={spotObj.spot.coords}
+      image={(spotObj.selected) ? require('../assets/selectedSpot.png') : require('../assets/spot.png')}
       onPress={handleOnPress}
     />
   ))
