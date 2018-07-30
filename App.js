@@ -50,6 +50,7 @@ const enhance = compose(
       props.registerForPushNotifications()
       emitSelectSpot(e)
       e.persist()
+      props.watchId = props.watchPositionAsync()
       handleGetDirections(e)
     }
   })

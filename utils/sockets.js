@@ -1,6 +1,6 @@
 import socketIOClient from 'socket.io-client'
 
-const endpoint = "http://a33359ae.ngrok.io"
+const endpoint = "http://763476ed.ngrok.io"
 // const endpoint = "http://localhost:3000"
 
 export const socket = socketIOClient(endpoint, {transports: ['websocket']})

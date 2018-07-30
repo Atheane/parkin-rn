@@ -19,7 +19,7 @@ export const getSpots = (WrappedComponent) => {
     constructor(props) {
       super(props)
       this.state = {
-        userPosition: null,
+        initialUserPosition: null,
         spots: [],
         status: null,
         errorMessage: null,
@@ -35,12 +35,11 @@ export const getSpots = (WrappedComponent) => {
       onSpotNearMe((message) => {
         console.log(message)
       })
-      this.watchId = this.watchPositionAsync()
     }
 
     getLocationAsync = async () => {
-      console.log("getLocationAsync")
       let { status } = await Permissions.askAsync(Permissions.LOCATION)
+      console.log("getLocationAsync", status)
       this.setState({ status })
       if (status !== 'granted') {
         this.setState({
@@ -49,22 +48,27 @@ export const getSpots = (WrappedComponent) => {
         console.log(this.state.errorMessage)
       } else {
         let location = await Location.getCurrentPositionAsync({enableHighAccuracy: true})
-        const userPosition = {
+        const initialUserPosition = {
           latitude: location.coords.latitude,
           longitude: location.coords.longitude,
           ...deltas
         }
-        console.log("get current Position", userPosition)
-        await this.setState({ userPosition })
-        await emitInitialUserPosition(userPosition)
+        console.log("get current Position", initialUserPosition)
+        await this.setState({ initialUserPosition })
+        await emitInitialUserPosition(initialUserPosition)
       }
     }
 
-    watchPositionAsync = () => {
-      console.log("watchLocationAsync")
-      const { status } = this.state
-
-       if (status === 'granted') {
+    watchPositionAsync = async () => {
+      let { status } = await Permissions.askAsync(Permissions.LOCATION)
+      console.log("watchLocationAsync", status)
+      this.setState({ status })
+      if (status !== 'granted') {
+        this.setState({
+          errorMessage: 'Permission to access location was denied'
+        })
+        console.log(this.state.errorMessage)
+      } else {
         const options = {
           enableHighAccuracy: true,
           distanceInterval: 1,
@@ -77,7 +81,6 @@ export const getSpots = (WrappedComponent) => {
           }
           console.log("Watch User Position", userPosition)
           emitMovingUserPosition(userPosition)
-          console.log("coordonnees", [location.coords.longitude, location.coords.latitude])
           console.log("accuracy", location.coords.accuracy)
           console.log("speed", location.coords.speed)
           console.log("timestamp", location.timestamp)
@@ -92,7 +95,7 @@ export const getSpots = (WrappedComponent) => {
 
     render() {
       return (
-        <WrappedComponent {...this.state} />
+        <WrappedComponent {...this.state} watchPositionAsync={this.watchPositionAsync}/>
       )
     }
   }
