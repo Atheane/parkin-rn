@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Permissions, Notifications } from 'expo'
+import { emitTokenPushNotification } from './sockets'
 
 export default (WrappedComponent) => {
   return class extends Component {
@@ -25,9 +26,10 @@ export default (WrappedComponent) => {
       }
       let token = await Notifications.getExpoPushTokenAsync()
       console.log(token)
+      console.log(Date.now())
       this.subscription = Notifications.addListener(this.handleNotification)
       await this.setState({ token })
-      await this.sendPushNotification()
+      await emitTokenPushNotification(token)
     }
 
     sendPushNotification(token = this.state.token, title = this.state.title, body = this.state.body) {

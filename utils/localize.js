@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Permissions, Location } from 'expo'
-import { onSpotsAroundMe, emitUserPosition } from '../utils/sockets'
+import { onSpotsAroundMe, emitUserPosition, onSpotNearMe } from '../utils/sockets'
 import getDirections from 'react-native-google-maps-directions'
 
 const deltas = {
@@ -21,41 +21,19 @@ export const getSpots = (WrappedComponent) => {
     }
 
     componentDidMount() {
-      // this.getLocationAsync()
+      this.getLocationAsync()
       onSpotsAroundMe((spots) => {
-        console.log("listening on spotsAroundMe")
         console.log(spots)
         this.setState({spots})
       })
-      this.watchId = this.watchPositionAsync()
+      onSpotNearMe((spot) => {
+        console.log(spot)
+      })
+      // this.watchId = this.watchPositionAsync()
     }
 
-    // getLocationAsync = async () => {
-    //   console.log("getLocationAsync")
-    //   let { status } = await Permissions.askAsync(Permissions.LOCATION)
-    //   this.setState({ status })
-    //   if (status !== 'granted') {
-    //     this.setState({
-    //       errorMessage: 'Permission to access location was denied'
-    //     })
-    //     console.log(this.state.errorMessage)
-    //   } else {
-    //     let location = await Location.getCurrentPositionAsync({enableHighAccuracy: true})
-    //     const userPosition = {
-    //       latitude: location.coords.latitude,
-    //       longitude: location.coords.longitude,
-    //       ...deltas
-    //     }
-    //     console.log("Get Current Position", userPosition)
-    //     await this.setState({ userPosition })
-    //     await emitUserPosition(userPosition)
-    //   }
-    // }
-
-    watchPositionAsync = async () => {
-      console.log("watchLocationAsync")
-      // const { status } = this.state
-
+    getLocationAsync = async () => {
+      console.log("getLocationAsync")
       let { status } = await Permissions.askAsync(Permissions.LOCATION)
       this.setState({ status })
       if (status !== 'granted') {
@@ -64,30 +42,54 @@ export const getSpots = (WrappedComponent) => {
         })
         console.log(this.state.errorMessage)
       } else {
-        const options = {
-          enableHighAccuracy: true,
-          distanceInterval: 1,
+        let location = await Location.getCurrentPositionAsync({enableHighAccuracy: true})
+        const userPosition = {
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+          ...deltas
         }
-        const callback = (location) => {
-          const userPosition = {
-            latitude: location.coords.latitude,
-            longitude: location.coords.longitude,
-            ...deltas
-          }
-          this.setState({userPosition})
-          emitUserPosition(userPosition)
-          console.log("coordonnees", [location.coords.longitude, location.coords.latitude])
-          console.log("accuracy", location.coords.accuracy)
-          console.log("speed", location.coords.speed)
-          console.log("timestamp", location.timestamp)
-        }
-        Location.watchPositionAsync(options, callback)
+        console.log("Get Current Position", userPosition)
+        await this.setState({ userPosition })
+        await emitUserPosition(userPosition)
       }
     }
 
-    componentWillUnmount() {
-      this.watchId.remove()
-    }
+    // watchPositionAsync = async () => {
+    //   console.log("watchLocationAsync")
+    //   // const { status } = this.state
+
+    //   let { status } = await Permissions.askAsync(Permissions.LOCATION)
+    //   this.setState({ status })
+    //   if (status !== 'granted') {
+    //     this.setState({
+    //       errorMessage: 'Permission to access location was denied'
+    //     })
+    //     console.log(this.state.errorMessage)
+    //   } else {
+    //     const options = {
+    //       enableHighAccuracy: true,
+    //       distanceInterval: 1,
+    //     }
+    //     const callback = (location) => {
+    //       const userPosition = {
+    //         latitude: location.coords.latitude,
+    //         longitude: location.coords.longitude,
+    //         ...deltas
+    //       }
+    //       this.setState({userPosition})
+    //       emitUserPosition(userPosition)
+    //       console.log("coordonnees", [location.coords.longitude, location.coords.latitude])
+    //       console.log("accuracy", location.coords.accuracy)
+    //       console.log("speed", location.coords.speed)
+    //       console.log("timestamp", location.timestamp)
+    //     }
+    //     Location.watchPositionAsync(options, callback)
+    //   }
+    // }
+
+    // componentWillUnmount() {
+    //   this.watchId.remove()
+    // }
 
     render() {
       return (

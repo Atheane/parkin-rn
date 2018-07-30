@@ -47,9 +47,10 @@ const enhance = compose(
   notify,
   withHandlers({ 
     handleOnPress: props => e => {
-      emitUnactivateSpot(e)
-      handleGetDirections(e)
       props.registerForPushNotifications()
+      // emitUnactivateSpot(e)
+      e.persist()
+      handleGetDirections(e)
     }
   })
 )
