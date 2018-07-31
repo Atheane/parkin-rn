@@ -27,7 +27,7 @@ export default (WrappedComponent) => {
       console.log(Date.now())
       this.subscription = Notifications.addListener(this.handleNotification)
       await this.setState({ token })
-      // await emitTokenPushNotification(token)
+      await emitTokenPushNotification(token)
     }
 
     handleNotification = notification => {

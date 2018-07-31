@@ -90,7 +90,7 @@ export const getSpots = (WrappedComponent) => {
     }
 
     componentWillUnmount() {
-      this.watchId.remove()
+      this.props.watchId.remove()
     }
 
     render() {
