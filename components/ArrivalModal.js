@@ -8,10 +8,23 @@ class ArrivalModal extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isModalVisible: (this.props.fontLoaded) ? true : false,
+      isModalVisible: false,
       message: ''
     }
-    onSpotNearMe((message)=> {
+  }
+
+  componentDidMount() {
+    console.log("ArrivalModal.js is mounted")
+    onSpotNearMe((message) => {
+      if (this.props.watchId) {
+        console.log(this.props.watchId)
+        this.props.watchId.remove()
+      } else {
+        console.log({
+          errorMessage: "Trying to remove watchId, but watchId undefined",
+          component: "ArrivalModal.js"
+        })
+      }
       this.setState({
         isModalVisible: (this.props.fontLoaded) ? true : false,
         message
@@ -21,6 +34,10 @@ class ArrivalModal extends Component {
 
   _toggleModal = () =>
     this.setState({ isModalVisible: !this.state.isModalVisible })
+
+  componentWillUnmount() {
+    console.log("ArrivalModal.js Will Unmount")
+  }
 
   render() {
     return (

@@ -36,6 +36,10 @@ export default (WrappedComponent) => {
       })
     }
 
+    componentWillUnmount() {
+      console.log("notify.js will unmount")
+    }   
+
     render () {
       return (
         <WrappedComponent 

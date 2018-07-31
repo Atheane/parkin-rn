@@ -23,6 +23,7 @@ export const getSpots = (WrappedComponent) => {
         spots: [],
         status: null,
         errorMessage: null,
+        watchId: undefined
       }
     }
 
@@ -68,7 +69,7 @@ export const getSpots = (WrappedComponent) => {
       } else {
         const options = {
           enableHighAccuracy: true,
-          distanceInterval: 1,
+          distanceInterval: 10,
         }
         const callback = (location) => {
           const userPosition = {
@@ -82,12 +83,20 @@ export const getSpots = (WrappedComponent) => {
           console.log("speed", location.coords.speed)
           console.log("timestamp", location.timestamp)
         }
-        Location.watchPositionAsync(options, callback)
+        this.state.watchId = await Location.watchPositionAsync(options, callback)
       }
     }
 
     componentWillUnmount() {
-      this.props.watchId.remove()
+      console.log("localize.js will unmount")
+      if (this.props.watchId) {
+        this.props.watchId.remove()
+      } else {
+        console.log({
+          errorMessage: "Trying to remove watchId, but watchId undefined",
+          component: "localize.js"
+        })
+      }
     }
 
     render() {

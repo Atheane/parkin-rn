@@ -5,7 +5,7 @@ import {
   SafeAreaView,
   View,
 } from 'react-native'
-import { compose, withHandlers } from 'recompose'
+import { compose, withHandlers, withProps } from 'recompose'
 
 import { getSpots, handleGetDirections } from './utils/localize'
 import importFont from './utils/importFont'
@@ -19,7 +19,6 @@ import ArrivalModal from './components/ArrivalModal'
 
 const AppContainer = (props) => {
   const { fontLoaded } = props
-  // console.log("Props in App:", props)
   let display
   if (Platform.OS === 'ios') {
     display = (
@@ -56,10 +55,10 @@ const enhance = compose(
       props.registerForPushNotifications()
       emitSelectSpot(e)
       e.persist()
-      props.watchId = props.watchPositionAsync()
+      props.watchPositionAsync()
       handleGetDirections(e)
     }
-  })
+  }),
 )
 
 const App = enhance(AppContainer)

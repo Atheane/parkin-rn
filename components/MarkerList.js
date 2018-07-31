@@ -17,5 +17,6 @@ export default (props) => {
     ))
   } else {
     console.log({errorMessage: "no spots", component: "MarkerList"})
+    return null
   }
 }
