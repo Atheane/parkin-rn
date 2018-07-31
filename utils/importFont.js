@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Expo from 'expo'
 
 export default (WrappedComponent) => {
   return class extends Component {

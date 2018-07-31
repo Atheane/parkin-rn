@@ -32,9 +32,6 @@ export const getSpots = (WrappedComponent) => {
         console.log(spots)
         this.setState({spots})
       })
-      onSpotNearMe((message) => {
-        console.log(message)
-      })
     }
 
     getLocationAsync = async () => {

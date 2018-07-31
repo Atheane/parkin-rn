@@ -6,26 +6,32 @@ import {
   View,
 } from 'react-native'
 import { compose, withHandlers } from 'recompose'
-import Map from './components/Map'
-import Layout from './components/Layout'
+
 import { getSpots, handleGetDirections } from './utils/localize'
 import importFont from './utils/importFont'
-import { emitSelectSpot } from './utils/sockets'
 import notify from './utils/notify'
+import { emitSelectSpot } from './utils/sockets'
 
-const App = (props) => {
+import Map from './components/Map'
+import Layout from './components/Layout'
+import ArrivalModal from './components/ArrivalModal'
+
+
+const AppContainer = (props) => {
   const { fontLoaded } = props
   // console.log("Props in App:", props)
   let display
   if (Platform.OS === 'ios') {
     display = (
         <SafeAreaView style={styles.container}>
+          <ArrivalModal {...props} />
           <Map {...props} />
         </SafeAreaView>
     )
   } else {
     display = (
         <View style={styles.container}>
+          <ArrivalModal {...props} />
           <Map {...props} />
         </View>
     )
@@ -56,7 +62,9 @@ const enhance = compose(
   })
 )
 
-export default enhance(App)
+const App = enhance(AppContainer)
+
+export default App
 
 const styles = StyleSheet.create({
   container: {

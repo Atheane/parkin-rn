@@ -5,7 +5,7 @@ const Marker = MapView.Marker
 
 export default (props) => {
   const { spots, handleOnPress } = props
-  if (spots.constructor === Array) {
+  if (spots && spots.constructor === Array) {
     return spots.map((spotObj, i) => (
       <Marker 
         key={i}
@@ -16,6 +16,6 @@ export default (props) => {
       />
     ))
   } else {
-    console.log({errorMessage: "spots not an Array", component: "MarkerList"})
+    console.log({errorMessage: "no spots", component: "MarkerList"})
   }
 }
