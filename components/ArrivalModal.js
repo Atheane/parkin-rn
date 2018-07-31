@@ -9,26 +9,30 @@ class ArrivalModal extends Component {
     super(props)
     this.state = {
       isModalVisible: false,
-      message: ''
+      message: '',
+      mounted: false //so anti-pattern, hot-fix, to-do check why ArrivalModal unmount when it should not !
     }
   }
 
   componentDidMount() {
     console.log("ArrivalModal.js is mounted")
+    this.state.mounted = true
     onSpotNearMe((message) => {
-      if (this.props.watchId) {
+      if (message && this.props.watchId) {
         console.log(this.props.watchId)
         this.props.watchId.remove()
       } else {
         console.log({
-          errorMessage: "Trying to remove watchId, but watchId undefined",
+          errorMessage: "Should remove watchId, but watchId undefined",
           component: "ArrivalModal.js"
         })
       }
-      this.setState({
-        isModalVisible: (this.props.fontLoaded) ? true : false,
-        message
-      })
+      if (this.state.mounted) {
+        this.setState({
+          isModalVisible: (this.props.fontLoaded) ? true : false,
+          message
+        })
+      }
     })
   }
 
@@ -37,13 +41,14 @@ class ArrivalModal extends Component {
 
   componentWillUnmount() {
     console.log("ArrivalModal.js Will Unmount")
-  }
-
+    this.state.mounted = false
+  }   
+  
   render() {
     return (
       <View style={{ flex: 1 }}>
         <Modal isVisible={this.state.isModalVisible}>
-          <CardModal {...this.state} {...this.props} />
+          <CardModal {...this.state} {...this.props} _toggleModal={this._toggleModal} />
         </Modal>
       </View>
     );

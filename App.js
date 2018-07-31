@@ -42,7 +42,6 @@ const AppContainer = (props) => {
       </Layout>
     )
   }
-  
   return ( display )
 }
 

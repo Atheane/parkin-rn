@@ -11,6 +11,9 @@ export default (WrappedComponent) => {
         notification: null,
       }
     }
+    componentDidMount() {
+      console.log("notify is mounted")
+    }
 
     registerForPushNotifications = async () => {
       console.log("in registerForPushNotifications")
@@ -37,7 +40,7 @@ export default (WrappedComponent) => {
     }
 
     componentWillUnmount() {
-      console.log("notify.js will unmount")
+      console.log("notify will unmount")
     }   
 
     render () {

@@ -28,6 +28,7 @@ export const getSpots = (WrappedComponent) => {
     }
 
     componentDidMount() {
+      console.log("localize is mounted")
       this.getLocationAsync()
       onSpotsAroundMe((spots) => {
         console.log(spots)
@@ -88,7 +89,7 @@ export const getSpots = (WrappedComponent) => {
     }
 
     componentWillUnmount() {
-      console.log("localize.js will unmount")
+      console.log("localize will unmount")
       if (this.props.watchId) {
         this.props.watchId.remove()
       } else {
@@ -101,7 +102,7 @@ export const getSpots = (WrappedComponent) => {
 
     render() {
       return (
-        <WrappedComponent {...this.state} watchPositionAsync={this.watchPositionAsync}/>
+        <WrappedComponent {...this.state} watchPositionAsync={this.watchPositionAsync} getLocationAsync={this.getLocationAsync}/>
       )
     }
   }

@@ -17,6 +17,14 @@ import {
 
 export default class CardModal extends Component {
 
+  componentDidMount() {
+    console.log("CardModal.js is mounted")
+  }
+
+  componentWillUnmount() {
+    console.log("CardModal.js Will Unmount")
+  } 
+
   cards = () => {
     return [
       {
@@ -29,7 +37,6 @@ export default class CardModal extends Component {
   }
 
   render() {
-    console.log("In CardModal", this.props)
     return (
       <Container style={{ elevation: 3, backgroundColor: 'rgba(52, 52, 52, 0.01)'}}>
         <View >
@@ -57,18 +64,23 @@ export default class CardModal extends Component {
           <View style={{ flexDirection: "row", flex: 1, position: "absolute", bottom: 50, left: 0, right: 0, justifyContent: 'space-around' }}>
             <Button 
               danger
-              onPress={() => this._deckSwiper._root.swipeLeft()} 
+              onPress={() => {
+                this.props.getLocationAsync()
+                this.props._toggleModal()
+              }} 
               style={{backgroundColor: '#D55367', height: 70, width: 70, borderRadius: 15}}>
                 <Icon type="FontAwesome" name="times" style={{textAlign: 'center', paddingLeft: 8}} />
             </Button>
             <Button 
               success
-              onPress={() => this._deckSwiper._root.swipeRight()} 
+              onPress={() => {
+                this.props._toggleModal()
+              }}
               style={{backgroundColor: '#00AA7B', height: 70, width: 70, borderRadius: 15}}>
                 <Icon type="FontAwesome" name="check" style={{textAlign: 'center', paddingLeft: 8}} />
             </Button>
           </View>
       </Container>
-    );
+    )
   }
 }
