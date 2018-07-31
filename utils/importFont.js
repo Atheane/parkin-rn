@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Expo from 'expo'
 
 export default (WrappedComponent) => {
   return class extends Component {
@@ -10,12 +11,17 @@ export default (WrappedComponent) => {
     }
 
     async componentDidMount() {
+      console.log("importFont.js did mount")
       await Expo.Font.loadAsync({
         'Roboto': require('native-base/Fonts/Roboto.ttf'),
         'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
         'Ionicons': require('@expo/vector-icons/fonts/Ionicons.ttf'),
       });
       this.setState({fontLoaded: true})
+    }
+
+    componentWillUnmount() {
+      console.log("importFont.js Will Unmount")
     }
 
     render() {

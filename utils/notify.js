@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Permissions, Notifications } from 'expo'
+import { emitTokenPushNotification } from './sockets'
 
 export default (WrappedComponent) => {
   return class extends Component {
@@ -8,9 +9,10 @@ export default (WrappedComponent) => {
       this.state = {
         token: null,
         notification: null,
-        title: 'Hello World',
-        body: 'Say something!',
       }
+    }
+    componentDidMount() {
+      console.log("notify is mounted")
     }
 
     registerForPushNotifications = async () => {
@@ -25,25 +27,10 @@ export default (WrappedComponent) => {
       }
       let token = await Notifications.getExpoPushTokenAsync()
       console.log(token)
+      console.log(Date.now())
       this.subscription = Notifications.addListener(this.handleNotification)
       await this.setState({ token })
-      await this.sendPushNotification()
-    }
-
-    sendPushNotification(token = this.state.token, title = this.state.title, body = this.state.body) {
-      console.log("should send notification")
-      return fetch('https://exp.host/--/api/v2/push/send', {
-        body: JSON.stringify({
-          to: token,
-          title: title,
-          body: body,
-          data: { message: `${title} - ${body}` },
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        method: 'POST',
-      })
+      await emitTokenPushNotification(token)
     }
 
     handleNotification = notification => {
@@ -51,6 +38,10 @@ export default (WrappedComponent) => {
         notification,
       })
     }
+
+    componentWillUnmount() {
+      console.log("notify will unmount")
+    }   
 
     render () {
       return (

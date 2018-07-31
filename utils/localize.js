@@ -1,7 +1,13 @@
 import React, { Component } from 'react'
 import { Permissions, Location } from 'expo'
-import { socket } from '../utils/sockets'
 import getDirections from 'react-native-google-maps-directions'
+
+import { 
+  onSpotsAroundMe, 
+  emitInitialUserPosition, 
+  emitMovingUserPosition,
+  onSpotNearMe 
+} from '../utils/sockets'
 
 const deltas = {
   latitudeDelta: 0.0522,
@@ -13,52 +19,97 @@ export const getSpots = (WrappedComponent) => {
     constructor(props) {
       super(props)
       this.state = {
-        userPosition: null,
-        spots: []
+        initialUserPosition: null,
+        spots: [],
+        status: null,
+        errorMessage: null,
+        watchId: undefined
       }
     }
 
     componentDidMount() {
+      console.log("localize is mounted")
       this.getLocationAsync()
-      socket.on("spotsAroundMe", (spots) => {
-        console.log("listening on spotsAroundMe")
+      onSpotsAroundMe((spots) => {
         console.log(spots)
         this.setState({spots})
       })
     }
 
     getLocationAsync = async () => {
-      let { status } = await Permissions.askAsync(Permissions.LOCATION);
+      let { status } = await Permissions.askAsync(Permissions.LOCATION)
+      console.log("getLocationAsync", status)
+      this.setState({ status })
       if (status !== 'granted') {
         this.setState({
           errorMessage: 'Permission to access location was denied'
-        });
+        })
+        console.log(this.state.errorMessage)
+      } else {
+        let location = await Location.getCurrentPositionAsync({enableHighAccuracy: true})
+        const initialUserPosition = {
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude,
+          ...deltas
+        }
+        console.log("get current Position", initialUserPosition)
+        await this.setState({ initialUserPosition })
+        await emitInitialUserPosition(initialUserPosition)
       }
-  
-      let location = await Location.getCurrentPositionAsync({enableHighAccuracy: true})
-      const userPosition = {
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-        ...deltas
-      };
-      console.log("Get Current Position", userPosition)
-      await this.setState({ userPosition })
-      await socket.emit("userPosition", userPosition)
     }
 
-    render () {
+    watchPositionAsync = async () => {
+      let { status } = await Permissions.askAsync(Permissions.LOCATION)
+      console.log("watchLocationAsync", status)
+      this.setState({ status })
+      if (status !== 'granted') {
+        this.setState({
+          errorMessage: 'Permission to access location was denied'
+        })
+        console.log(this.state.errorMessage)
+      } else {
+        const options = {
+          enableHighAccuracy: true,
+          distanceInterval: 10,
+        }
+        const callback = (location) => {
+          const userPosition = {
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+            ...deltas
+          }
+          console.log("Watch User Position", userPosition)
+          emitMovingUserPosition(userPosition)
+          console.log("accuracy", location.coords.accuracy)
+          console.log("speed", location.coords.speed)
+          console.log("timestamp", location.timestamp)
+        }
+        this.state.watchId = await Location.watchPositionAsync(options, callback)
+      }
+    }
+
+    componentWillUnmount() {
+      console.log("localize will unmount")
+      if (this.props.watchId) {
+        this.props.watchId.remove()
+      } else {
+        console.log({
+          errorMessage: "Trying to remove watchId, but watchId undefined",
+          component: "localize.js"
+        })
+      }
+    }
+
+    render() {
       return (
-        <WrappedComponent {...this.state} />
+        <WrappedComponent {...this.state} watchPositionAsync={this.watchPositionAsync} getLocationAsync={this.getLocationAsync}/>
       )
     }
   }
 }
 
 export const handleGetDirections = (e) => {
-  console.log("handleGetDirections", {
-    latitude: e.nativeEvent.coordinate.latitude,
-    longitude: e.nativeEvent.coordinate.longitude
-  })
+  console.log("handleGetDirections")
   const data = {
     destination: {
       latitude: e.nativeEvent.coordinate.latitude,
