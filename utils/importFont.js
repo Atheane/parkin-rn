@@ -25,9 +25,15 @@ export default (WrappedComponent) => {
     }
 
     render() {
-      return (
-        <WrappedComponent {...this.state} {...this.props} />
-      )
+      const { fontLoaded } = this.state
+      console.log("importFont", fontLoaded)
+      if (fontLoaded) {
+        return (
+          <WrappedComponent {...this.state} {...this.props} />
+        )
+      } else {
+        return null
+      }
     }
   }
 }
