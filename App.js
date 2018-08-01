@@ -72,8 +72,11 @@ const enhance = compose(
   }),
 )
 
-// AsyncStorage.multiremove()
 
 const App = enhance(AppContainer)
 
 export default App
+
+
+// to-do: proper logout with https://github.com/react-navigation/react-navigation/issues/1979
+// solution de jeserodz
