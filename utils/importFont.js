@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Expo from 'expo'
+import Loading from '../components/Loading'
 
 export default (WrappedComponent) => {
   return class extends Component {
@@ -25,9 +26,18 @@ export default (WrappedComponent) => {
     }
 
     render() {
-      return (
-        <WrappedComponent {...this.state} {...this.props} />
-      )
+      const { fontLoaded } = this.state
+      console.log("importFont", fontLoaded)
+      if (fontLoaded) {
+        return (
+          <WrappedComponent {...this.props} />
+        )
+      } else {
+        return (
+          <Loading />
+        )
+      }
     }
   }
 }
+

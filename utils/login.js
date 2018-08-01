@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { AsyncStorage, StyleSheet, View } from 'react-native'
+import { AsyncStorage, StyleSheet } from 'react-native'
 import { AuthSession } from 'expo'
-import { Container, Header, Footer, Icon, Text, Button, Thumbnail, Body } from 'native-base'
+import { Container, Header, Icon, Text, Button, Thumbnail, Body } from 'native-base'
 import { Col, Row, Grid } from 'react-native-easy-grid'
 
 
@@ -82,47 +82,34 @@ export default (WrappedComponent) => {
         this._storeData(userInfo)
       }
     
-      // _renderUserInfo = () => {
-      //   return (
-      //     <View style={{ alignItems: 'center' }}>
-      //       <Image
-      //         source={{ uri: this.state.userInfo.picture.data.url }}
-      //         style={{ width: 100, height: 100, borderRadius: 50 }}
-      //       />
-      //       <Text style={{ fontSize: 20 }}>{this.state.userInfo.name}</Text>
-      //       <Text>ID: {this.state.userInfo.id}</Text>
-      //     </View>
-      //   )
-      // }
-    
       render() {
-        const display = (!this.state.userInfo && this.props.fontLoaded ) ? (
+        const display = (!this.state.userInfo) ? (
             <Container>
-                <Header />
-                <Grid style={styles.background}>
-                  <Row size={2}>
-                    <Body>
-                      <Thumbnail 
-                        style={{width: 150, height: 150}}
-                        source={require('../assets/facebook_logo.png')} 
-                      />
-                      <Text style={styles.title}> Parkin </Text>
-                      <Text style={styles.subtitle}> We Park Together </Text>
-                    </Body>
-                  </Row>
-                  <Row size={1}>
-                    <Col size={1}>
-                    </Col>
-                    <Col size={3}>
-                      <Button iconLeft onPress={this._handlePressAsync} style={styles.button} >
-                        <Icon type="FontAwesome" name="facebook" />
-                        <Text>SignIn with Facebook</Text>
-                      </Button>
-                    </Col>
-                    <Col size={1}>
-                    </Col>
-                  </Row>
-                </Grid>
+              <Header />
+              <Grid style={styles.background}>
+                <Row size={2}>
+                  <Body>
+                    <Thumbnail 
+                      style={{width: 150, height: 150}}
+                      source={require('../assets/facebook_logo.png')} 
+                    />
+                    <Text style={styles.title}> Parkin </Text>
+                    <Text style={styles.subtitle}> We Park Together </Text>
+                  </Body>
+                </Row>
+                <Row size={1}>
+                  <Col size={1}>
+                  </Col>
+                  <Col size={3}>
+                    <Button iconLeft onPress={this._handlePressAsync} style={styles.button} >
+                      <Icon type="FontAwesome" name="facebook" />
+                      <Text>SignIn with Facebook</Text>
+                    </Button>
+                  </Col>
+                  <Col size={1}>
+                  </Col>
+                </Row>
+              </Grid>
             </Container>
         ) : (
           <WrappedComponent {...this.state} {...this.props} />

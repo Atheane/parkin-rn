@@ -29,7 +29,7 @@ class ArrivalModal extends Component {
       }
       if (this.state.mounted) {
         this.setState({
-          isModalVisible: (this.props.fontLoaded) ? true : false,
+          isModalVisible: true,
           message
         })
       }
