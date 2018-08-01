@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Image, AsyncStorage, StyleSheet } from 'react-native'
 import { Container, Body, Button, Text } from 'native-base'
 import { Row, Grid, Col } from 'react-native-easy-grid'
+import App from '../App'
 
 import Loading from './Loading'
 
@@ -20,8 +21,12 @@ export default class extends Component {
   // }
 
   _logOut = () => {
-    async () => AsyncStorage.clear()
+    const keys = ['ParkinUserInfo']
+    AsyncStorage.multiRemove( keys, (error) => {
+      if (error) { console.log(error) }
+    })
     this.setState({userInfo: null})
+    console.log("AsyncStorage is cleaning#################")
   }
 
   render() {
@@ -41,17 +46,17 @@ export default class extends Component {
               </Body>
             </Row>
             <Row size={1}>
-              {/* <Col>
+              <Col>
                 <Button light block onPress={this._logOut}>
                   <Text> Log Out</Text>
                 </Button>
-              </Col> */}
+              </Col>
             </Row>
           </Grid>
         </Container>
       )
     } else {
-      return null
+      return (<Loading />)
     }
   }
 }

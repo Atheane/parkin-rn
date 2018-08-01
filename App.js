@@ -86,7 +86,6 @@ class AppContainer extends Component {
      }
   }
 
-
   render () {
     if (this.state.userInfo) {
       return (
@@ -145,7 +144,7 @@ const enhance = compose(
   }),
 )
 
-// AsyncStorage.clear()
+// AsyncStorage.multiremove()
 
 const App = enhance(AppContainer)
 
