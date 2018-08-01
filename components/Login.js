@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { AsyncStorage, StyleSheet } from 'react-native'
 import { AuthSession } from 'expo'
-import { Container, Header, Icon, Text, Button, Thumbnail, Body } from 'native-base'
+import { Container, Header, Icon, Text, Button, Thumbnail, Body, Footer } from 'native-base'
 import { Col, Row, Grid } from 'react-native-easy-grid'
 
 const FB_APP_ID = '261733521288349'

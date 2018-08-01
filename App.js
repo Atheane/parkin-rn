@@ -47,7 +47,6 @@ class AppContainer extends Component {
     if (this.state.userInfo) {
       return (
         <Container>
-          <Header />
           <FooterNavigator screenProps={{...this.props, ...this.state}} />
         </Container>
       )

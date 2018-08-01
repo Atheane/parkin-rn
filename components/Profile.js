@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { Image, AsyncStorage, StyleSheet } from 'react-native'
-import { Container, Body, Button, Text } from 'native-base'
+import { Container, Header, Body, Button, Text } from 'native-base'
 import { Row, Grid, Col } from 'react-native-easy-grid'
-import App from '../App'
+import Login from './Login'
 
-import Loading from './Loading'
+// import Loading from './Loading'
 
 
 export default class extends Component {
@@ -16,9 +16,9 @@ export default class extends Component {
     }
   }
 
-  // componentDidMount() {
-  //   this._retrieveData()
-  // }
+  _getUserInfo = (userInfo) => {
+    this.setState({userInfo})
+  }
 
   _logOut = () => {
     const keys = ['ParkinUserInfo']
@@ -26,6 +26,7 @@ export default class extends Component {
       if (error) { console.log(error) }
     })
     this.setState({userInfo: null})
+    alert("You are Logged out")
     console.log("AsyncStorage is cleaning#################")
   }
 
@@ -56,7 +57,7 @@ export default class extends Component {
         </Container>
       )
     } else {
-      return (<Loading />)
+      return ( <Login _getUserInfo={this._getUserInfo}/>)
     }
   }
 }
@@ -71,8 +72,5 @@ const styles = StyleSheet.create({
     color: 'white',
     paddingTop: 36,
     textAlign: 'center' 
-  },
-  button: {
-
   }
 })
