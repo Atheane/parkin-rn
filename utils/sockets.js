@@ -24,19 +24,19 @@ export const emitInitialUserPosition = ({userPosition, token}) => {
   socket.emit("initialUserPosition", {userPosition, token})
 }
 
-export const emitMovingUserPosition = (userPosition) => {
-  console.log("emitMovingUserPosition", userPosition)
-  socket.emit("movingUserPosition", userPosition)
+export const emitMovingUserPosition = ({userPosition, token}) => {
+  console.log("emitMovingUserPosition", userPosition, token)
+  socket.emit("movingUserPosition", {userPosition, token})
 }
 
-export const emitTokenPushNotification = (token) => {
-  console.log("emitTokenPushNotification", token)
-  socket.emit("tokenPushNotification", token)
+export const emitTokenPushNotification = ({pushToken, token}) => {
+  console.log("emitTokenPushNotification", pushToken, token)
+  socket.emit("tokenPushNotification", {pushToken, token})
 }
 
-export const emitSelectSpot = (e) => {
-  console.log("emitSelectSpot", e.nativeEvent.coordinate)
-  socket.emit("selectSpot", e.nativeEvent.coordinate)
+export const emitSelectSpot = ({coord, token}) => {
+  console.log("emitSelectSpot", coord, token)
+  socket.emit("selectSpot", {coord, token})
 }
 
 socket.on('connect_error', (err) => {

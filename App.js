@@ -4,7 +4,11 @@ import { compose, withHandlers, withProps } from 'recompose'
 import { getSpots, handleGetDirections } from './utils/localize'
 import importFont from './utils/importFont'
 import notify from './utils/notify'
-import { emitSelectSpot, emitUserInfo } from './utils/sockets'
+import { 
+  emitUserInfo, 
+  emitInitialUserPosition, 
+  emitSelectSpot
+} from './utils/sockets'
 import Login from './components/Login'
 import FooterNavigator from './components/FooterNavigator'
 import { Container, Header } from 'native-base'
@@ -19,15 +23,20 @@ class AppContainer extends Component {
   }
 
   componentDidMount() {
+    console.log("in AppContainer", this.props)
     this._retrieveData()
   }
 
   _retrieveData = async () => {
-    console.log("In retrieve Data")
+    console.log("In _retrieveData")
     try {
       const unparsedUserInfo = await AsyncStorage.getItem('ParkinUserInfo')
       const userInfo = await JSON.parse(unparsedUserInfo)
       await emitUserInfo(userInfo)
+      await emitInitialUserPosition({
+        userPosition: this.props.initialUserPosition, 
+        token: userInfo.id
+      })
 
       if (userInfo !== null) {
         this.setState({ userInfo })
@@ -48,6 +57,7 @@ class AppContainer extends Component {
     if (this.state.userInfo) {
       return (
         <Container>
+          <Header />
           <FooterNavigator screenProps={{...this.props, ...this.state}} />
         </Container>
       )
@@ -65,7 +75,7 @@ const enhance = compose(
   withHandlers({ 
     handleOnPress: props => e => {
       props.registerForPushNotifications()
-      emitSelectSpot(e)
+      emitSelectSpot({coord: e.nativeEvent.coordinate, token: props.userInfo.id})
       e.persist()
       props.watchPositionAsync()
       handleGetDirections(e)

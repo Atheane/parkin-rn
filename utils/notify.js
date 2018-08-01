@@ -25,12 +25,12 @@ export default (WrappedComponent) => {
           return
         }
       }
-      let token = await Notifications.getExpoPushTokenAsync()
-      console.log(token)
-      console.log(Date.now())
+      let pushToken = await Notifications.getExpoPushTokenAsync()
+      console.log(pushToken)
       this.subscription = Notifications.addListener(this.handleNotification)
-      await this.setState({ token })
-      await emitTokenPushNotification(token)
+      await this.setState({ pushToken })
+      const token = this.props.userInfo.id
+      await emitTokenPushNotification({pushToken, token})
     }
 
     handleNotification = notification => {

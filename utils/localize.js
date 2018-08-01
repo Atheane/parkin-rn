@@ -54,8 +54,6 @@ export const getSpots = (WrappedComponent) => {
         }
         console.log("get current Position", initialUserPosition)
         await this.setState({ initialUserPosition })
-        console.log("########@@@@@@@@@@@@@@@@@@@@@@@@", this.props)
-        await emitInitialUserPosition({userPosition: initialUserPosition, token: this.props.userInfo.id})
       }
     }
 
@@ -79,11 +77,7 @@ export const getSpots = (WrappedComponent) => {
             longitude: location.coords.longitude,
             ...deltas
           }
-          console.log("Watch User Position", userPosition)
-          emitMovingUserPosition(userPosition)
-          console.log("accuracy", location.coords.accuracy)
-          console.log("speed", location.coords.speed)
-          console.log("timestamp", location.timestamp)
+          emitMovingUserPosition({userPosition, token: this.props.userInfo.id})
         }
         this.state.watchId = await Location.watchPositionAsync(options, callback)
       }
