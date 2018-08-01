@@ -1,12 +1,12 @@
 import React from 'react'
-import { TabNavigator } from 'react-navigation'
+import { createBottomTabNavigator, TabNavigator } from 'react-navigation'
 import { Footer, FooterTab, Button, Icon, Text, Badge } from 'native-base'
 import Search from './Search'
 import Spot from './Spot'
 import Chat from './Chat'
 import Profile from './Profile'
 
-export default TabNavigator(
+export default (TabNavigator(
   {
     Search: { screen: Search },
     Spot: { screen: Spot },
@@ -22,7 +22,10 @@ export default TabNavigator(
             <Button
               vertical
               active={props.navigationState.index === 0}
-              onPress={() => props.navigation.navigate("Search")}>
+              onPress={() => {
+                props.navigation.navigate("Search")
+              }
+              }>
               <Icon name="search" />
               <Text>Search</Text>
             </Button>
@@ -52,4 +55,4 @@ export default TabNavigator(
       )
     }
   }
-)
+))

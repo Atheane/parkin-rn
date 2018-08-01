@@ -8,21 +8,23 @@ import {
 import Map from './Map'
 import ArrivalModal from './ArrivalModal'
 
-export default (props) => {
+export default ({ screenProps }) => {
+  // console.log(props)
+  console.log("In Search###################", screenProps)
   let display
   if (Platform.OS === 'ios') {
     display = (
-        <SafeAreaView style={styles.container}>
-          <ArrivalModal {...props} />
-          <Map {...props} />
-        </SafeAreaView>
+      <SafeAreaView style={styles.container}>
+        <ArrivalModal {...screenProps} />
+        <Map {...screenProps} />
+      </SafeAreaView>
     )
   } else {
     display = (
-        <View style={styles.container}>
-          <ArrivalModal {...props} />
-          <Map {...props} />
-        </View>
+      <View style={styles.container}>
+        <ArrivalModal {...screenProps} />
+        <Map {...screenProps} />
+      </View>
     )
   }
   return ( display )

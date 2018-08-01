@@ -8,20 +8,21 @@ import notify from './utils/notify'
 import { emitSelectSpot } from './utils/sockets'
 import login from './utils/login'
 import FooterNavigator from './components/FooterNavigator'
+import Search from './components/Search'
 
 const AppContainer = (props) => {
+  console.log("In AppContainer################", props.userInfo)
   return (
     <Container>
-    <Header />
-      {props.children}
-    <FooterNavigator />
+      <Header />
+      <FooterNavigator screenProps={{...props}} />
     </Container>
   )
 }
 
 const enhance = compose(
-  getSpots,
   importFont,
+  getSpots,
   notify,
   withHandlers({ 
     handleOnPress: props => e => {
@@ -32,12 +33,12 @@ const enhance = compose(
       handleGetDirections(e)
     }
   }),
-  login
+  login,
 )
 
 const App = enhance(AppContainer)
 
-AsyncStorage.clear()
+// AsyncStorage.clear()
 
 export default App
 

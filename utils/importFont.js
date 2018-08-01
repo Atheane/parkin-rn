@@ -30,7 +30,7 @@ export default (WrappedComponent) => {
       console.log("importFont", fontLoaded)
       if (fontLoaded) {
         return (
-          <WrappedComponent {...this.state} {...this.props} />
+          <WrappedComponent {...this.props} />
         )
       } else {
         return (

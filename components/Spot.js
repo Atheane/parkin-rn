@@ -7,18 +7,18 @@ import {
 } from 'react-native'
 import Map from './Map'
 
-export default (props) => {
+export default ({ screenProps }) => {
   let display
   if (Platform.OS === 'ios') {
     display = (
         <SafeAreaView style={styles.container}>
-          <Map {...props} />
+          <Map {...screenProps} />
         </SafeAreaView>
     )
   } else {
     display = (
         <View style={styles.container}>
-          <Map {...props} />
+          <Map {...screenProps} />
         </View>
     )
   }
