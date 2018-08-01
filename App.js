@@ -1,70 +1,91 @@
 import React, { Component } from 'react'
-import { Image, Button, Text, View } from 'react-native'
-import { AuthSession } from 'expo'
+import { 
+  StyleSheet,
+  Platform,
+  SafeAreaView,
+  View,
+  AsyncStorage
+} from 'react-native'
+import { compose, withHandlers, withProps } from 'recompose'
 
-const FB_APP_ID = '261733521288349'
+import { getSpots, handleGetDirections } from './utils/localize'
+import importFont from './utils/importFont'
+import notify from './utils/notify'
+import { emitSelectSpot } from './utils/sockets'
+import login from './utils/login'
 
-export default class App extends Component {
-  state = {
-    userInfo: null,
-  };
+import Map from './components/Map'
+import Layout from './components/Layout'
+import ArrivalModal from './components/ArrivalModal'
 
-  render() {
-    return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        {!this.state.userInfo ? (
-          <Button title="Open FB Auth" onPress={this._handlePressAsync} />
-        ) : (
-          this._renderUserInfo()
-        )}
-      </View>
-    );
-  }
 
-  _renderUserInfo = () => {
-    return (
-      <View style={{ alignItems: 'center' }}>
-        <Image
-          source={{ uri: this.state.userInfo.picture.data.url }}
-          style={{ width: 100, height: 100, borderRadius: 50 }}
-        />
-        <Text style={{ fontSize: 20 }}>{this.state.userInfo.name}</Text>
-        <Text>ID: {this.state.userInfo.id}</Text>
-      </View>
-    );
-  };
-
-  _handlePressAsync = async () => {
-    let redirectUrl = AuthSession.getRedirectUrl();
-
-    // You need to add this url to your authorized redirect urls on your Facebook app
-    console.log({ redirectUrl });
-
-    // NOTICE: Please do not actually request the token on the client (see:
-    // response_type=token in the authUrl), it is not secure. Request a code
-    // instead, and use this flow:
-    // https://developers.facebook.com/docs/facebook-login/manually-build-a-login-flow/#confirm
-    // The code here is simplified for the sake of demonstration. If you are
-    // just prototyping then you don't need to concern yourself with this and
-    // can copy this example, but be aware that this is not safe in production.
-
-    let result = await AuthSession.startAsync({
-      authUrl:
-        `https://www.facebook.com/v2.8/dialog/oauth?response_type=token` +
-        `&client_id=${FB_APP_ID}` +
-        `&redirect_uri=${encodeURIComponent(redirectUrl)}`,
-    });
-
-    if (result.type !== 'success') {
-      alert('Uh oh, something went wrong');
-      return;
+class AppContainer extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      isLogged: false
     }
+  }
+  render() {
+    const { fontLoaded, userInfo } = this.props
+    console.log("In App", userInfo)
 
-    let accessToken = result.params.access_token;
-    let userInfoResponse = await fetch(
-      `https://graph.facebook.com/me?access_token=${accessToken}&fields=id,name,picture.type(large)`
-    );
-    const userInfo = await userInfoResponse.json();
-    this.setState({ userInfo });
-  };
+    let display
+    if (Platform.OS === 'ios') {
+      display = (
+          <SafeAreaView style={styles.container}>
+            <ArrivalModal {...this.props} />
+            <Map {...this.props} />
+          </SafeAreaView>
+      )
+    } else {
+      display = (
+          <View style={styles.container}>
+            <ArrivalModal {...this.props} />
+            <Map {...this.props} />
+          </View>
+      )
+    }
+    if (fontLoaded) {
+      display = (
+        <Layout>
+          {display}
+        </Layout>
+      )
+    }
+    return ( display )
+  }
 }
+
+const enhance = compose(
+  getSpots,
+  importFont,
+  notify,
+  withHandlers({ 
+    handleOnPress: props => e => {
+      props.registerForPushNotifications()
+      emitSelectSpot(e)
+      e.persist()
+      props.watchPositionAsync()
+      handleGetDirections(e)
+    }
+  }),
+  login
+)
+
+const App = enhance(AppContainer)
+
+// AsyncStorage.clear()
+
+
+export default App
+
+
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+  },
+})
