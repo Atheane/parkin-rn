@@ -28,7 +28,7 @@ export default (WrappedComponent) => {
         try {
           await AsyncStorage.setItem('ParkinUserInfo', JSON.stringify(userInfo))
         } catch (error) {
-          console.log({errorMessage: "Error setting data in Async Storage", component: "Login.js" })
+          console.log({errorMessage: error, component: "Login.js" })
         }
       }
     
@@ -43,7 +43,7 @@ export default (WrappedComponent) => {
             console.log({errorMessage: "userInfo null in Async Storage", component: "Login.js" })
           }
          } catch (error) {
-          console.log({errorMessage: "Error retrieving data from Async Storage", component: "Login.js" })
+          console.log({errorMessage: error, component: "Login.js" })
          }
       }
     

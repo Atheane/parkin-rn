@@ -8,10 +8,8 @@ import notify from './utils/notify'
 import { emitSelectSpot } from './utils/sockets'
 import login from './utils/login'
 import FooterNavigator from './components/FooterNavigator'
-import Search from './components/Search'
 
 const AppContainer = (props) => {
-  console.log("In AppContainer################", props.userInfo)
   return (
     <Container>
       <Header />
@@ -36,9 +34,9 @@ const enhance = compose(
   login,
 )
 
-const App = enhance(AppContainer)
+AsyncStorage.clear()
 
-// AsyncStorage.clear()
+const App = enhance(AppContainer)
 
 export default App
 
