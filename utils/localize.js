@@ -54,7 +54,8 @@ export const getSpots = (WrappedComponent) => {
         }
         console.log("get current Position", initialUserPosition)
         await this.setState({ initialUserPosition })
-        await emitInitialUserPosition(initialUserPosition)
+        console.log("########@@@@@@@@@@@@@@@@@@@@@@@@", this.props)
+        await emitInitialUserPosition({userPosition: initialUserPosition, token: this.props.userInfo.id})
       }
     }
 

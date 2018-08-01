@@ -15,9 +15,13 @@ export const onSpotNearMe = (callback) => {
   socket.on("spotNearMe", callback)
 }
 
-export const emitInitialUserPosition = (userPosition) => {
-  console.log("emitInitialUserPosition", userPosition)
-  socket.emit("initialUserPosition", userPosition)
+export const emitUserInfo = (userInfo) => {
+  socket.emit("userInfo", userInfo)
+}
+
+export const emitInitialUserPosition = ({userPosition, token}) => {
+  console.log("emitInitialUserPosition", userPosition, token)
+  socket.emit("initialUserPosition", {userPosition, token})
 }
 
 export const emitMovingUserPosition = (userPosition) => {

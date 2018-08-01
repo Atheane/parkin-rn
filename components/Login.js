@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { AsyncStorage, StyleSheet } from 'react-native'
 import { AuthSession } from 'expo'
-import { Container, Header, Icon, Text, Button, Thumbnail, Body, Footer } from 'native-base'
+import { Container, Header, Icon, Text, Button, Thumbnail, Body } from 'native-base'
 import { Col, Row, Grid } from 'react-native-easy-grid'
+import { emitUserInfo } from '../utils/sockets'
 
 const FB_APP_ID = '261733521288349'
 
@@ -48,8 +49,9 @@ export default class Login extends Component {
       `https://graph.facebook.com/me?access_token=${accessToken}&fields=id,name,picture.type(large)`
     )
     const userInfo = await userInfoResponse.json()
-    this.props._getUserInfo(userInfo)
-    this._storeData(userInfo)
+    await this.props._getUserInfo(userInfo)
+    await this._storeData(userInfo)
+    await emitUserInfo(userInfo)
   }
 
   render () {

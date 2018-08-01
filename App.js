@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import { AsyncStorage, StyleSheet } from 'react-native'
-// import { Container, Header } from 'native-base'
 import { compose, withHandlers, withProps } from 'recompose'
 import { getSpots, handleGetDirections } from './utils/localize'
 import importFont from './utils/importFont'
 import notify from './utils/notify'
-import { emitSelectSpot } from './utils/sockets'
+import { emitSelectSpot, emitUserInfo } from './utils/sockets'
 import Login from './components/Login'
 import FooterNavigator from './components/FooterNavigator'
 import { Container, Header } from 'native-base'
@@ -28,6 +27,8 @@ class AppContainer extends Component {
     try {
       const unparsedUserInfo = await AsyncStorage.getItem('ParkinUserInfo')
       const userInfo = await JSON.parse(unparsedUserInfo)
+      await emitUserInfo(userInfo)
+
       if (userInfo !== null) {
         this.setState({ userInfo })
         console.log("in App Container", userInfo)
@@ -70,6 +71,7 @@ const enhance = compose(
       handleGetDirections(e)
     }
   }),
+  
 )
 
 
