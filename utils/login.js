@@ -20,7 +20,6 @@ export default (WrappedComponent) => {
     
       componentDidMount() {
         console.log("login did mount")
-        this._retrieveData()
       }
     
       _storeData = async (userInfo) => {
@@ -30,21 +29,6 @@ export default (WrappedComponent) => {
         } catch (error) {
           console.log({errorMessage: error, component: "Login.js" })
         }
-      }
-    
-      _retrieveData = async () => {
-        console.log("In retrieve Data")
-        try {
-          const userInfo = await AsyncStorage.getItem('ParkinUserInfo')
-          if (userInfo !== null) {
-            this.setState({ userInfo })
-            console.log(userInfo)
-          } else {
-            console.log({errorMessage: "userInfo null in Async Storage", component: "Login.js" })
-          }
-         } catch (error) {
-          console.log({errorMessage: error, component: "Login.js" })
-         }
       }
     
       _handlePressAsync = async () => {
