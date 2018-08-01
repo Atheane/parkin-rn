@@ -41,6 +41,7 @@ export default class Login extends Component {
 
     if (result.type !== 'success') {
       alert('Uh oh, something went wrong')
+      alert(encodeURIComponent(redirectUrl))
       return
     }
 

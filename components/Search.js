@@ -10,7 +10,6 @@ import ArrivalModal from './ArrivalModal'
 
 export default ({ screenProps }) => {
   // console.log(props)
-  console.log("In Search###################", screenProps)
   let display
   if (Platform.OS === 'ios') {
     display = (

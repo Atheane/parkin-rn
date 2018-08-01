@@ -18,7 +18,7 @@ class AppContainer extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      userInfo: null
+      userInfo: null,
     }
   }
 
@@ -27,16 +27,25 @@ class AppContainer extends Component {
     this._retrieveData()
   }
 
+  componentDidUpdate(prevProps) {
+    console.log("AppCOntainer Did update",prevProps)
+    let userPosition = this.props.initialUserPosition
+    let token = this.state.userInfo.id
+
+    if (userPosition!==prevProps.initialUserPosition) {
+      emitInitialUserPosition({
+        userPosition, 
+        token
+      })
+    }
+  }
+
   _retrieveData = async () => {
     console.log("In _retrieveData")
     try {
       const unparsedUserInfo = await AsyncStorage.getItem('ParkinUserInfo')
       const userInfo = await JSON.parse(unparsedUserInfo)
       await emitUserInfo(userInfo)
-      await emitInitialUserPosition({
-        userPosition: this.props.initialUserPosition, 
-        token: userInfo.id
-      })
 
       if (userInfo !== null) {
         this.setState({ userInfo })
@@ -54,7 +63,8 @@ class AppContainer extends Component {
   }
 
   render () {
-    if (this.state.userInfo) {
+    const {userInfo} = this.state
+    if (userInfo) {
       return (
         <Container>
           <Header />
@@ -80,10 +90,8 @@ const enhance = compose(
       props.watchPositionAsync()
       handleGetDirections(e)
     }
-  }),
-  
+  })
 )
-
 
 const App = enhance(AppContainer)
 
