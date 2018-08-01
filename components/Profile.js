@@ -1,5 +1,7 @@
 import React from 'react'
 import { View, Image, Text } from 'react-native'
+import Loading from './Loading'
+
 
 export default (props) => {
   if (props.userInfo) {
@@ -14,6 +16,6 @@ export default (props) => {
       </View>
     )
   } else {
-    return null
+    return <Loading />
   }
 }

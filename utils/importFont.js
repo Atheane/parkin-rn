@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Expo from 'expo'
+import Loading from '../components/Loading'
 
 export default (WrappedComponent) => {
   return class extends Component {
@@ -32,8 +33,11 @@ export default (WrappedComponent) => {
           <WrappedComponent {...this.state} {...this.props} />
         )
       } else {
-        return null
+        return (
+          <Loading />
+        )
       }
     }
   }
 }
+
