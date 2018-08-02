@@ -1,11 +1,9 @@
-import React, { Component } from 'react'
-import { AsyncStorage, StyleSheet } from 'react-native'
-import { compose, withHandlers, withProps } from 'recompose'
+import React from 'react'
+import { compose, withHandlers } from 'recompose'
 import { getSpots, handleGetDirections } from './utils/localize'
 import importFont from './utils/importFont'
 import notify from './utils/notify'
 import { 
-  emitUserInfo, 
   emitInitialUserPosition,
   emitSelectSpot
 } from './utils/sockets'
@@ -18,13 +16,13 @@ let counter = 0
 const AppContainer = (props) => {
   console.log("in render Appcontainer, props.initialUserPosition", props.initialUserPosition)
   console.log("in render Appcontainer, props.userInfo", props.userInfo)
-  const userPosition = props.initialUserPosition
-  const userInfo = props.userInfo
+  const { initialUserPosition, userInfo} = props
 
-  if (userPosition && userInfo && counter === 0) {
+  if (initialUserPosition && userInfo && counter === 0) {
     counter += 1
-    emitInitialUserPosition({userPosition, token: userInfo.id})
+    emitInitialUserPosition({userPosition: initialUserPosition, token: userInfo.id})
   }
+
   return (
     <Container>
       <Header />
@@ -35,18 +33,23 @@ const AppContainer = (props) => {
 
 const enhance = compose(
   importFont,
+  login,
   notify,
+  getSpots,
   withHandlers({ 
     handleOnPress: props => e => {
       props.registerForPushNotifications()
-      emitSelectSpot(e)
+      if (props.userInfo) {
+        emitSelectSpot({
+          coord: e.nativeEvent.coordinate,
+          token: props.userInfo.id
+        })
+      }
       e.persist()
       props.watchPositionAsync()
       handleGetDirections(e)
     }
   }),
-  login,
-  getSpots,
 )
 
 const App = enhance(AppContainer)

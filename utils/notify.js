@@ -7,7 +7,7 @@ export default (WrappedComponent) => {
     constructor(props) {
       super(props)
       this.state = {
-        token: null,
+        pushToken: null,
         notification: null,
       }
     }
@@ -16,20 +16,39 @@ export default (WrappedComponent) => {
     }
 
     registerForPushNotifications = async () => {
-      console.log("in registerForPushNotifications")
-      const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS)
-
-      if (status !== 'granted') {
-        const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS)
-        if (status !== 'granted') {
-          return
-        }
+      console.log("registerForPushNotifications is called")
+      const { status: existingStatus } = await Permissions.getAsync(
+        Permissions.NOTIFICATIONS
+      );
+      let finalStatus = existingStatus;
+    
+      // only ask if permissions have not already been determined, because
+      // iOS won't necessarily prompt the user a second time.
+      if (existingStatus !== 'granted') {
+        // Android remote notification permissions are granted during the app
+        // install, so this will only ask on iOS
+        const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+        finalStatus = status;
       }
-      let pushToken = await Notifications.getExpoPushTokenAsync()
-      console.log(pushToken)
+    
+      // Stop here if the user did not grant permissions
+      if (finalStatus !== 'granted') {
+        return;
+      }
+    
+      // Get the token that uniquely identifies this device
+      let pushToken = await Notifications.getExpoPushTokenAsync();
+
+      const userInfo = this.props.userInfo
+      console.log("In registerForPushNotifications render : pushToken", pushToken)
+      console.log("In registerForPushNotifications render : userInfo", userInfo)
+
+      if (userInfo && pushToken) {
+        await emitTokenPushNotification({pushToken, token: userInfo.id})
+      }
       this.subscription = Notifications.addListener(this.handleNotification)
-      await this.setState({ pushToken })
-      await emitTokenPushNotification(pushToken)
+      this.setState({ pushToken })
+
     }
 
     handleNotification = notification => {
@@ -42,7 +61,7 @@ export default (WrappedComponent) => {
       console.log("notify will unmount")
     }   
 
-    render () {
+    render() {
       return (
         <WrappedComponent 
           {...this.state} 

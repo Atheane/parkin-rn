@@ -5,7 +5,7 @@ import { Row, Grid, Col } from 'react-native-easy-grid'
 import login from '../utils/login'
 import Loading from './Loading'
 
-class Profile extends Component {
+export default class Profile extends Component {
   // console.log("In Profile, ScreenProps", screenProps)
   constructor(props) {
     super(props)
@@ -54,8 +54,6 @@ class Profile extends Component {
     }
   } 
 }
-
-  export default login(Profile)
 
 const styles = StyleSheet.create({
   background: {

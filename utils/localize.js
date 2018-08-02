@@ -4,7 +4,6 @@ import getDirections from 'react-native-google-maps-directions'
 
 import { 
   onSpotsAroundMe, 
-  emitInitialUserPosition, 
   emitMovingUserPosition,
   onSpotNearMe 
 } from '../utils/sockets'
@@ -24,25 +23,14 @@ export const getSpots = (WrappedComponent) => {
         status: null,
         errorMessage: null,
         watchId: undefined,
+        userInfo2: this.props.userInfo
       }
     }
 
     componentDidMount() {
       console.log("localize is mounted")
       this.getLocationAsync()
-      onSpotsAroundMe((spots) => {
-        console.log(spots)
-        this.setState({spots})
-      })
     }
-
-    // componentDidUpdate(prevProps) {
-    //   console.log("LOCALIZE UPDATED", "userInfo", prevProps.userInfo, 'vs', this.props.userInfo)
-    //   if (this.props.userInfo && this.props.userInfo.id && prevProps.userInfo !== this.props.userInfo) {
-    //     console.log("LOCALIZE UPDATED", "token", this.props.userInfo.id)
-    //     this.setState({token: this.props.userInfo.id})
-    //   }
-    // }
 
     getLocationAsync = async () => {
       let { status } = await Permissions.askAsync(Permissions.LOCATION)
@@ -62,6 +50,10 @@ export const getSpots = (WrappedComponent) => {
         }
         console.log("get current Position", initialUserPosition)
         this.setState({ initialUserPosition })
+        onSpotsAroundMe((spots) => {
+          console.log(spots)
+          this.setState({spots})
+        })
       }
     }
 
@@ -85,7 +77,9 @@ export const getSpots = (WrappedComponent) => {
             longitude: location.coords.longitude,
             ...deltas
           }
-          emitMovingUserPosition(userPosition)
+          if (this.state.userInfo2.id) {
+            emitMovingUserPosition({ userPosition, token: this.state.userInfo2.id })
+          }
         }
         this.state.watchId = await Location.watchPositionAsync(options, callback)
       }
