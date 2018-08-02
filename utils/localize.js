@@ -39,7 +39,7 @@ export const getSpots = (WrappedComponent) => {
 
     getLocationAsync = async () => {
       let { status } = await Permissions.askAsync(Permissions.LOCATION)
-      console.log("getLocationAsync", status)
+      // console.log("getLocationAsync", status)
       this.setState({ status })
       if (status !== 'granted') {
         this.setState({
@@ -64,7 +64,7 @@ export const getSpots = (WrappedComponent) => {
 
     watchPositionAsync = async () => {
       let { status } = await Permissions.askAsync(Permissions.LOCATION)
-      console.log("watchLocationAsync", status)
+      // console.log("watchLocationAsync", status)
       this.setState({ status })
       if (status !== 'granted') {
         this.setState({
@@ -103,8 +103,8 @@ export const getSpots = (WrappedComponent) => {
     }
 
     render() {
-      console.log("in render localize, this.state.initialUserPosition", this.state.initialUserPosition)
-      console.log("in render localize, this.props.userInfo", this.props.userInfo)
+      // console.log("in render localize, this.state.initialUserPosition", this.state.initialUserPosition)
+      // console.log("in render localize, this.props.userInfo", this.props.userInfo)
 
       return (
         <WrappedComponent {...this.state} {...this.props} watchPositionAsync={this.watchPositionAsync} getLocationAsync={this.getLocationAsync}/>

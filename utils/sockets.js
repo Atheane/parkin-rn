@@ -1,6 +1,6 @@
 import socketIOClient from 'socket.io-client'
 
-const endpoint = "http://0929b274.ngrok.io"
+const endpoint = "http://bb157ae6.ngrok.io"
 // const endpoint = "http://localhost:3000"
 
 export const socket = socketIOClient(endpoint, {transports: ['websocket']})
@@ -37,6 +37,11 @@ export const emitTokenPushNotification = ({pushToken, token}) => {
 export const emitSelectSpot = ({coord, token}) => {
   console.log("emitSelectSpot", coord, token)
   socket.emit("selectSpot", {coord, token})
+}
+
+export const emitDeleteSpot = ({coord, token}) => {
+  console.log("emitDeleteSpot", coord, token)
+  socket.emit("deleteSpot", {coord, token})
 }
 
 socket.on('connect_error', (err) => {

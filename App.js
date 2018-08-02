@@ -25,11 +25,11 @@ const AppContainer = (props) => {
 const enhance = compose(
   importFont,
   login,
-  notify,
+  // notify,
   getSpots,
   withHandlers({ 
     handleOnPress: props => e => {
-      props.registerForPushNotifications()
+      // props.registerForPushNotifications()
       if (props.userInfo) {
         emitSelectSpot({
           coord: e.nativeEvent.coordinate,

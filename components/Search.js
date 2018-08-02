@@ -13,7 +13,6 @@ export default class extends Component {
 
   render() {
     const { screenProps, navigation } = this.props
-    console.log("in search", this.props)
     let display
     if (Platform.OS === 'ios') {
       display = (

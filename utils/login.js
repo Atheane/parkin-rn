@@ -84,7 +84,7 @@ export default (WrappedComponent) => {
     }
 
     render () {
-      console.log("in render login", this.state.userInfo)
+      // console.log("in render login", this.state.userInfo)
       if (this.state.userInfo) {
         return (
           <WrappedComponent {...this.state} {...this.props} />
