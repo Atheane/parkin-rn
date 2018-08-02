@@ -29,8 +29,7 @@ export default (WrappedComponent) => {
       console.log(pushToken)
       this.subscription = Notifications.addListener(this.handleNotification)
       await this.setState({ pushToken })
-      const token = this.props.userInfo.id
-      await emitTokenPushNotification({pushToken, token})
+      await emitTokenPushNotification(pushToken)
     }
 
     handleNotification = notification => {

@@ -24,17 +24,17 @@ export default (WrappedComponent) => {
       console.log("In retrieve Data")
       try {
         const unparsedUserInfo = await AsyncStorage.getItem('ParkinUserInfo')
-        const userInfo = await JSON.parse(unparsedUserInfo)
-        await emitUserInfo(userInfo)
+        const userInfo = JSON.parse(unparsedUserInfo)
+        emitUserInfo(userInfo)
   
         if (userInfo !== null) {
           this.setState({ userInfo })
-          console.log("in App Container", userInfo)
+          console.log("in login", userInfo)
         } else {
-          console.log({errorMessage: "userInfo null in Async Storage", component: "Login.js" })
+          console.log({errorMessage: "userInfo null in Async Storage", component: "login" })
         }
        } catch (error) {
-        console.log({errorMessage: error, component: "AppContainer" })
+        console.log({errorMessage: error, component: "login" })
        }
     }
 
@@ -78,12 +78,13 @@ export default (WrappedComponent) => {
         `https://graph.facebook.com/me?access_token=${accessToken}&fields=id,name,picture.type(large)`
       )
       const userInfo = await userInfoResponse.json()
-      await this.setState({userInfo})
-      await this._storeData(userInfo)
-      await emitUserInfo(userInfo)
+      this.setState({userInfo})
+      this._storeData(userInfo)
+      emitUserInfo(userInfo)
     }
 
     render () {
+      console.log("in render login", this.state.userInfo)
       if (this.state.userInfo) {
         return (
           <WrappedComponent {...this.state} {...this.props} />

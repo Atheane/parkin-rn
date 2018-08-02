@@ -1,6 +1,6 @@
 import socketIOClient from 'socket.io-client'
 
-const endpoint = "http://0aa34edc.ngrok.io"
+const endpoint = "http://0929b274.ngrok.io"
 // const endpoint = "http://localhost:3000"
 
 export const socket = socketIOClient(endpoint, {transports: ['websocket']})
@@ -20,22 +20,22 @@ export const emitUserInfo = (userInfo) => {
 }
 
 export const emitInitialUserPosition = ({userPosition, token}) => {
-  console.log("emitInitialUserPosition", userPosition, token)
+  console.log("emitInitialUserPosition", userPosition, token )
   socket.emit("initialUserPosition", {userPosition, token})
 }
 
-export const emitMovingUserPosition = ({userPosition, token}) => {
-  console.log("emitMovingUserPosition", userPosition, token)
+export const emitMovingUserPosition = (userPosition) => {
+  console.log("emitMovingUserPosition", userPosition, )
   socket.emit("movingUserPosition", {userPosition, token})
 }
 
-export const emitTokenPushNotification = ({pushToken, token}) => {
-  console.log("emitTokenPushNotification", pushToken, token)
+export const emitTokenPushNotification = (pushToken) => {
+  console.log("emitTokenPushNotification", pushToken, )
   socket.emit("tokenPushNotification", {pushToken, token})
 }
 
-export const emitSelectSpot = ({coord, token}) => {
-  console.log("emitSelectSpot", coord, token)
+export const emitSelectSpot = (coord) => {
+  console.log("emitSelectSpot", coord)
   socket.emit("selectSpot", {coord, token})
 }
 

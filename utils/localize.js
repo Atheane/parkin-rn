@@ -23,7 +23,7 @@ export const getSpots = (WrappedComponent) => {
         spots: [],
         status: null,
         errorMessage: null,
-        watchId: undefined
+        watchId: undefined,
       }
     }
 
@@ -35,6 +35,14 @@ export const getSpots = (WrappedComponent) => {
         this.setState({spots})
       })
     }
+
+    // componentDidUpdate(prevProps) {
+    //   console.log("LOCALIZE UPDATED", "userInfo", prevProps.userInfo, 'vs', this.props.userInfo)
+    //   if (this.props.userInfo && this.props.userInfo.id && prevProps.userInfo !== this.props.userInfo) {
+    //     console.log("LOCALIZE UPDATED", "token", this.props.userInfo.id)
+    //     this.setState({token: this.props.userInfo.id})
+    //   }
+    // }
 
     getLocationAsync = async () => {
       let { status } = await Permissions.askAsync(Permissions.LOCATION)
@@ -53,7 +61,7 @@ export const getSpots = (WrappedComponent) => {
           ...deltas
         }
         console.log("get current Position", initialUserPosition)
-        await this.setState({ initialUserPosition })
+        this.setState({ initialUserPosition })
       }
     }
 
@@ -77,7 +85,7 @@ export const getSpots = (WrappedComponent) => {
             longitude: location.coords.longitude,
             ...deltas
           }
-          emitMovingUserPosition({userPosition, token: this.props.userInfo.id})
+          emitMovingUserPosition(userPosition)
         }
         this.state.watchId = await Location.watchPositionAsync(options, callback)
       }
@@ -96,8 +104,11 @@ export const getSpots = (WrappedComponent) => {
     }
 
     render() {
+      console.log("in render localize, this.state.initialUserPosition", this.state.initialUserPosition)
+      console.log("in render localize, this.props.userInfo", this.props.userInfo)
+
       return (
-        <WrappedComponent {...this.state} watchPositionAsync={this.watchPositionAsync} getLocationAsync={this.getLocationAsync}/>
+        <WrappedComponent {...this.state} {...this.props} watchPositionAsync={this.watchPositionAsync} getLocationAsync={this.getLocationAsync}/>
       )
     }
   }

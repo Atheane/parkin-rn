@@ -2,22 +2,16 @@ import React, { Component } from 'react'
 import { Image, AsyncStorage, StyleSheet } from 'react-native'
 import { Container, Header, Body, Button, Text } from 'native-base'
 import { Row, Grid, Col } from 'react-native-easy-grid'
-import Login from './Login'
+import login from '../utils/login'
+import Loading from './Loading'
 
-// import Loading from './Loading'
-
-
-export default class extends Component {
+class Profile extends Component {
   // console.log("In Profile, ScreenProps", screenProps)
   constructor(props) {
     super(props)
     this.state = {
       userInfo: this.props.screenProps.userInfo, 
     }
-  }
-
-  _getUserInfo = (userInfo) => {
-    this.setState({userInfo})
   }
 
   _logOut = () => {
@@ -32,8 +26,7 @@ export default class extends Component {
 
   render() {
     const userInfo = this.state.userInfo
-    console.log("in Profile", userInfo)
-    if (userInfo) {
+    if (this.state.userInfo) {
       return (
         <Container>
           <Grid style={styles.background}>
@@ -57,10 +50,12 @@ export default class extends Component {
         </Container>
       )
     } else {
-      return ( <Login _getUserInfo={this._getUserInfo}/>)
+      return <Loading />
     }
-  }
+  } 
 }
+
+  export default login(Profile)
 
 const styles = StyleSheet.create({
   background: {

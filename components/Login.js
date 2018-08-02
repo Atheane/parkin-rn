@@ -7,7 +7,7 @@ import { emitUserInfo } from '../utils/sockets'
 
 const FB_APP_ID = '261733521288349'
 
-export default class Login extends Component {
+export class Login extends Component {
 
   _storeData = async (userInfo) => {
     console.log("In store Data", userInfo)
@@ -53,6 +53,7 @@ export default class Login extends Component {
     await this.props._getUserInfo(userInfo)
     await this._storeData(userInfo)
     await emitUserInfo(userInfo)
+    
   }
 
   render () {
