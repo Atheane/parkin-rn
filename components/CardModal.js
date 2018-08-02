@@ -13,7 +13,7 @@ import {
   Icon, 
   Button
 } from 'native-base'
-
+import { emitDeleteSpot, socket } from '../utils/sockets'
 
 export default class CardModal extends Component {
 
@@ -29,11 +29,31 @@ export default class CardModal extends Component {
     return [
       {
         text: this.props.message.title,
-        name: "vous a gardé la place ?",
+        name: this.props.message.body,
         imageThumbnail: require('../assets/spot.png'),
         imageBig: require('../assets/ParkingSpot.jpg'),
       }
     ]
+  }
+
+  _deleteSpot = () => {
+    const { navigate, message, userInfo } = this.props
+    console.log("in card modal message", message)
+    console.log("in card modal userInfo", userInfo)
+
+    this.props._toggleModal()
+    if (message && message.coord && userInfo && userInfo.id) {
+      const coord = message.coord
+      const token = userInfo.id
+      socket.emit("deleteSpot", {coord, token})
+      navigate('Search')
+    }
+  }
+
+  _thanksSpot = () => {
+    const { navigate } = this.props
+    navigate('Profile')
+    this.props._toggleModal()
   }
 
   render() {
@@ -64,18 +84,13 @@ export default class CardModal extends Component {
           <View style={{ flexDirection: "row", flex: 1, position: "absolute", bottom: 50, left: 0, right: 0, justifyContent: 'space-around' }}>
             <Button 
               danger
-              onPress={() => {
-                this.props.getLocationAsync()
-                this.props._toggleModal()
-              }} 
+              onPress={this._deleteSpot} 
               style={{backgroundColor: '#D55367', height: 70, width: 70, borderRadius: 15}}>
                 <Icon type="FontAwesome" name="times" style={{textAlign: 'center', paddingLeft: 8}} />
             </Button>
             <Button 
               success
-              onPress={() => {
-                this.props._toggleModal()
-              }}
+              onPress={this._thanksSpot}
               style={{backgroundColor: '#00AA7B', height: 70, width: 70, borderRadius: 15}}>
                 <Icon type="FontAwesome" name="check" style={{textAlign: 'center', paddingLeft: 8}} />
             </Button>

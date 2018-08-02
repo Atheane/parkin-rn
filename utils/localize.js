@@ -4,8 +4,8 @@ import getDirections from 'react-native-google-maps-directions'
 
 import { 
   onSpotsAroundMe, 
-  emitInitialUserPosition, 
   emitMovingUserPosition,
+  emitInitialUserPosition,
   onSpotNearMe 
 } from '../utils/sockets'
 
@@ -23,7 +23,8 @@ export const getSpots = (WrappedComponent) => {
         spots: [],
         status: null,
         errorMessage: null,
-        watchId: undefined
+        watchId: undefined,
+        userInfo2: this.props.userInfo
       }
     }
 
@@ -38,7 +39,7 @@ export const getSpots = (WrappedComponent) => {
 
     getLocationAsync = async () => {
       let { status } = await Permissions.askAsync(Permissions.LOCATION)
-      console.log("getLocationAsync", status)
+      // console.log("getLocationAsync", status)
       this.setState({ status })
       if (status !== 'granted') {
         this.setState({
@@ -53,14 +54,17 @@ export const getSpots = (WrappedComponent) => {
           ...deltas
         }
         console.log("get current Position", initialUserPosition)
-        await this.setState({ initialUserPosition })
-        await emitInitialUserPosition(initialUserPosition)
+        this.setState({ initialUserPosition })
+        const { userInfo } = this.props
+        if (initialUserPosition && userInfo) {
+          emitInitialUserPosition({userPosition: initialUserPosition, token: userInfo.id})
+        }
       }
     }
 
     watchPositionAsync = async () => {
       let { status } = await Permissions.askAsync(Permissions.LOCATION)
-      console.log("watchLocationAsync", status)
+      // console.log("watchLocationAsync", status)
       this.setState({ status })
       if (status !== 'granted') {
         this.setState({
@@ -78,11 +82,9 @@ export const getSpots = (WrappedComponent) => {
             longitude: location.coords.longitude,
             ...deltas
           }
-          console.log("Watch User Position", userPosition)
-          emitMovingUserPosition(userPosition)
-          console.log("accuracy", location.coords.accuracy)
-          console.log("speed", location.coords.speed)
-          console.log("timestamp", location.timestamp)
+          if (userPosition && this.state.userInfo2) {
+            emitMovingUserPosition({ userPosition, token: this.state.userInfo2.id })
+          }
         }
         this.state.watchId = await Location.watchPositionAsync(options, callback)
       }
@@ -101,8 +103,11 @@ export const getSpots = (WrappedComponent) => {
     }
 
     render() {
+      // console.log("in render localize, this.state.initialUserPosition", this.state.initialUserPosition)
+      // console.log("in render localize, this.props.userInfo", this.props.userInfo)
+
       return (
-        <WrappedComponent {...this.state} watchPositionAsync={this.watchPositionAsync} getLocationAsync={this.getLocationAsync}/>
+        <WrappedComponent {...this.state} {...this.props} watchPositionAsync={this.watchPositionAsync} getLocationAsync={this.getLocationAsync}/>
       )
     }
   }
