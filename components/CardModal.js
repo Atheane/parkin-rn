@@ -51,6 +51,7 @@ export default class CardModal extends Component {
   }
 
   _thanksSpot = () => {
+    const { navigate } = this.props
     navigate('Profile')
     this.props._toggleModal()
   }
