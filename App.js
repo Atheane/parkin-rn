@@ -12,16 +12,7 @@ import login from './utils/login'
 import FooterNavigator from './components/FooterNavigator'
 import { Container, Header } from 'native-base'
 
-let counter = 0
 const AppContainer = (props) => {
-  console.log("in render Appcontainer, props.initialUserPosition", props.initialUserPosition)
-  console.log("in render Appcontainer, props.userInfo", props.userInfo)
-  const { initialUserPosition, userInfo} = props
-
-  if (initialUserPosition && userInfo && counter === 0) {
-    counter += 1
-    emitInitialUserPosition({userPosition: initialUserPosition, token: userInfo.id})
-  }
 
   return (
     <Container>

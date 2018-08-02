@@ -37,6 +37,8 @@ export default class CardModal extends Component {
   }
 
   render() {
+    const { navigate } = this.props
+
     return (
       <Container style={{ elevation: 3, backgroundColor: 'rgba(52, 52, 52, 0.01)'}}>
         <View >
@@ -65,6 +67,7 @@ export default class CardModal extends Component {
             <Button 
               danger
               onPress={() => {
+                navigate('Search')
                 this.props.getLocationAsync()
                 this.props._toggleModal()
               }} 

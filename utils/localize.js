@@ -5,6 +5,7 @@ import getDirections from 'react-native-google-maps-directions'
 import { 
   onSpotsAroundMe, 
   emitMovingUserPosition,
+  emitInitialUserPosition,
   onSpotNearMe 
 } from '../utils/sockets'
 
@@ -30,6 +31,10 @@ export const getSpots = (WrappedComponent) => {
     componentDidMount() {
       console.log("localize is mounted")
       this.getLocationAsync()
+      onSpotsAroundMe((spots) => {
+        console.log(spots)
+        this.setState({spots})
+      })
     }
 
     getLocationAsync = async () => {
@@ -50,10 +55,10 @@ export const getSpots = (WrappedComponent) => {
         }
         console.log("get current Position", initialUserPosition)
         this.setState({ initialUserPosition })
-        onSpotsAroundMe((spots) => {
-          console.log(spots)
-          this.setState({spots})
-        })
+        const { userInfo } = this.props
+        if (initialUserPosition && userInfo) {
+          emitInitialUserPosition({userPosition: initialUserPosition, token: userInfo.id})
+        }
       }
     }
 
@@ -77,7 +82,7 @@ export const getSpots = (WrappedComponent) => {
             longitude: location.coords.longitude,
             ...deltas
           }
-          if (this.state.userInfo2.id) {
+          if (userPosition && this.state.userInfo2) {
             emitMovingUserPosition({ userPosition, token: this.state.userInfo2.id })
           }
         }

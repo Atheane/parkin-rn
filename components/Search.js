@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { 
   StyleSheet,
   Platform,
@@ -8,25 +8,30 @@ import {
 import Map from './Map'
 import ArrivalModal from './ArrivalModal'
 
-export default ({ screenProps }) => {
-  // console.log(props)
-  let display
-  if (Platform.OS === 'ios') {
-    display = (
-      <SafeAreaView style={styles.container}>
-        <ArrivalModal {...screenProps} />
-        <Map {...screenProps} />
-      </SafeAreaView>
-    )
-  } else {
-    display = (
-      <View style={styles.container}>
-        <ArrivalModal {...screenProps} />
-        <Map {...screenProps} />
-      </View>
-    )
+export default class extends Component {
+
+
+  render() {
+    const { screenProps, navigation } = this.props
+    console.log("in search", this.props)
+    let display
+    if (Platform.OS === 'ios') {
+      display = (
+        <SafeAreaView style={styles.container}>
+          <ArrivalModal {...screenProps} {...navigation} />
+          <Map {...screenProps} />
+        </SafeAreaView>
+      )
+    } else {
+      display = (
+        <View style={styles.container}>
+          <ArrivalModal {...screenProps} {...navigation} />
+          <Map {...screenProps} />
+        </View>
+      )
+    }
+    return ( display )
   }
-  return ( display )
 }
 
 const styles = StyleSheet.create({

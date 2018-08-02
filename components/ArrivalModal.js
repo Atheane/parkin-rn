@@ -15,7 +15,6 @@ class ArrivalModal extends Component {
   }
 
   componentDidMount() {
-    console.log("ArrivalModal.js is mounted")
     this.state.mounted = true
     onSpotNearMe((message) => {
       if (message && this.props.watchId) {
