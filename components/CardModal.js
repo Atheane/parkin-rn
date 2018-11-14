@@ -13,17 +13,9 @@ import {
   Icon, 
   Button
 } from 'native-base'
-import { emitDeleteSpot, socket } from '../utils/sockets'
+import { socket } from '../utils/sockets'
 
-export default class CardModal extends Component {
-
-  componentDidMount() {
-    console.log("CardModal.js is mounted")
-  }
-
-  componentWillUnmount() {
-    console.log("CardModal.js Will Unmount")
-  } 
+export default class extends Component {
 
   cards = () => {
     return [
@@ -37,11 +29,12 @@ export default class CardModal extends Component {
   }
 
   _deleteSpot = () => {
-    const { navigate, message, userInfo } = this.props
+    const { navigate, message, userInfo, _toggleModal } = this.props
     console.log("in card modal message", message)
     console.log("in card modal userInfo", userInfo)
 
-    this.props._toggleModal()
+    _toggleModal()
+    
     if (message && message.coord && userInfo && userInfo.id) {
       const coord = message.coord
       const token = userInfo.id
@@ -51,9 +44,9 @@ export default class CardModal extends Component {
   }
 
   _thanksSpot = () => {
-    const { navigate } = this.props
+    const { navigate, _toggleModal } = this.props
     navigate('Profile')
-    this.props._toggleModal()
+    _toggleModal()
   }
 
   render() {

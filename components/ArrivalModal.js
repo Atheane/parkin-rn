@@ -4,54 +4,42 @@ import Modal from "react-native-modal"
 import { onSpotNearMe } from '../utils/sockets'
 import CardModal from './CardModal'
 
-class ArrivalModal extends Component {
+export default class extends Component {
   constructor(props) {
     super(props)
     this.state = {
       isModalVisible: false,
-      message: '',
-      mounted: false //so anti-pattern, hot-fix, to-do check why ArrivalModal unmount when it should not !
+      message: ''
     }
   }
 
   componentDidMount() {
-    this.state.mounted = true
-    onSpotNearMe((message) => {
-      if (message && this.props.watchId) {
-        console.log(this.props.watchId)
-        this.props.watchId.remove()
+    onSpotNearMe((data) => {
+      if (data) {
+        this.setState({ isModalVisible: true, message: data})
       } else {
         console.log({
-          errorMessage: "Should remove watchId, but watchId undefined",
+          errorMessage: "No data received from socket spotNearMe",
           component: "ArrivalModal.js"
-        })
-      }
-      if (this.state.mounted) {
-        this.setState({
-          isModalVisible: true,
-          message
         })
       }
     })
   }
 
-  _toggleModal = () =>
-    this.setState({ isModalVisible: !this.state.isModalVisible })
-
-  componentWillUnmount() {
-    console.log("ArrivalModal.js Will Unmount")
-    this.state.mounted = false
-  }   
+  _toggleModal = () => {
+    this.setState((prevState) => ({ 
+      isModalVisible: !prevState.isModalVisible 
+    }))
+  }  
   
   render() {
+    const { message } = this.state
     return (
       <View style={{ flex: 1 }}>
         <Modal isVisible={this.state.isModalVisible}>
-          <CardModal {...this.state} {...this.props} _toggleModal={this._toggleModal} />
+          <CardModal message={message} {...this.props} _toggleModal={this._toggleModal} />
         </Modal>
       </View>
     );
   }
 }
-
-export default ArrivalModal
