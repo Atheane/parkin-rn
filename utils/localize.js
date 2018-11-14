@@ -86,14 +86,14 @@ export const getSpots = (WrappedComponent) => {
             emitMovingUserPosition({ userPosition, token: this.state.userInfo2.id })
           }
         }
-        this.state.watchId = await Location.watchPositionAsync(options, callback)
+        this.setState({ watchId:  await Location.watchPositionAsync(options, callback)})
       }
     }
 
     componentWillUnmount() {
       console.log("localize will unmount")
-      if (this.props.watchId) {
-        this.props.watchId.remove()
+      if (this.state.watchId) {
+        this.state.watchId.remove()
       } else {
         console.log({
           errorMessage: "Trying to remove watchId, but watchId undefined",

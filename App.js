@@ -4,7 +4,6 @@ import { getSpots, handleGetDirections } from './utils/localize'
 import importFont from './utils/importFont'
 import notify from './utils/notify'
 import { 
-  emitInitialUserPosition,
   emitSelectSpot
 } from './utils/sockets'
 // import { Login } from './components/Login'

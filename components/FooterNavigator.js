@@ -56,7 +56,7 @@ export default (TabNavigator(
             </Button>
             <Button
               vertical
-              active={props.navigationState.index === 3}
+              active={props.navigationState.index === 2}
               onPress={() => props.navigation.navigate("Profile")}>
               <Icon name="person" />
               <Text>Profile</Text>
