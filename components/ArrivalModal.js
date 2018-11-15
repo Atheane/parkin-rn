@@ -33,10 +33,10 @@ export default class extends Component {
   }  
   
   render() {
-    const { message } = this.state
+    const { message, isModalVisible } = this.state
     return (
       <View style={{ flex: 1 }}>
-        <Modal isVisible={this.state.isModalVisible}>
+        <Modal isVisible={isModalVisible}>
           <CardModal message={message} {...this.props} _toggleModal={this._toggleModal} />
         </Modal>
       </View>
