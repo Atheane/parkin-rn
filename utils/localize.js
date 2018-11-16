@@ -6,7 +6,6 @@ import {
   onSpotsAroundMe, 
   emitMovingUserPosition,
   emitInitialUserPosition,
-  onSpotNearMe 
 } from '../utils/sockets'
 
 const deltas = {

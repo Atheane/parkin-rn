@@ -32,3 +32,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 })
+
+// try {
+//   socket.emit("giveSpot", {token: props.screenProps.userInfo.id, coord: props.screenProps.initialUserPosition})
+// } catch (error) {
+//   console.log("clic bouton give spot", error)
+// }
