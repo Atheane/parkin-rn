@@ -1,6 +1,6 @@
 import socketIOClient from 'socket.io-client'
 
-const endpoint = "http://8a798335.ngrok.io"
+const endpoint = "http://08296c8d.ngrok.io"
 // const endpoint = "http://localhost:3000"
 
 export const socket = socketIOClient(endpoint, {transports: ['websocket']})
@@ -16,12 +16,13 @@ export const onSpotNearMe = (callback) => {
 }
 
 export const emitUserInfo = (userInfo) => {
+  console.log("emitUserInfo", userInfo)
   socket.emit("userInfo", userInfo)
 }
 
-export const emitInitialUserPosition = ({userPosition, token}) => {
-  console.log("emitInitialUserPosition", userPosition, token )
-  socket.emit("initialUserPosition", {userPosition, token})
+export const emitCurrentUserPosition = ({userPosition, token}) => {
+  console.log("emitCurrentUserPosition", userPosition, token )
+  socket.emit("currentUserPosition", {userPosition, token})
 }
 
 export const emitMovingUserPosition = ({userPosition, token}) => {

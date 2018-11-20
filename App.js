@@ -6,7 +6,6 @@ import notify from './utils/notify'
 import { 
   emitSelectSpot
 } from './utils/sockets'
-// import { Login } from './components/Login'
 import login from './utils/login'
 import FooterNavigator from './components/FooterNavigator'
 import { Container, Header } from 'native-base'
@@ -25,21 +24,6 @@ const enhance = compose(
   importFont,
   login,
   // notify,
-  getSpots,
-  withHandlers({ 
-    handleOnPress: props => e => {
-      // props.registerForPushNotifications()
-      if (props.userInfo) {
-        emitSelectSpot({
-          coord: e.nativeEvent.coordinate,
-          token: props.userInfo.id
-        })
-      }
-      e.persist()
-      props.watchPositionAsync()
-      handleGetDirections(e)
-    }
-  }),
 )
 
 const App = enhance(AppContainer)

@@ -17,16 +17,17 @@ export default (WrappedComponent) => {
     }
   
     componentDidMount() {
+      console.log('login.js did mount')
       this._retrieveData()
     }
   
     _retrieveData = async () => {
-      console.log("In retrieve Data")
+      console.log("In login.js")
+      console.log("In _retrieveData")
       try {
         const unparsedUserInfo = await AsyncStorage.getItem('ParkinUserInfo')
         const userInfo = JSON.parse(unparsedUserInfo)
         emitUserInfo(userInfo)
-  
         if (userInfo !== null) {
           this.setState({ userInfo })
           console.log("in login", userInfo)
@@ -39,7 +40,8 @@ export default (WrappedComponent) => {
     }
 
     _storeData = async (userInfo) => {
-      console.log("In store Data", userInfo)
+      console.log("In login.js")
+      console.log("In _storeData", userInfo)
       try {
         await AsyncStorage.setItem('ParkinUserInfo', JSON.stringify(userInfo))
       } catch (error) {
