@@ -20,16 +20,11 @@ const AppContainer = (props) => {
   )
 }
 
-const enhance = compose(
+export default compose(
   importFont,
   login,
   // notify,
-)
-
-const App = enhance(AppContainer)
-
-export default App
-
+)(AppContainer)
 
 // to-do: proper logout with https://github.com/react-navigation/react-navigation/issues/1979
 // solution de jeserodz
