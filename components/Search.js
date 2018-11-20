@@ -11,7 +11,7 @@ import { compose, withHandlers, lifecycle, withState } from 'recompose'
 import { emitSelectSpot } from '../utils/sockets'
 import { getSpots, handleGetDirections } from '../utils/localize'
 
-const SearchUI = (props) => {
+const Search = (props) => {
   const { screenProps, navigation, currentUserPosition, spots } = props
   console.log(">>>>>>>>>>>>>>>>> In Search.js, SearchUI")
   console.log("spots", spots)
@@ -22,71 +22,25 @@ const SearchUI = (props) => {
     display = (
       <SafeAreaView style={styles.container}>
         <ArrivalModal {...screenProps} {...navigation} />
-        <Map {...screenProps} />
+        <Map {...screenProps}
+        currentUserPosition={currentUserPosition}
+        spots={spots} />
       </SafeAreaView>
     )
   } else {
     display = (
       <View style={styles.container}>
         <ArrivalModal {...screenProps} {...navigation} />
-        <Map {...screenProps} />
+        <Map {...screenProps} 
+           currentUserPosition={currentUserPosition}
+           spots={spots} />
       </View>
     )
   }
   return ( display )
 }
 
-// const testUI = () => (
-//   <View style={styles.container}>
-//     <Text> HELLO </Text>
-//   </View>
-// );
-
-
-// const getLocationAsync = async (userInfo) => {
-//   let { status } = await Permissions.askAsync(Permissions.LOCATION)
-//   const deltas = {
-//     latitudeDelta: 0.0522,
-//     longitudeDelta: 0.0221
-//   }
-//   // console.log("getLocationAsync", status)
-//   if (status !== 'granted') {
-//     console.log('Permission to access location was denied')
-//   } else {
-//     let location = await Location.getCurrentPositionAsync({ enableHighAccuracy: true })
-//     const currentUserPosition = {
-//       latitude: location.coords.latitude,
-//       longitude: location.coords.longitude,
-//       ...deltas
-//     }
-//     console.log("get user current position", currentUserPosition)
-//     if (currentUserPosition && userInfo) {
-//       emitCurrentUserPosition({ userPosition: currentUserPosition, token: userInfo.id })
-//       return currentUserPosition
-//     }
-//   }
-// }
-
-// const currentUserPosition = {
-//   latitude: 48.9373878,
-//   longitude: 2.1792915,
-//   latitudeDelta: 0.0522,
-//   longitudeDelta: 0.0221
-// }
-
-// const enhance = compose(
-//   withState('currentUserPosition', 'locateUser', props => getLocationAsync(props.userInfo)),
-//   withProps(({screenProps}) => {    
-//     return {
-//       screenProps: {
-//         spots: onSpotsAroundMe((sps) => sps)
-//       }
-//     }
-//   })
-// )
-console.log('In Search.js')
-
-const enhance = compose(
+export default compose(
   getSpots,
   withHandlers({ 
     handleOnPress: props => e => {
@@ -106,7 +60,7 @@ const enhance = compose(
     componentWillReceiveProps(nextProps) {
       console.log('>>>>>>>>>>>>>>>>>>>>>>>>> componentWillReceiveProps')
       console.log('nextProps.currentUserPosition', nextProps.currentUserPosition)
-      // console.log('nextProps.spots', nextProps.spots)
+      console.log('nextProps.spots', nextProps.spots)
       if (nextProps.currentUserPosition !== this.props.currentUserPosition || 
         nextProps.spots !== this.props.spots) {
         this.setState({ 
@@ -116,11 +70,7 @@ const enhance = compose(
       }
     }
   })
-)
-
-const Search = enhance(SearchUI)
-
-export default Search
+)(Search)
 
 const styles = StyleSheet.create({
   container: {

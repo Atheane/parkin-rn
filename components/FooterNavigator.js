@@ -1,6 +1,6 @@
 import React from 'react'
 import {  TabNavigator } from 'react-navigation'
-import { Footer, FooterTab, Button, Icon, Text, Badge } from 'native-base'
+import { Footer, FooterTab, Button, Icon, Text } from 'native-base'
 import Search from './Search'
 import Spot from './Spot'
 // import Chat from './Chat'
