@@ -82,8 +82,8 @@ export const getSpots = (WrappedComponent) => {
             longitude: location.coords.longitude,
             ...deltas
           }
-          if (userPosition && this.props.userInfo) {
-            emitMovingUserPosition({ userPosition, token: this.props.userInfo.id })
+          if (userPosition && this.props.screenProps.userInfo) {
+            emitMovingUserPosition({ userPosition, token: this.props.screenProps.userInfo.id })
           }
         }
         this.setState({ watchId:  await Location.watchPositionAsync(options, callback)})

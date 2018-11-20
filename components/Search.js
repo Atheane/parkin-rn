@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { 
   StyleSheet,
   Platform,
@@ -7,15 +7,15 @@ import {
 } from 'react-native'
 import Map from './Map'
 import ArrivalModal from './ArrivalModal'
-import { compose, withHandlers, lifecycle, withState } from 'recompose'
+import { compose, withHandlers, lifecycle } from 'recompose'
 import { emitSelectSpot } from '../utils/sockets'
 import { getSpots, handleGetDirections } from '../utils/localize'
 
 const Search = (props) => {
-  const { screenProps, navigation, currentUserPosition, spots } = props
-  console.log(">>>>>>>>>>>>>>>>> In Search.js, SearchUI")
-  console.log("spots", spots)
-  console.log("currentUserPosition", currentUserPosition)
+  const { screenProps, navigation, currentUserPosition, spots, handleOnPress } = props
+  // console.log(">>>>>>>>>>>>>>>>> In Search.js, SearchUI")
+  // console.log("spots", spots)
+  // console.log("currentUserPosition", currentUserPosition)
 
   let display
   if (Platform.OS === 'ios') {
@@ -24,7 +24,9 @@ const Search = (props) => {
         <ArrivalModal {...screenProps} {...navigation} />
         <Map {...screenProps}
         currentUserPosition={currentUserPosition}
-        spots={spots} />
+        spots={spots} 
+        handleOnPress={handleOnPress}
+        />
       </SafeAreaView>
     )
   } else {
@@ -33,7 +35,9 @@ const Search = (props) => {
         <ArrivalModal {...screenProps} {...navigation} />
         <Map {...screenProps} 
            currentUserPosition={currentUserPosition}
-           spots={spots} />
+           spots={spots}
+           handleOnPress={handleOnPress}
+           />
       </View>
     )
   }
@@ -42,25 +46,11 @@ const Search = (props) => {
 
 export default compose(
   getSpots,
-  withHandlers({ 
-    handleOnPress: props => e => {
-      // props.registerForPushNotifications()
-      if (props.userInfo) {
-        emitSelectSpot({
-          coord: e.nativeEvent.coordinate,
-          token: props.userInfo.id
-        })
-      }
-      e.persist()
-      props.watchLocationAsync()
-      handleGetDirections(e)
-    }
-  }),
   lifecycle({
     componentWillReceiveProps(nextProps) {
-      console.log('>>>>>>>>>>>>>>>>>>>>>>>>> componentWillReceiveProps')
-      console.log('nextProps.currentUserPosition', nextProps.currentUserPosition)
-      console.log('nextProps.spots', nextProps.spots)
+      // console.log('>>>>>>>>>>>>>>>>>>>>>>>>> componentWillReceiveProps')
+      // console.log('nextProps.currentUserPosition', nextProps.currentUserPosition)
+      // console.log('nextProps.spots', nextProps.spots)
       if (nextProps.currentUserPosition !== this.props.currentUserPosition || 
         nextProps.spots !== this.props.spots) {
         this.setState({ 
@@ -68,6 +58,21 @@ export default compose(
           spots: nextProps.spots
         });
       }
+    }
+  }),
+  withHandlers({ 
+    handleOnPress: props => e => {
+      // props.registerForPushNotifications()
+      console.log('ZZZZZZZZZZZZZZZZ in handleOnPress, props', props)
+      if (props.screenProps.userInfo) {
+        emitSelectSpot({
+          coord: e.nativeEvent.coordinate,
+          token: props.screenProps.userInfo.id
+        })
+      }
+      e.persist()
+      props.watchLocationAsync()
+      handleGetDirections(e)
     }
   })
 )(Search)
