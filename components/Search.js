@@ -63,7 +63,7 @@ export default compose(
   withHandlers({ 
     handleOnPress: props => e => {
       // props.registerForPushNotifications()
-      console.log('ZZZZZZZZZZZZZZZZ in handleOnPress, props', props)
+      // console.log('ZZZZZZZZZZZZZZZZ in handleOnPress, props', props)
       if (props.screenProps.userInfo) {
         emitSelectSpot({
           coord: e.nativeEvent.coordinate,
