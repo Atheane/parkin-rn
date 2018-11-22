@@ -6,13 +6,16 @@ import NightStyle from './NightStyle'
 import MarkerList from './MarkerList'
 
 const Map = (props) => {
-  const { initialUserPosition } = props
+  const { currentUserPosition } = props
+  console.log('>>>>>>>>>>>>>>>> In Map.js')
+  console.log('currentUserPosition')
+  console.log(currentUserPosition)
   return (
       <MapView
         provider={PROVIDER_GOOGLE}
         customMapStyle={NightStyle}
         style={styles.container}
-        region={initialUserPosition}
+        region={currentUserPosition}
         showsUserLocation
         showsMyLocationButton
         showsTraffic

@@ -5,8 +5,7 @@ import getDirections from 'react-native-google-maps-directions'
 import { 
   onSpotsAroundMe, 
   emitMovingUserPosition,
-  emitInitialUserPosition,
-  onSpotNearMe 
+  emitCurrentUserPosition,
 } from '../utils/sockets'
 
 const deltas = {
@@ -19,21 +18,20 @@ export const getSpots = (WrappedComponent) => {
     constructor(props) {
       super(props)
       this.state = {
-        initialUserPosition: null,
+        currentUserPosition: null,
         spots: [],
         status: null,
         errorMessage: null,
         watchId: undefined,
-        userInfo2: this.props.userInfo
       }
     }
 
     componentDidMount() {
-      console.log("localize is mounted")
+      console.log("getSpots is mounted")
       this.getLocationAsync()
       onSpotsAroundMe((spots) => {
         console.log(spots)
-        this.setState({spots})
+        this.setState({spots}, () => console.log('setState spots in getSpots'))
       })
     }
 
@@ -48,21 +46,23 @@ export const getSpots = (WrappedComponent) => {
         console.log(this.state.errorMessage)
       } else {
         let location = await Location.getCurrentPositionAsync({enableHighAccuracy: true})
-        const initialUserPosition = {
+        const currentUserPosition = {
           latitude: location.coords.latitude,
           longitude: location.coords.longitude,
           ...deltas
         }
-        console.log("get current Position", initialUserPosition)
-        this.setState({ initialUserPosition })
-        const { userInfo } = this.props
-        if (initialUserPosition && userInfo) {
-          emitInitialUserPosition({userPosition: initialUserPosition, token: userInfo.id})
+        console.log(">>>>>>>>>>>>>>>>> In localize.js")
+        console.log("In getSpots, getLocationAsync, get current Position", currentUserPosition)
+        this.setState({ currentUserPosition }, () => console.log('setState currentUserPosition in getSpots'))
+        const { userInfo } = this.props.screenProps
+        console.log(">>>>>>>>>>>>>>>>>> userInfo", userInfo)
+        if (currentUserPosition && userInfo) {
+          emitCurrentUserPosition({userPosition: currentUserPosition, token: userInfo.id})
         }
       }
     }
 
-    watchPositionAsync = async () => {
+    watchLocationAsync = async () => {
       let { status } = await Permissions.askAsync(Permissions.LOCATION)
       // console.log("watchLocationAsync", status)
       this.setState({ status })
@@ -82,18 +82,18 @@ export const getSpots = (WrappedComponent) => {
             longitude: location.coords.longitude,
             ...deltas
           }
-          if (userPosition && this.state.userInfo2) {
-            emitMovingUserPosition({ userPosition, token: this.state.userInfo2.id })
+          if (userPosition && this.props.screenProps.userInfo) {
+            emitMovingUserPosition({ userPosition, token: this.props.screenProps.userInfo.id })
           }
         }
-        this.state.watchId = await Location.watchPositionAsync(options, callback)
+        this.setState({ watchId:  await Location.watchPositionAsync(options, callback)})
       }
     }
 
     componentWillUnmount() {
       console.log("localize will unmount")
-      if (this.props.watchId) {
-        this.props.watchId.remove()
+      if (this.state.watchId) {
+        this.state.watchId.remove()
       } else {
         console.log({
           errorMessage: "Trying to remove watchId, but watchId undefined",
@@ -107,7 +107,7 @@ export const getSpots = (WrappedComponent) => {
       // console.log("in render localize, this.props.userInfo", this.props.userInfo)
 
       return (
-        <WrappedComponent {...this.state} {...this.props} watchPositionAsync={this.watchPositionAsync} getLocationAsync={this.getLocationAsync}/>
+        <WrappedComponent {...this.state} {...this.props} watchLocationAsync={this.watchLocationAsync} />
       )
     }
   }

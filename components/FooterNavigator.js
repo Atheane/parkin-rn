@@ -1,12 +1,10 @@
 import React from 'react'
-import { createBottomTabNavigator, TabNavigator } from 'react-navigation'
-import { Footer, FooterTab, Button, Icon, Text, Badge } from 'native-base'
+import {  TabNavigator } from 'react-navigation'
+import { Footer, FooterTab, Button, Icon, Text } from 'native-base'
 import Search from './Search'
 import Spot from './Spot'
-import Chat from './Chat'
+// import Chat from './Chat'
 import Profile from './Profile'
-import {socket, onSpotsAroundMe} from '../utils/sockets'
-
 
 export default (TabNavigator(
   {
@@ -16,24 +14,15 @@ export default (TabNavigator(
   },
   {
     tabBarPosition: "bottom",
-    tabBarComponent: props => {
+    tabBarComponent: ({navigation, navigationState}) => {
       return (
         <Footer>
           <FooterTab>
             <Button
               vertical
-              active={props.navigationState.index === 0}
+              active={navigationState.index === 0}
               onPress={() => {
-                props.navigation.navigate("Search")
-                try {
-                  onSpotsAroundMe((spots) => {
-                    console.log(spots)
-                    props.screenProps.spots = spots
-                  })
-                } catch (error) {
-                  console.log("clic bouton geo", error)
-                }
-
+                navigation.navigate("Search")
               }
               }>
               <Icon name="search" />
@@ -41,14 +30,9 @@ export default (TabNavigator(
             </Button>
             <Button
               vertical
-              active={props.navigationState.index === 1}
+              active={navigationState.index === 1}
               onPress={() => {
-                  props.navigation.navigate("Spot")
-                  try {
-                    socket.emit("giveSpot", {token: props.screenProps.userInfo.id, coord: props.screenProps.initialUserPosition})
-                  } catch (error) {
-                    console.log("clic bouton give spot", error)
-                  }
+                  navigation.navigate("Spot")
                 }
               }>
               <Icon type="FontAwesome" name="street-view" />
@@ -56,8 +40,8 @@ export default (TabNavigator(
             </Button>
             <Button
               vertical
-              active={props.navigationState.index === 3}
-              onPress={() => props.navigation.navigate("Profile")}>
+              active={navigationState.index === 2}
+              onPress={() => navigation.navigate("Profile")}>
               <Icon name="person" />
               <Text>Profile</Text>
             </Button>
