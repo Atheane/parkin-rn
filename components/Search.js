@@ -8,8 +8,12 @@ import {
 import Map from './Map'
 import ArrivalModal from './ArrivalModal'
 import { compose, withHandlers, lifecycle } from 'recompose'
-import { emitSelectSpot } from '../utils/sockets'
-import { getSpots, handleGetDirections } from '../utils/localize'
+// import { emitSelectSpot } from '../utils/sockets'
+// import { getSpots, handleGetDirections } from '../utils/localize'
+import { setPosition, setSpots } from '../actions'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+
 
 const Search = (props) => {
   const { screenProps, navigation, currentUserPosition, spots, handleOnPress } = props
@@ -45,7 +49,7 @@ const Search = (props) => {
 }
 
 export default compose(
-  getSpots,
+  connect(mapReduxStateToProps, mapDispatchToProps),
   lifecycle({
     componentWillReceiveProps(nextProps) {
       // console.log('>>>>>>>>>>>>>>>>>>>>>>>>> componentWillReceiveProps')
@@ -53,28 +57,26 @@ export default compose(
       // console.log('nextProps.spots', nextProps.spots)
       if (nextProps.currentUserPosition !== this.props.currentUserPosition || 
         nextProps.spots !== this.props.spots) {
-        this.setState({ 
-          currentUserPosition:  nextProps.currentUserPosition,
-          spots: nextProps.spots
-        });
+          this.props.setPosition()
+          this.props.setSpots()
       }
     }
   }),
-  withHandlers({ 
-    handleOnPress: props => e => {
-      // props.registerForPushNotifications()
-      // console.log('ZZZZZZZZZZZZZZZZ in handleOnPress, props', props)
-      if (props.screenProps.userInfo) {
-        emitSelectSpot({
-          coord: e.nativeEvent.coordinate,
-          token: props.screenProps.userInfo.id
-        })
-      }
-      e.persist()
-      props.watchLocationAsync()
-      handleGetDirections(e)
-    }
-  })
+  // withHandlers({ 
+  //   handleOnPress: props => e => {
+  //     // props.registerForPushNotifications()
+  //     // console.log('ZZZZZZZZZZZZZZZZ in handleOnPress, props', props)
+  //     if (props.screenProps.userInfo) {
+  //       emitSelectSpot({
+  //         coord: e.nativeEvent.coordinate,
+  //         token: props.screenProps.userInfo.id
+  //       })
+  //     }
+  //     e.persist()
+  //     props.watchLocationAsync()
+  //     handleGetDirections(e)
+  //   }
+  // }),
 )(Search)
 
 const styles = StyleSheet.create({
@@ -84,3 +86,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 })
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(
+    { setPosition, setSpots }, dispatch
+  )
+}
+
+function mapReduxStateToProps(reduxState) {
+  return {
+    currentUserPosition: reduxState.currentUserPosition,
+    spots: reduxState.spots
+  }
+}

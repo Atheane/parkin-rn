@@ -33,7 +33,7 @@ export default class Profile extends Component {
             <Row size={3}>
               <Body>
                 <Image
-                  source={{ uri: userInfo.picture.data.url }}
+                  source={{ uri: (userInfo === undefined ) ? userInfo.picture.data.url : ''}}
                   style={{ width: 100, height: 100, borderRadius: 50 }}
                 />
                 <Text style={styles.text}>{userInfo.name}</Text>

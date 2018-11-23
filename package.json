@@ -32,7 +32,10 @@
     "react-native-modal": "^6.5.0",
     "react-navigation": "^2.9.3",
     "react-navigation-material-bottom-tabs": "^0.3.0",
+    "react-redux": "^5.1.1",
     "recompose": "^0.27.1",
+    "redux": "^4.0.1",
+    "redux-logger": "^3.0.6",
     "socket.io-client": "^2.1.1"
   },
   "proxy": "http://127.0.0.1:3000"
