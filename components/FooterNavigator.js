@@ -1,12 +1,13 @@
 import React from 'react'
-import {  TabNavigator } from 'react-navigation'
+import { createBottomTabNavigator } from 'react-navigation'
 import { Footer, FooterTab, Button, Icon, Text } from 'native-base'
 import Search from './Search'
 import Spot from './Spot'
 // import Chat from './Chat'
 import Profile from './Profile'
 
-export default (TabNavigator(
+
+export default (createBottomTabNavigator(
   {
     Search: { screen: Search },
     Spot: { screen: Spot },
