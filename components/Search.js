@@ -77,7 +77,7 @@ export default compose(
   //     handleGetDirections(e)
   //   }
   // }),
-)(Search)
+)(React.memo(Search))
 
 const styles = StyleSheet.create({
   container: {

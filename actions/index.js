@@ -1,4 +1,7 @@
-// const SET_POSITION = 'SET_POSITION'
+const deltas = {
+  latitudeDelta: 0.0522,
+  longitudeDelta: 0.0221
+}
 
 export const setPosition = () => {
   const currentUserPosition = {
