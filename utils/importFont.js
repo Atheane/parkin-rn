@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Expo from 'expo'
+import * as Expo from 'expo'
 import Loading from '../components/Loading'
 
 export default (WrappedComponent) => {

@@ -5,11 +5,12 @@ import notify from './utils/notify'
 import login from './utils/login'
 import FooterNavigator from './components/FooterNavigator'
 import { Container, Header } from 'native-base'
-import { Provider } from 'react-redux'
+import { Provider as StoreProvider } from 'react-redux'
 import { createStore, combineReducers , applyMiddleware } from 'redux'
 import logger from 'redux-logger'
 import positionReducer from './reducers/positionReducer'
 import spotsReducer from './reducers/spotsReducer'
+
 
 
 const reducers = combineReducers({
@@ -27,12 +28,12 @@ export default compose(
 )(
   (props) => {
     return (
-      <Provider store={createStore(reducers, {}, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())}>
-        <Container>
-          <Header />
-          <FooterNavigator screenProps={{...props}} />
-        </Container>
-      </Provider>
+        <StoreProvider store={createStore(reducers, {}, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())}>
+          <Container>
+            <Header />
+            <FooterNavigator screenProps={{...props}} />
+          </Container>
+        </StoreProvider>
     )
   }
 );
