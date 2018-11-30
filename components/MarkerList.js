@@ -2,18 +2,17 @@ import React from 'react'
 import { MapView } from 'expo'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { compose, lifecycle, withProps } from 'recompose'
+import { compose, lifecycle } from 'recompose'
 import { setSpots } from '../actions'
 
 
 const Marker = MapView.Marker
 
-let counter = 0
-
-const renderCounter = () => {
-  counter += 1
-  console.log(`Render #${counter} in MarkerList.js`)
-}
+// let counter = 0
+// const renderCounter = () => {
+//   counter += 1
+//   console.log(`Render #${counter} in MarkerList.js`)
+// }
 
 const MarkerList = (props) => {
   const { spots, handleOnPress } = props
@@ -59,7 +58,7 @@ export default compose(
   //     handleGetDirections(e)
   //   }
   // }),
-)(MarkerList)
+)(React.memo(MarkerList)) // https://reactjs.org/blog/2018/10/23/react-v-16-6.html
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
