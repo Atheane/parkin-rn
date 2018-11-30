@@ -51,11 +51,8 @@ export const getSpots = (WrappedComponent) => {
           longitude: location.coords.longitude,
           ...deltas
         }
-        console.log(">>>>>>>>>>>>>>>>> In localize.js")
-        console.log("In getSpots, getLocationAsync, get current Position", currentUserPosition)
         this.setState({ currentUserPosition }, () => console.log('setState currentUserPosition in getSpots'))
         const { userInfo } = this.props.screenProps
-        console.log(">>>>>>>>>>>>>>>>>> userInfo", userInfo)
         if (currentUserPosition && userInfo) {
           emitCurrentUserPosition({userPosition: currentUserPosition, token: userInfo.id})
         }

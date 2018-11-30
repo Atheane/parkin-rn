@@ -12,6 +12,7 @@ export const setPosition = () => {
     longitude: 2.322400,
     ...deltas
   }
+
   return {
     type: 'SET_POSITION',
     payload: currentUserPosition
@@ -20,7 +21,7 @@ export const setPosition = () => {
 
 export const setSpots = () => {
 
- const onSpotsAroundMePromise = () => {
+  const onSpotsAroundMePromise = () => {
     return new Promise((resolve, reject) => {
       socket.on("spotsAroundMe", callback(resolve, reject))
     })  

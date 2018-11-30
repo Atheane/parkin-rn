@@ -8,7 +8,7 @@ import { MainStack } from './components/FooterNavigator'
 import ArrivalModal from './components/ArrivalModal'
 import { Container, Header } from 'native-base'
 import { Provider as StoreProvider } from 'react-redux'
-import { createStore, combineReducers , applyMiddleware } from 'redux'
+import { createStore, combineReducers , applyMiddleware, compose as reduxCompose } from 'redux'
 import reduxPromise from 'redux-promise'
 import positionReducer from './reducers/positionReducer'
 import spotsReducer from './reducers/spotsReducer'
@@ -20,7 +20,13 @@ export default compose(
 )(
   (props) => {
     return (
-        <StoreProvider store={createStore(reducers, {}, middlewares)}>
+        <StoreProvider store={createStore(
+            reducers, 
+            {}, 
+            composeEnhancers(
+              applyMiddleware(reduxPromise)
+            )
+          )}>
           <Container>
             <Header />
             <Root screenProps={{...props}} />
@@ -35,9 +41,8 @@ const reducers = combineReducers({
   // selectedSpot: selectedSpotReducer,
   currentUserPosition: positionReducer
 })
-
-const middlewares = applyMiddleware(reduxPromise)
-// window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || reduxCompose
+// https://redux-observable.js.org/docs/basics/SettingUpTheMiddleware.html
 
 const RootStack = createStackNavigator(
   {
