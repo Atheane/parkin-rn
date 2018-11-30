@@ -41,6 +41,7 @@ const reducers = combineReducers({
   // selectedSpot: selectedSpotReducer,
   currentUserPosition: positionReducer
 })
+
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || reduxCompose
 // https://redux-observable.js.org/docs/basics/SettingUpTheMiddleware.html
 

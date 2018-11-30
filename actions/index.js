@@ -1,5 +1,6 @@
 
 import { socket } from '../utils/sockets'
+import { Permissions, Location } from 'expo'
 
 const deltas = {
   latitudeDelta: 0.0522,
@@ -7,11 +8,20 @@ const deltas = {
 }
 
 export const setPosition = () => {
-  const currentUserPosition = {
-    latitude: 48.886384,
-    longitude: 2.322400,
-    ...deltas
+
+  const getLocationAsync = async () => {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION)
+    if (status === 'granted') {
+      let location = await Location.getCurrentPositionAsync({enableHighAccuracy: true})
+      return {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        ...deltas
+      }
+    }
   }
+
+  const currentUserPosition = getLocationAsync()
 
   return {
     type: 'SET_POSITION',
