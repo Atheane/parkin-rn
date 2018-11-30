@@ -3,7 +3,7 @@ import { MapView } from 'expo'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { compose, lifecycle } from 'recompose'
-import { setSpots } from '../actions'
+import { getSpots } from '../actions'
 
 const Marker = MapView.Marker
 
@@ -39,7 +39,7 @@ export default compose(
   ),
   lifecycle({
     componentDidMount() {
-      this.props.setSpots()
+      this.props.getSpots()
     },
   }),
   // withHandlers({ 
@@ -61,7 +61,7 @@ export default compose(
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
-    { setSpots }, dispatch
+    { getSpots }, dispatch
   )
 }
 

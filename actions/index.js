@@ -2,10 +2,7 @@
 import { socket } from '../utils/sockets'
 import { Permissions, Location } from 'expo'
 
-const deltas = {
-  latitudeDelta: 0.0522,
-  longitudeDelta: 0.0221
-}
+
 
 export const setPosition = () => {
 
@@ -13,23 +10,25 @@ export const setPosition = () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION)
     if (status === 'granted') {
       let location = await Location.getCurrentPositionAsync({enableHighAccuracy: true})
-      return {
+      const currentUserPosition = {
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
-        ...deltas
+        latitudeDelta: 0.0522,
+        longitudeDelta: 0.0221
       }
+      return currentUserPosition
     }
   }
 
-  const currentUserPosition = getLocationAsync()
-
   return {
     type: 'SET_POSITION',
-    payload: currentUserPosition
+    payload: getLocationAsync()
   }
 }
 
-export const setSpots = () => {
+
+
+export const getSpots = () => {
 
   const onSpotsAroundMePromise = () => {
     return new Promise((resolve, reject) => {
@@ -38,7 +37,7 @@ export const setSpots = () => {
   }
 
   return {
-    type: 'SET_SPOTS',
+    type: 'GET_SPOTS',
     payload: onSpotsAroundMePromise
   }
 }
