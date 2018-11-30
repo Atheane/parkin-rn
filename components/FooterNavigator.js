@@ -1,7 +1,6 @@
 import React from 'react'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 // import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs'
-import { Footer, FooterTab, Button, Icon, Text } from 'native-base'
 import { AntDesign, Entypo } from '@expo/vector-icons';
 
 import Search from './Search'

@@ -26,7 +26,7 @@ export default class extends Component {
         imageBig: require('../assets/ParkingSpot.jpg'),
       }
     ]
-  }
+  } 
 
   _deleteSpot = () => {
     const { navigate, message, userInfo, _toggleModal } = this.props
