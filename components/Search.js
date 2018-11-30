@@ -6,17 +6,12 @@ import {
   View,
 } from 'react-native'
 import Map from './Map'
-import ArrivalModal from './ArrivalModal'
-import { compose, withHandlers, lifecycle } from 'recompose'
+// import { compose, withHandlers, lifecycle } from 'recompose'
 // import { emitSelectSpot } from '../utils/sockets'
 // import { getSpots, handleGetDirections } from '../utils/localize'
-import { setPosition, setSpots } from '../actions'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-
 
 const Search = (props) => {
-  const { screenProps, navigation, currentUserPosition, spots, handleOnPress } = props
+  const { screenProps, currentUserPosition } = props
   // console.log(">>>>>>>>>>>>>>>>> In Search.js, SearchUI")
   // console.log("spots", spots)
   // console.log("currentUserPosition", currentUserPosition)
@@ -25,22 +20,16 @@ const Search = (props) => {
   if (Platform.OS === 'ios') {
     display = (
       <SafeAreaView style={styles.container}>
-        <ArrivalModal {...screenProps} {...navigation} />
         <Map {...screenProps}
         currentUserPosition={currentUserPosition}
-        spots={spots} 
-        handleOnPress={handleOnPress}
         />
       </SafeAreaView>
     )
   } else {
     display = (
       <View style={styles.container}>
-        <ArrivalModal {...screenProps} {...navigation} />
         <Map {...screenProps} 
            currentUserPosition={currentUserPosition}
-           spots={spots}
-           handleOnPress={handleOnPress}
            />
       </View>
     )
@@ -48,43 +37,7 @@ const Search = (props) => {
   return ( display )
 }
 
-export default compose(
-  connect(
-    mapReduxStateToProps, 
-    mapDispatchToProps
-  ),
-  lifecycle({
-    componentDidMount() {
-      this.props.setPosition()
-      this.props.setSpots()
-    },
-    // componentWillReceiveProps(nextProps) {
-    //   // console.log('>>>>>>>>>>>>>>>>>>>>>>>>> componentWillReceiveProps')
-    //   // console.log('nextProps.currentUserPosition', nextProps.currentUserPosition)
-    //   // console.log('nextProps.spots', nextProps.spots)
-    //   if (nextProps.currentUserPosition !== this.props.currentUserPosition || 
-    //     nextProps.spots !== this.props.spots) {
-    //       this.props.setPosition()
-    //       this.props.setSpots()
-    //   }
-    // }
-  }),
-  // withHandlers({ 
-  //   handleOnPress: props => e => {
-  //     // props.registerForPushNotifications()
-  //     // console.log('ZZZZZZZZZZZZZZZZ in handleOnPress, props', props)
-  //     if (props.screenProps.userInfo) {
-  //       emitSelectSpot({
-  //         coord: e.nativeEvent.coordinate,
-  //         token: props.screenProps.userInfo.id
-  //       })
-  //     }
-  //     e.persist()
-  //     props.watchLocationAsync()
-  //     handleGetDirections(e)
-  //   }
-  // }),
-)(React.memo(Search))
+export default React.memo(Search)
 
 const styles = StyleSheet.create({
   container: {
@@ -93,16 +46,3 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 })
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(
-    { setPosition, setSpots }, dispatch
-  )
-}
-
-function mapReduxStateToProps(reduxState) {
-  return {
-    currentUserPosition: reduxState.currentUserPosition,
-    spots: reduxState.spots
-  }
-}
