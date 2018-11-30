@@ -2,29 +2,29 @@ import React from 'react'
 import { MapView } from 'expo'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { compose, lifecycle } from 'recompose'
+import { compose, lifecycle, withProps } from 'recompose'
 import { setSpots } from '../actions'
 
 
 const Marker = MapView.Marker
 
+let counter = 0
+
+const renderCounter = () => {
+  counter += 1
+  console.log(`Render #${counter} in MarkerList.js`)
+}
+
 const MarkerList = (props) => {
   const { spots, handleOnPress } = props
-  console.log('>>>>>>>>>>>>>>>> In MarkerList.js')
-  console.log('spots')
-  console.log(spots)
-  // debugger
-  if (spots && spots.constructor === Array) {
-    return spots.map((spotObj, i) => (
+  if (spots && spots.length > 0) {
+    renderCounter()
+    return spots.map((spot, i) => (
       <Marker 
         key={i}
-        title={(spotObj.spot && spotObj.spot.name) ? spotObj.spot.name : '44x44' }
-        coordinate={(spotObj.spot && spotObj.spot.coords) ? spotObj.spot.coords : {
-            latitude: 48.886,
-            longitude: 2.322
-          }
-        }
-        image={(spotObj.selected) ? require('../assets/selectedSpot.png') : require('../assets/spot.png')}
+        title={spot.name}
+        coordinate={spot.coords}
+        image={(spot.selected) ? require('../assets/selectedSpot.png') : require('../assets/spot.png')}
         onPress={handleOnPress}
       />
     ))
@@ -59,7 +59,7 @@ export default compose(
   //     handleGetDirections(e)
   //   }
   // }),
-)(React.memo(MarkerList))
+)(MarkerList)
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(

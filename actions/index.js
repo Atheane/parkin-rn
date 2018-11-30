@@ -18,7 +18,7 @@ export const setPosition = () => {
 export const setSpots = () => {
   const spots = [
     {
-      name: '44x44',
+      name: '3',
       coords: {
         latitude: 48.886,
         longitude: 2.322
