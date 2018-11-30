@@ -1,7 +1,10 @@
 import React from 'react'
 import { MapView } from 'expo'
 import { PROVIDER_GOOGLE } from 'react-native-maps'
-
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { compose, lifecycle } from 'recompose'
+import { setPosition } from '../actions'
 import NightStyle from './NightStyle'
 import MarkerList from './MarkerList'
 
@@ -19,12 +22,35 @@ const Map = (props) => {
         minZoomLevel={15}
         loadingEnabled
       >
-        <MarkerList {...props} />
+        <MarkerList />
       </MapView>
   )
 }
 
-export default Map;
+export default compose(
+  connect(
+    mapReduxStateToProps, 
+    mapDispatchToProps
+  ),
+  lifecycle({
+    componentDidMount() {
+      this.props.setPosition()
+    },
+  })
+)(Map)
+
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(
+    { setPosition }, dispatch
+  )
+}
+
+function mapReduxStateToProps(reduxState) {
+  return {
+    currentUserPosition: reduxState.currentUserPosition
+  }
+}
 
 const styles = {
   container: {
@@ -36,3 +62,4 @@ const styles = {
     height: 32,
   }
 }
+
