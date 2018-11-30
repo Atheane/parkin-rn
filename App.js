@@ -9,7 +9,7 @@ import ArrivalModal from './components/ArrivalModal'
 import { Container, Header } from 'native-base'
 import { Provider as StoreProvider } from 'react-redux'
 import { createStore, combineReducers , applyMiddleware } from 'redux'
-// import logger from 'redux-logger'
+import reduxPromise from 'redux-promise'
 import positionReducer from './reducers/positionReducer'
 import spotsReducer from './reducers/spotsReducer'
 
@@ -20,7 +20,7 @@ export default compose(
 )(
   (props) => {
     return (
-        <StoreProvider store={createStore(reducers, {}, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())}>
+        <StoreProvider store={createStore(reducers, {}, middlewares)}>
           <Container>
             <Header />
             <Root screenProps={{...props}} />
@@ -36,7 +36,8 @@ const reducers = combineReducers({
   currentUserPosition: positionReducer
 })
 
-// const middleWares = applyMiddleware(logger)
+const middlewares = applyMiddleware(reduxPromise)
+// window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 
 const RootStack = createStackNavigator(
   {

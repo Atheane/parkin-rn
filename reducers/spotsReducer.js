@@ -2,7 +2,7 @@ export default (currentState, action) => {
   if (currentState === undefined) {
     return [
       {
-        name: '2',
+        name: 'InitSpot',
         coords: {
           latitude: 48.886,
           longitude: 2.322

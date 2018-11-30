@@ -5,11 +5,6 @@ const endpoint = "http://localhost:3000"
 
 export const socket = socketIOClient(endpoint, {transports: ['websocket']})
 
-export const onSpotsAroundMe = (callback) => {
-  console.log("onSpotAroundMe")
-  socket.on("spotsAroundMe", callback)
-}  
-
 export const onSpotNearMe = (callback) => {
   console.log("onSpotNearMe")
   socket.on("spotNearMe", callback)

@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import { compose, lifecycle } from 'recompose'
 import { setSpots } from '../actions'
 
-
 const Marker = MapView.Marker
 
 // let counter = 0
@@ -17,7 +16,7 @@ const Marker = MapView.Marker
 const MarkerList = (props) => {
   const { spots, handleOnPress } = props
   if (spots && spots.length > 0) {
-    renderCounter()
+    // renderCounter()
     return spots.map((spot, i) => (
       <Marker 
         key={i}
@@ -71,3 +70,4 @@ function mapReduxStateToProps(reduxState) {
     spots: reduxState.spots
   }
 }
+

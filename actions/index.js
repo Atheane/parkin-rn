@@ -1,3 +1,6 @@
+
+import { socket } from '../utils/sockets'
+
 const deltas = {
   latitudeDelta: 0.0522,
   longitudeDelta: 0.0221
@@ -16,17 +19,15 @@ export const setPosition = () => {
 }
 
 export const setSpots = () => {
-  const spots = [
-    {
-      name: '3',
-      coords: {
-        latitude: 48.886,
-        longitude: 2.322
-      }
-    }
-  ]
+
+ const onSpotsAroundMePromise = () => {
+    return new Promise((resolve, reject) => {
+      socket.on("spotsAroundMe", callback(resolve, reject))
+    })  
+  }
+
   return {
     type: 'SET_SPOTS',
-    payload: spots
+    payload: onSpotsAroundMePromise
   }
 }
