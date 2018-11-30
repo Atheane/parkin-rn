@@ -34,7 +34,8 @@ export default compose(
   ),
   lifecycle({
     componentDidMount() {
-      this.props.setPosition()
+      const token = this.props.userInfo.id
+      this.props.setPosition(token)
     },
   })
 )(Map)

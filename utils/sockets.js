@@ -15,11 +15,6 @@ export const emitUserInfo = (userInfo) => {
   socket.emit("userInfo", userInfo)
 }
 
-export const emitCurrentUserPosition = ({userPosition, token}) => {
-  console.log("emitCurrentUserPosition", userPosition, token )
-  socket.emit("currentUserPosition", {userPosition, token})
-}
-
 export const emitMovingUserPosition = ({userPosition, token}) => {
   console.log("emitMovingUserPosition", userPosition, token )
   socket.emit("movingUserPosition", {userPosition, token})
