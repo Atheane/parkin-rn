@@ -58,16 +58,16 @@ export default compose(
       this.props.setPosition()
       this.props.setSpots()
     },
-    componentWillReceiveProps(nextProps) {
-      // console.log('>>>>>>>>>>>>>>>>>>>>>>>>> componentWillReceiveProps')
-      // console.log('nextProps.currentUserPosition', nextProps.currentUserPosition)
-      // console.log('nextProps.spots', nextProps.spots)
-      if (nextProps.currentUserPosition !== this.props.currentUserPosition || 
-        nextProps.spots !== this.props.spots) {
-          this.props.setPosition()
-          this.props.setSpots()
-      }
-    }
+    // componentWillReceiveProps(nextProps) {
+    //   // console.log('>>>>>>>>>>>>>>>>>>>>>>>>> componentWillReceiveProps')
+    //   // console.log('nextProps.currentUserPosition', nextProps.currentUserPosition)
+    //   // console.log('nextProps.spots', nextProps.spots)
+    //   if (nextProps.currentUserPosition !== this.props.currentUserPosition || 
+    //     nextProps.spots !== this.props.spots) {
+    //       this.props.setPosition()
+    //       this.props.setSpots()
+    //   }
+    // }
   }),
   // withHandlers({ 
   //   handleOnPress: props => e => {

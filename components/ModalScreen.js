@@ -50,7 +50,6 @@ export default class extends Component {
   }
 
   render() {
-    debugger
     return (
       <Container style={{ elevation: 3, backgroundColor: 'rgba(52, 52, 52, 0.01)'}}>
         <View >

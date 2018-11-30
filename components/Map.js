@@ -7,9 +7,6 @@ import MarkerList from './MarkerList'
 
 const Map = (props) => {
   const { currentUserPosition } = props
-  console.log('>>>>>>>>>>>>>>>> In Map.js')
-  console.log('currentUserPosition')
-  console.log(currentUserPosition)
   return (
       <MapView
         provider={PROVIDER_GOOGLE}
