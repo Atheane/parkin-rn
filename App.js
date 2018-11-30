@@ -3,7 +3,9 @@ import { compose } from 'recompose'
 import importFont from './utils/importFont'
 import notify from './utils/notify'
 import login from './utils/login'
-import FooterNavigator from './components/FooterNavigator'
+import { createStackNavigator, createAppContainer } from 'react-navigation'
+import { MainStack } from './components/FooterNavigator'
+import ArrivalModal from './components/ArrivalModal'
 import { Container, Header } from 'native-base'
 import { Provider as StoreProvider } from 'react-redux'
 import { createStore, combineReducers , applyMiddleware } from 'redux'
@@ -31,12 +33,29 @@ export default compose(
         <StoreProvider store={createStore(reducers, {}, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())}>
           <Container>
             <Header />
-            <FooterNavigator screenProps={{...props}} />
+            <Root screenProps={{...props}} />
           </Container>
         </StoreProvider>
     )
   }
 );
+
+const RootStack = createStackNavigator(
+  {
+    Main: {
+      screen: MainStack,
+    },
+    Modal: {
+      screen: ArrivalModal,
+    },
+  },
+  {
+    mode: 'modal',
+    headerMode: 'none',
+  }
+)
+
+const Root = createAppContainer(RootStack)
 
 // to-do: proper logout with https://github.com/react-navigation/react-navigation/issues/1979
 // solution de jeserodz

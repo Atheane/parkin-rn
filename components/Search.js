@@ -49,8 +49,15 @@ const Search = (props) => {
 }
 
 export default compose(
-  connect(mapReduxStateToProps, mapDispatchToProps),
+  connect(
+    mapReduxStateToProps, 
+    mapDispatchToProps
+  ),
   lifecycle({
+    componentDidMount() {
+      this.props.setPosition()
+      this.props.setSpots()
+    },
     componentWillReceiveProps(nextProps) {
       // console.log('>>>>>>>>>>>>>>>>>>>>>>>>> componentWillReceiveProps')
       // console.log('nextProps.currentUserPosition', nextProps.currentUserPosition)

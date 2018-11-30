@@ -50,13 +50,15 @@ export default class extends Component {
   }
 
   render() {
+    debugger
     return (
       <Container style={{ elevation: 3, backgroundColor: 'rgba(52, 52, 52, 0.01)'}}>
         <View >
           <DeckSwiper
             ref={(c) => this._deckSwiper = c}
             dataSource={this.cards()}
-            renderItem={item =>
+            renderItem={item => 
+
             <Card style={{ elevation: 3, marginTop: 50}} >
               <CardItem>
                 <Left>
