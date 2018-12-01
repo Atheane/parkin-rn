@@ -1,3 +1,5 @@
+import * as types from '../constants/ActionTypes'
+
 export default (currentState, action) => {
   if (currentState === undefined) {
     return [
@@ -10,7 +12,7 @@ export default (currentState, action) => {
       }
     ]
   } else {
-    if (action.type === 'SET_SPOTS') {
+    if (action.type === types.SET_SPOTS) {
       return action.payload
     } else {
       return currentState

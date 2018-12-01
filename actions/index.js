@@ -1,6 +1,7 @@
 
 import { socket } from '../utils/sockets'
 import { Permissions, Location } from 'expo'
+import * as types from '../constants/ActionTypes'
 
 
 export const setPosition = (token) => {
@@ -23,7 +24,7 @@ export const setPosition = (token) => {
   }
 
   return {
-    type: 'SET_POSITION',
+    type: types.SET_POSITION,
     payload: getLocationAsync()
   }
 }
@@ -43,7 +44,7 @@ export const getSpots = () => {
   // }
 
   return {
-    type: 'GET_SPOTS',
+    type: types.GET_SPOTS,
     payload: spots
   }
 }

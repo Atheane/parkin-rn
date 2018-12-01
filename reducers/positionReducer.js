@@ -1,3 +1,5 @@
+import * as types from '../constants/ActionTypes'
+
 export default (currentState, action) => {
   if (currentState === undefined) {
     return {
@@ -7,7 +9,7 @@ export default (currentState, action) => {
       longitudeDelta: 0.0221
     }
   } else {
-    if (action.type === 'SET_POSITION') {
+    if (action.type === types.SET_POSITION) {
       return action.payload
     } else {
       return currentState
