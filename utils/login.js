@@ -82,7 +82,7 @@ export default (WrappedComponent) => {
       const userInfo = await userInfoResponse.json()
       this.setState({userInfo})
       this._storeData(userInfo)
-      emitUserInfo(userInfo)
+      this.props.socket.emit('userInfo', userInfo)
     }
 
     render () {
@@ -147,4 +147,3 @@ const styles = StyleSheet.create({
     backgroundColor:"#41629D"
   }
 })
-

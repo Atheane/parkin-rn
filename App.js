@@ -1,5 +1,5 @@
 import React from 'react'
-import { compose } from 'recompose'
+import { compose, renderComponent } from 'recompose'
 import importFont from './utils/importFont'
 import login from './utils/login'
 import { createStackNavigator, createAppContainer } from 'react-navigation'
@@ -27,24 +27,28 @@ const store = createStore(
 
 const socket = setupSocket(store.dispatch)
 
-export default compose(
-  importFont,                   // to-do : StoreProvider at the very root, with all the data in the store, fontLoaded, erros, all of them
-  () => login(socket),
+export default () => {
+  return (
+    <StoreProvider store={store} socket={socket}>
+      <AppContainer />
+    </StoreProvider>
+  )
+}
+
+const AppContainer = compose(
+  importFont,                   
+  login, 
   // notify,
 )(
   (props) => {
     return (
-        <StoreProvider store={store}>
-          <Container>
-            <Header />
-            <Root screenProps={{...props}} socket={socket} />
-          </Container>
-        </StoreProvider>
+      <Container>
+        <Header />
+        <Root {...props} />
+      </Container>
     )
   }
 )
-
-
 
 // Root Navigation
 const RootStack = createStackNavigator(

@@ -1,8 +1,7 @@
 import React from 'react'
 import MarkerList from '../components/MarkerList'
 import { connect } from 'react-redux'
-import { compose, lifecycle } from 'recompose'
-import { getSpots } from '../actions'
+import { compose } from 'recompose'
 
 const mapReduxStateToProps = (reduxState) => {
   return {
