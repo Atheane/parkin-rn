@@ -30,7 +30,7 @@ const socket = setupSocket(store.dispatch)
 export default () => {
   return (
     <StoreProvider store={store} socket={socket}>
-      <AppContainer />
+      <AppContainer socket={socket} />
     </StoreProvider>
   )
 }

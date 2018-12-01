@@ -3,7 +3,6 @@ import { AsyncStorage, StyleSheet } from 'react-native'
 import { AuthSession } from 'expo'
 import { Container, Header, Icon, Text, Button, Thumbnail, Body } from 'native-base'
 import { Col, Row, Grid } from 'react-native-easy-grid'
-import { emitUserInfo } from './sockets'
 
 const FB_APP_ID = '261733521288349'
 
@@ -27,7 +26,8 @@ export default (WrappedComponent) => {
       try {
         const unparsedUserInfo = await AsyncStorage.getItem('ParkinUserInfo')
         const userInfo = JSON.parse(unparsedUserInfo)
-        emitUserInfo(userInfo)
+        this.props.socket.emit('userInfo', userInfo)
+
         if (userInfo !== null) {
           this.setState({ userInfo })
           console.log("in login", userInfo)
