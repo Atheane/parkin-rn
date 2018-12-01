@@ -1,32 +1,24 @@
 import React from 'react'
 import { compose } from 'recompose'
 import importFont from './utils/importFont'
-import notify from './utils/notify'
 import login from './utils/login'
 import { createStackNavigator, createAppContainer } from 'react-navigation'
 import { MainStack } from './components/FooterNavigator'
 import ArrivalModal from './components/ArrivalModal'
 import { Container, Header } from 'native-base'
 import { Provider as StoreProvider } from 'react-redux'
-import { createStore, combineReducers , applyMiddleware, compose as reduxCompose } from 'redux'
+import { createStore, applyMiddleware, compose as reduxCompose } from 'redux'
 import reduxPromise from 'redux-promise'
-import positionReducer from './reducers/positionReducer'
-import spotsReducer from './reducers/spotsReducer'
+import reducers from './reducers'
 
 export default compose(
-  importFont,
+  importFont,                   // to-do : StoreProvider at the very root, with all the data in the store, fontLoaded, erros, all of them
   login,
   // notify,
 )(
   (props) => {
     return (
-        <StoreProvider store={createStore(
-            reducers, 
-            {}, 
-            composeEnhancers(
-              applyMiddleware(reduxPromise)
-            )
-          )}>
+        <StoreProvider store={store}>
           <Container>
             <Header />
             <Root screenProps={{...props}} />
@@ -36,15 +28,20 @@ export default compose(
   }
 )
 
-const reducers = combineReducers({
-  spots: spotsReducer,
-  // selectedSpot: selectedSpotReducer,
-  currentUserPosition: positionReducer
-})
-
+// composing redux middleWares in React Native
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || reduxCompose
 // https://redux-observable.js.org/docs/basics/SettingUpTheMiddleware.html
 
+// reduxStore
+const store = createStore(
+  reducers, 
+  {}, 
+  composeEnhancers(
+    applyMiddleware(reduxPromise)
+  )
+)
+
+// Root Navigation
 const RootStack = createStackNavigator(
   {
     Main: {

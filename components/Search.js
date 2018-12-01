@@ -5,23 +5,20 @@ import {
   SafeAreaView,
   View,
 } from 'react-native'
-import Map from './Map'
-// import { compose, withHandlers, lifecycle } from 'recompose'
-// import { emitSelectSpot } from '../utils/sockets'
-// import { getSpots, handleGetDirections } from '../utils/localize'
+import Map from '../containers/Map'
 
 const Search = (props) => {
-  const { screenProps, currentUserPosition } = props
+  const { screenProps, userPosition } = props
   // console.log(">>>>>>>>>>>>>>>>> In Search.js, SearchUI")
   // console.log("spots", spots)
-  // console.log("currentUserPosition", currentUserPosition)
+  // console.log("userPosition", userPosition)
 
   let display
   if (Platform.OS === 'ios') {
     display = (
       <SafeAreaView style={styles.container}>
         <Map {...screenProps}
-        currentUserPosition={currentUserPosition}
+        userPosition={userPosition}
         />
       </SafeAreaView>
     )
@@ -29,7 +26,7 @@ const Search = (props) => {
     display = (
       <View style={styles.container}>
         <Map {...screenProps} 
-           currentUserPosition={currentUserPosition}
+           userPosition={userPosition}
            />
       </View>
     )
@@ -46,3 +43,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 })
+
+// import { connect } from 'react-redux';
+// import { sendMessage, navigateTo } from './actions';
+
+// const mapDispatchToProps = dispatch => ({
+//  sendMessage: messaga => {
+//  dispatch(sendMessage(message));
+//  dispatch(navigateTo({ routeName: 'messagesList' }));
+//  },
+// });
+
+// export default connect(null, mapDispatchToProps)(MessageSending);
