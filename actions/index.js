@@ -1,10 +1,15 @@
 
-import { socket } from '../utils/sockets'
 import { Permissions, Location } from 'expo'
 import * as types from '../constants/ActionTypes'
 
+export const setConnection = (socketId) => {
+  return {
+    type: types.SET_CONNECTION,
+    payload: socketId
+  }
+}
 
-export const setPosition = (token) => {
+export const setPosition = (token, socket) => {
 
   const getLocationAsync = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION)
@@ -29,20 +34,7 @@ export const setPosition = (token) => {
   }
 }
 
-
-export const getSpots = () => {
-
-  let spots = []
-  socket.on("spotsAroundMe", (spotsFromSocket) => {
-    spots = spotsFromSocket
-  })
-
-  // const onSpotsAroundMePromise = () => {
-  //   return new Promise((resolve, reject) => {
-  //     socket.on("spotsAroundMe", callback(resolve, reject))
-  //   })  
-  // }
-
+export const getSpots = (spots) => {
   return {
     type: types.GET_SPOTS,
     payload: spots

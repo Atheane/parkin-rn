@@ -4,14 +4,6 @@ import { connect } from 'react-redux'
 import { compose, lifecycle } from 'recompose'
 import { getSpots } from '../actions'
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getSpots: () => {
-      dispatch(getSpots())
-    }
-  }
-}
-
 const mapReduxStateToProps = (reduxState) => {
   return {
     spots: reduxState.spots
@@ -20,14 +12,8 @@ const mapReduxStateToProps = (reduxState) => {
 
 export default compose(
   connect(
-    mapReduxStateToProps, 
-    mapDispatchToProps
+    mapReduxStateToProps
   ),
-  lifecycle({
-    componentDidMount() {
-      this.props.getSpots()
-    },
-  }),
   // withHandlers({ 
   //   handleOnPress: props => e => {
   //     // props.registerForPushNotifications()

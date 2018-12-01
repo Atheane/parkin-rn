@@ -8,7 +8,7 @@ import {
 import Map from '../containers/Map'
 
 const Search = (props) => {
-  const { screenProps, userPosition } = props
+  const { socket } = props
   // console.log(">>>>>>>>>>>>>>>>> In Search.js, SearchUI")
   // console.log("spots", spots)
   // console.log("userPosition", userPosition)
@@ -17,17 +17,13 @@ const Search = (props) => {
   if (Platform.OS === 'ios') {
     display = (
       <SafeAreaView style={styles.container}>
-        <Map {...screenProps}
-        userPosition={userPosition}
-        />
+        <Map socket={socket} />
       </SafeAreaView>
     )
   } else {
     display = (
       <View style={styles.container}>
-        <Map {...screenProps} 
-           userPosition={userPosition}
-           />
+        <Map socket={socket}/>
       </View>
     )
   }

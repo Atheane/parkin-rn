@@ -10,7 +10,7 @@ import Profile from './Profile'
 export const MainStack = createBottomTabNavigator(
   {
     Search: {
-      screen: Search,
+      screen: ({socket}) => <Search socket={socket} />,
       navigationOptions: {
         tabBarIcon: ({ focused }) =>  <AntDesign size={20} name="search1" color={ focused ? 'rgb(252, 155, 25)' : 'rgb(138, 145, 187)'}/>,
       }
