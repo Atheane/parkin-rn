@@ -1,27 +1,21 @@
 import * as types from '../constants/ActionTypes'
 
-const INITIAL_STATE = {
-  socketId: '',
-  userPosition: {},
-  spots: []
-};
-
-export default (currentState, action) => {
-  if (currentState === undefined) {
-    return INITIAL_STATE
-  } else {
-    switch (action.type) {
-      case types.SET_CONNECTION:
-        action.payload
-        break
-      case types.SET_POSITION:
-        action.payload
-        break
-      case types.GET_SPOTS:
-        action.payload
-        break
-      default:
-        currentState
-    }
+export default (currentState = null, action) => {{
+  switch (action.type) {
+    case types.SET_CONNECTION:
+      return action.payload
+    case types.SET_USER:
+      return action.payload
+    case types.SET_POSITION:
+      return action.payload
+    case type.EMIT_USER:
+      return action.payload
+    case type.EMIT_POSITION:
+      return action.payload
+    case types.GET_SPOTS:
+      return action.payload
+    default:
+      return currentState
   }
+}
 }

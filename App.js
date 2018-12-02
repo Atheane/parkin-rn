@@ -1,10 +1,11 @@
 import React from 'react'
-import { compose, renderComponent } from 'recompose'
+import { compose } from 'recompose'
 import importFont from './utils/importFont'
 import login from './utils/login'
-import { createStackNavigator, createAppContainer } from 'react-navigation'
+import { createStackNavigator } from 'react-navigation'
 import { MainStack } from './components/FooterNavigator'
 import ArrivalModal from './components/ArrivalModal'
+import Login from './components/Login'
 import { Container, Header } from 'native-base'
 import { Provider as StoreProvider, connect } from 'react-redux'
 import { createStore, applyMiddleware, combineReducers, compose as reduxCompose } from 'redux'
@@ -16,7 +17,7 @@ import {
 } from 'react-navigation-redux-helpers'
 import appReducers from './reducers'
 import setupSocket from './sockets'
-
+import logProps from './utils/logProps'
 
 // Root Navigation
 const AppNavigator = createStackNavigator(
@@ -27,6 +28,9 @@ const AppNavigator = createStackNavigator(
     Modal: {
       screen: ArrivalModal,
     },
+    Login: {
+      screen: LoginPage
+    }
   },
   {
     mode: 'modal',
@@ -56,18 +60,31 @@ const mapStateToProps = (state) => ({
 const App = reduxifyNavigator(AppNavigator, "root")
 
 const AppWithNavigationState = compose(
-  connect(mapStateToProps),
   importFont,                   
   login,
+  connect(mapStateToProps),
+  logProps,
 )(App)
 
 // composing redux middleWares in React Native
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || reduxCompose
 // https://redux-observable.js.org/docs/basics/SettingUpTheMiddleware.html
 
+const INITIAL_STATE = {
+  app: {
+    socketId: '',
+    userInfo: {},
+    userPosition: {},
+    spots: [],
+    userEmitted: true
+  },
+  nav: null
+}
+
 // reduxStore
 const store = createStore(
   reducers, 
+  INITIAL_STATE,
   composeEnhancers(
     applyMiddleware(reduxPromise, navigationMiddleware)
   )
@@ -81,7 +98,7 @@ export default class extends React.Component {
       <StoreProvider store={store} socket={socket}>
         <Container>
           <Header />
-          <AppWithNavigationState socket={socket}/>
+          <AppWithNavigationState socket={socket} />
         </Container>
       </StoreProvider>
     );

@@ -1,3 +1,3 @@
-import * as types from '../constants/ActionTypes'
+import { GET_USER, GET_SPOTS, GET_POSITION } from '../constants/ActionTypes'
 
-export const EVENT_LISTENERS = [types.GET_SPOTS]
+export const EVENT_LISTENERS = [ GET_USER, GET_SPOTS, GET_POSITION ]
