@@ -1,6 +1,6 @@
 import React from 'react'
 import { compose } from 'recompose'
-import importFont from './utils/importFont'
+import importFont from './HOC/importFont'
 import { createSwitchNavigator, createStackNavigator } from 'react-navigation'
 import { Provider as StoreProvider, connect } from 'react-redux'
 import { createStore, applyMiddleware, combineReducers, compose as reduxCompose } from 'redux'
@@ -12,14 +12,12 @@ import {
 } from 'react-navigation-redux-helpers'
 import appReducers from './reducers'
 import setupSocket from './sockets'
-import AuthLoadingScreen from './screens/AuthLoadingScreen'
-import HomeScreen from './screens/HomeScreen'
-import ArrivalModal from './screens/ArrivalModal'
-import SignScreen from './screens/SignScreen'
-import ProfileScreen from './screens/ProfileScreen'
-import logProps from './utils/logProps'
-
-
+import AuthLoadingScreen from './components/AuthLoadingScreen'
+import HomeScreen from './components/HomeScreen'
+import ArrivalModal from './components/ArrivalModal'
+import SignScreen from './components/SignScreen'
+import ProfileScreen from './components/ProfileScreen'
+import logProps from './HOC/logProps'
 
 const AppNavigator = createSwitchNavigator( 
   {

@@ -1,23 +1,24 @@
 import React from 'react'
 import AuthLoadingScreen from '../components/AuthLoadingScreen'
+import withAuth from '../HOC/withAuth'
 import { connect } from 'react-redux'
 import { compose, lifecycle } from 'recompose'
 import { setUser } from '../actions'
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setUser: (user) => {
-      dispatch(setUser(user))
+    setUser: (userInfo) => {
+      dispatch(setUser(userInfo))
     },
-    emitUser: (socket, user) => {
-      dispatch(emitUser(socket, user))
+    emitUser: (socket, userInfo) => {
+      dispatch(emitUser(socket, userInfo))
     },
   }
 }
 
 const mapReduxStateToProps = (reduxState) => {
   return {
-    user: reduxState.user
+    userInfo: reduxState.userInfo
   }
 }
 
@@ -29,9 +30,9 @@ export default compose(
   withAuth,
   lifecycle({
     componentDidMount() {
-      const { socket, user } = this.props
-      this.props.setUser(user)
-      this.props.emitUser(socket, user)
+      const { socket, userInfo } = this.props
+      this.props.setUser(userInfo)
+      this.props.emitUser(socket, userInfo)
     },
   })
 )(AuthLoadingScreen)

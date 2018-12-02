@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Permissions, Notifications } from 'expo'
-import { emitTokenPushNotification } from './sockets'
+import { emitTokenPushNotification } from '../utils/sockets'
 
 export default (WrappedComponent) => {
   return class extends Component {

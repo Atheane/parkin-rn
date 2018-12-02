@@ -13,14 +13,11 @@ export default class extends Component {
     }
   }
 
-  _logOut = () => {
+  _logOut = async () => {
     const keys = ['ParkinUserInfo']
-    AsyncStorage.multiRemove( keys, (error) => {
-      if (error) { console.log(error) }
-    })
-    this.setState({userInfo: null})
-    alert("You are Logged out")
-    console.log("AsyncStorage is cleaning#################")
+    await AsyncStorage.clear()
+    this.setState({userInfo: null}) // to-do redux
+    this.props.navigation.navigate('Auth')
   }
 
   render() {

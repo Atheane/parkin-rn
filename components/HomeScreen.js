@@ -1,5 +1,5 @@
 import { Container, Header } from 'native-base'
-import { FooterNavigator } from '../components/FooterNavigator';
+import { FooterNavigator } from './FooterNavigator';
 
 export default (props) => {
   return (
