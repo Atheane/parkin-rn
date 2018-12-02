@@ -16,6 +16,7 @@ import AuthLoadingScreen from './screens/AuthLoadingScreen'
 import HomeScreen from './screens/HomeScreen'
 import ArrivalModal from './screens/ArrivalModal'
 import SignScreen from './screens/SignScreen'
+import ProfileScreen from './screens/ProfileScreen'
 import logProps from './utils/logProps'
 
 

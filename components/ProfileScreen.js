@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import { Image, AsyncStorage, StyleSheet } from 'react-native'
-import { Container, Header, Body, Button, Text } from 'native-base'
+import { Container, Body, Button, Text } from 'native-base'
 import { Row, Grid, Col } from 'react-native-easy-grid'
-import login from '../utils/login'
-import Loading from './Loading'
+import AuthLoadingScreen from './AuthLoadingScreen'
 
-export default class Profile extends Component {
+export default class extends Component {
   // console.log("In Profile, ScreenProps", screenProps)
   constructor(props) {
     super(props)
