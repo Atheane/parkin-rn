@@ -1,12 +1,7 @@
 import React from 'react'
 import { compose } from 'recompose'
 import importFont from './utils/importFont'
-import login from './utils/login'
-import { createStackNavigator } from 'react-navigation'
-import { MainStack } from './components/FooterNavigator'
-import ArrivalModal from './components/ArrivalModal'
-import Login from './components/Login'
-import { Container, Header } from 'native-base'
+import { createSwitchNavigator, createStackNavigator } from 'react-navigation'
 import { Provider as StoreProvider, connect } from 'react-redux'
 import { createStore, applyMiddleware, combineReducers, compose as reduxCompose } from 'redux'
 import reduxPromise from 'redux-promise'
@@ -17,28 +12,36 @@ import {
 } from 'react-navigation-redux-helpers'
 import appReducers from './reducers'
 import setupSocket from './sockets'
+import AuthLoadingScreen from './screens/AuthLoadingScreen'
+import HomeScreen from './screens/HomeScreen'
+import ArrivalModal from './screens/ArrivalModal'
+import SignScreen from './screens/SignScreen'
 import logProps from './utils/logProps'
 
-// Root Navigation
-const AppNavigator = createStackNavigator(
+
+
+const AppNavigator = createSwitchNavigator( 
   {
-    Main: {
-      screen: MainStack,
-    },
-    Modal: {
-      screen: ArrivalModal,
-    },
-    Login: {
-      screen: LoginPage
-    }
+    AuthLoading: AuthLoadingScreen,
+    Auth: createStackNavigator({ Sign: SignScreen }),
+    App: createStackNavigator(
+      { 
+        Main: createStackNavigator({
+          Home: HomeScreen, 
+          Profile: ProfileScreen,
+        }),
+        Modal: ArrivalModal,
+      },
+      {
+        mode: 'modal',
+        headerMode: 'none',
+      }
+    ),
   },
   {
-    mode: 'modal',
-    headerMode: 'none',
+    initialRouteName: 'AuthLoading',
   }
 )
-
-// const Root = createAppContainer(RootStack)
 
 const navReducer = createNavigationReducer(AppNavigator)
 
@@ -61,7 +64,6 @@ const App = reduxifyNavigator(AppNavigator, "root")
 
 const AppWithNavigationState = compose(
   importFont,                   
-  login,
   connect(mapStateToProps),
   logProps,
 )(App)
@@ -92,17 +94,12 @@ const store = createStore(
 
 const socket = setupSocket(store.dispatch)
 
-export default class extends React.Component {
-  render() {
-    return (
-      <StoreProvider store={store} socket={socket}>
-        <Container>
-          <Header />
-          <AppWithNavigationState socket={socket} />
-        </Container>
-      </StoreProvider>
-    );
-  }
+export default () => {
+  return (
+    <StoreProvider store={store} >
+      <AppWithNavigationState socket={socket} />
+    </StoreProvider>
+  )
 }
 
 // to-do: proper logout with https://github.com/react-navigation/react-navigation/issues/1979

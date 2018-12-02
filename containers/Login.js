@@ -1,7 +1,7 @@
 import React from 'react'
 import Login from '../components/Login'
 import { connect } from 'react-redux'
-import { compose, lifecycle, withHandlers } from 'recompose'
+import { compose, lifecycle, withHandlers, branch } from 'recompose'
 import { setUser } from '../actions'
 import { getUserFromStorage } from '../utils/localStorageManager'
 import { getUserFromFacebook } from '../utils/authFacebook'
@@ -45,4 +45,4 @@ export default compose(
       this.props.emitUser(socket, user)
     },
   })
-)()
+)(Login)
