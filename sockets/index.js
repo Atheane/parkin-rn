@@ -1,8 +1,5 @@
 import socketIOClient from 'socket.io-client'
-import * as types from '../constants/ActionTypes'
-import { EVENT_LISTENERS } from '../constants/EventListeners'
-
-import { setConnection, getSpots } from '../actions'
+import { setSocket } from '../actions/socket'
 
 const endpoint = "http://localhost:3000"
 
@@ -12,7 +9,7 @@ export default (dispatch) => {
   
   socket.on('connect', () => {
     console.log(socket.id, ' is connected')
-    dispatch(setConnection(socket.id))
+    dispatch(setSocket(socket.id))
     socket.on('disconnect', () => {
       console.log(socket.id, ' is disconnected')
       socket.on('reconnect', (attemptNumber) => {
@@ -25,11 +22,11 @@ export default (dispatch) => {
     console.log(err)
   })
 
-  // socket.on("GET_SPOTS", (data) => {
+  // socket.on("ON_SPOTS", (data) => {
   //   console.log("<3 <3 <3 <3 <3 <3, data")
   //   console.log(data)
   //   if (event === types.GET_SPOTS) {
-  //     dispatch(getSpots(data))
+  //     dispatch(onSpots(data))
   //   }
   // })
 

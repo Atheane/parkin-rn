@@ -2,7 +2,7 @@ import React from 'react'
 import Map from '../components/Map'
 import { connect } from 'react-redux'
 import { compose, lifecycle } from 'recompose'
-import { setPosition } from '../actions'
+import { setPosition } from '../actions/app'
 
 const mapDispatchToProps = (dispatch) => {
   return {

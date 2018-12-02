@@ -1,4 +1,5 @@
 import React from 'react'
+import { Text } from 'react-native'
 import { compose } from 'recompose'
 import importFont from './HOC/importFont'
 import { createSwitchNavigator, createStackNavigator } from 'react-navigation'
@@ -10,13 +11,17 @@ import {
   createReactNavigationReduxMiddleware,
   createNavigationReducer,
 } from 'react-navigation-redux-helpers'
-import appReducers from './reducers'
+
+import appReducer from './reducers/appReducer'
+import socketReducer from './reducers/socketReducer'
+
 import setupSocket from './sockets'
+
 import AuthLoadingScreen from './containers/AuthLoadingScreen'
 import HomeScreen from './components/HomeScreen'
 import ArrivalModal from './components/ArrivalModal'
 import SignScreen from './components/SignScreen'
-import ProfileScreen from './components/ProfileScreen'
+
 import logProps from './HOC/logProps'
 
 const AppNavigator = createSwitchNavigator( 
@@ -42,13 +47,14 @@ const AppNavigator = createSwitchNavigator(
 const navReducer = createNavigationReducer(AppNavigator)
 
 const reducers = combineReducers({
-  app: appReducers,
-  nav: navReducer
+  app: appReducer,
+  socket: socketReducer,
+  nav: navReducer,
 })
 
 // Note: createReactNavigationReduxMiddleware must be run before reduxifyNavigator
 const navigationMiddleware = createReactNavigationReduxMiddleware(
-  "root",
+  "root",                   // unique store id, useful if several store, must be consistent with reduxifyNavogator
   state => state.nav,
 )
 
@@ -59,24 +65,20 @@ const mapStateToProps = (state) => ({
 const App = reduxifyNavigator(AppNavigator, "root")
 
 const AppWithNavigationState = compose(
-  importFont,                   
   connect(mapStateToProps),
-  logProps,
+  importFont,                   
 )(App)
+
+// const AppWithNavigationState = connect(mapStateToProps)(App)
 
 // composing redux middleWares in React Native
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || reduxCompose
 // https://redux-observable.js.org/docs/basics/SettingUpTheMiddleware.html
 
 const INITIAL_STATE = {
-  app: {
-    socketId: '',
-    userInfo: {},
-    userPosition: {},
-    spots: [],
-    userEmitted: true
-  },
-  nav: null
+  app: {},
+  socket: {},
+  nav: null,
 }
 
 // reduxStore
@@ -88,12 +90,12 @@ const store = createStore(
   )
 )
 
-const socket = setupSocket(store.dispatch)
+const socket = setupSocket(store.dispatch) // we pass dispatch to
 
 export default () => {
   return (
     <StoreProvider store={store} >
-      <AppWithNavigationState socket={socket} />
+      <AppWithNavigationState socket={socket}/>   
     </StoreProvider>
   )
 }

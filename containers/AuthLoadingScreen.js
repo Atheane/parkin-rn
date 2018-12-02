@@ -3,7 +3,7 @@ import AuthLoadingScreen from '../components/AuthLoadingScreen'
 import withAsyncStorage from '../HOC/withAsyncStorage'
 import { connect } from 'react-redux'
 import { compose, lifecycle } from 'recompose'
-import { setUserInfo, logUser, emitUserInfo} from '../actions'
+import { setUserInfo, logUser, emitUserInfo} from '../actions/app'
 
 const mapDispatchToProps = (dispatch) => {
   return {
