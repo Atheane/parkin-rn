@@ -6,7 +6,7 @@ import { createStackNavigator, createAppContainer } from 'react-navigation'
 import { MainStack } from './components/FooterNavigator'
 import ArrivalModal from './components/ArrivalModal'
 import { Container, Header } from 'native-base'
-import { Provider as StoreProvider } from 'react-redux'
+import { Provider as StoreProvider, connect } from 'react-redux'
 import { createStore, applyMiddleware, combineReducers, compose as reduxCompose } from 'redux'
 import reduxPromise from 'redux-promise'
 import {
@@ -19,7 +19,7 @@ import setupSocket from './sockets'
 
 
 // Root Navigation
-const RootStack = createStackNavigator(
+const AppNavigator = createStackNavigator(
   {
     Main: {
       screen: MainStack,
@@ -36,12 +36,29 @@ const RootStack = createStackNavigator(
 
 // const Root = createAppContainer(RootStack)
 
-const navReducer = createNavigationReducer(RootStack);
+const navReducer = createNavigationReducer(AppNavigator);
 
 const reducers = combineReducers({
   app: appReducers,
   nav: navReducer
 })
+
+// Note: createReactNavigationReduxMiddleware must be run before reduxifyNavigator
+const navigationMiddleware = createReactNavigationReduxMiddleware(
+  "root",
+  state => state.nav,
+)
+
+const App = reduxifyNavigator(AppNavigator, "root")
+
+const mapStateToProps = (state) => ({
+  state: state.nav,
+});
+const AppWithNavigationState = compose(
+  connect(mapStateToProps),
+  importFont,                   
+  login,
+)(App)
 
 // composing redux middleWares in React Native
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || reduxCompose
@@ -50,41 +67,25 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || reduxCom
 // reduxStore
 const store = createStore(
   reducers, 
-  {}, 
   composeEnhancers(
-    applyMiddleware(reduxPromise)
+    applyMiddleware(reduxPromise, navigationMiddleware)
   )
 )
 
 const socket = setupSocket(store.dispatch)
 
-export default () => {
-  return (
-    <StoreProvider store={store} socket={socket}>
-      <AppContainer socket={socket} />
-    </StoreProvider>
-  )
-}
-
-const AppContainer = compose(
-  importFont,                   
-  login, 
-  // notify,
-)(
-  (props) => {
+class Root extends React.Component {
+  render() {
     return (
-      <Container>
-        <Header />
-        <Root {...props} />
-      </Container>
-    )
+      <StoreProvider store={store} socket={socket}>
+        <Container>
+          <Header />
+          <AppWithNavigationState socket={socket}/>
+        </Container>
+      </StoreProvider>
+    );
   }
-)
-
-
-
-
-
+}
 
 // to-do: proper logout with https://github.com/react-navigation/react-navigation/issues/1979
 // solution de jeserodz
