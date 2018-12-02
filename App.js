@@ -7,10 +7,41 @@ import { MainStack } from './components/FooterNavigator'
 import ArrivalModal from './components/ArrivalModal'
 import { Container, Header } from 'native-base'
 import { Provider as StoreProvider } from 'react-redux'
-import { createStore, applyMiddleware, compose as reduxCompose } from 'redux'
+import { createStore, applyMiddleware, combineReducers, compose as reduxCompose } from 'redux'
 import reduxPromise from 'redux-promise'
-import reducers from './reducers'
+import {
+  reduxifyNavigator,
+  createReactNavigationReduxMiddleware,
+  createNavigationReducer,
+} from 'react-navigation-redux-helpers'
+import appReducers from './reducers'
 import setupSocket from './sockets'
+
+
+// Root Navigation
+const RootStack = createStackNavigator(
+  {
+    Main: {
+      screen: MainStack,
+    },
+    Modal: {
+      screen: ArrivalModal,
+    },
+  },
+  {
+    mode: 'modal',
+    headerMode: 'none',
+  }
+)
+
+// const Root = createAppContainer(RootStack)
+
+const navReducer = createNavigationReducer(RootStack);
+
+const reducers = combineReducers({
+  app: appReducers,
+  nav: navReducer
+})
 
 // composing redux middleWares in React Native
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || reduxCompose
@@ -50,23 +81,8 @@ const AppContainer = compose(
   }
 )
 
-// Root Navigation
-const RootStack = createStackNavigator(
-  {
-    Main: {
-      screen: MainStack,
-    },
-    Modal: {
-      screen: ArrivalModal,
-    },
-  },
-  {
-    mode: 'modal',
-    headerMode: 'none',
-  }
-)
 
-const Root = createAppContainer(RootStack)
+
 
 
 
