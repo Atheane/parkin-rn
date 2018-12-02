@@ -10,17 +10,24 @@ export const setConnection = (socketId) => {
   }
 }
 
-export const setUser = (user) => {
+export const setUserInfo = (userInfo) => {
   return {
-    type: types.SET_USER,
-    payload: user
+    type: types.SET_USERINFO,
+    payload: userInfo
   }
 }
 
-export const emitUser = (socket, user) => {
-  socket.emit('EMIT_USER', user)
+export const logUser = (isUserLogged) => {
   return {
-    type: types.SET_USER,
+    type: types.LOG_USER,
+    payload: isUserLogged
+  }
+}
+
+export const emitUserInfo = (socket, userInfo) => {
+  socket.emit('EMIT_USERINFO', userInfo)
+  return {
+    type: types.EMIT_USERINFO,
     payload: true
   }
 }

@@ -6,7 +6,7 @@ export default (WrappedComponent) => {
     constructor(props) {
       super(props)
       this.state = {
-        userInfo: null
+        userInfo: null,
       }
     }
 
@@ -15,7 +15,6 @@ export default (WrappedComponent) => {
       const userInfo = JSON.parse(unparsedUserInfo)
       // This will switch to the App screen or Auth screen and this loading
       // screen will be unmounted and thrown away.
-      this.props.navigation.navigate(userInfo ? 'App' : 'Auth')
       this.setState({ userInfo }, () => console.log("userInfo in withAuth state"))
     }
 

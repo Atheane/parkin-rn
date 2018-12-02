@@ -1,17 +1,18 @@
 import React from 'react'
 import AuthLoadingScreen from '../components/AuthLoadingScreen'
-import withAuth from '../HOC/withAuth'
+import withAsyncStorage from '../HOC/withAsyncStorage'
 import { connect } from 'react-redux'
 import { compose, lifecycle } from 'recompose'
-import { setUser } from '../actions'
+import { setUserInfo, logUser, emitUserInfo} from '../actions'
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setUser: (userInfo) => {
-      dispatch(setUser(userInfo))
+    setUser: (userInfo, isUserLogged) => {
+      dispatch(setUserInfo(userInfo))
+      dispatch(logUser(isUserLogged))
     },
-    emitUser: (socket, userInfo) => {
-      dispatch(emitUser(socket, userInfo))
+    emitUserInfo: (socket, userInfo) => {
+      dispatch(emitUserInfo(socket, userInfo))
     },
   }
 }
@@ -27,12 +28,14 @@ export default compose(
     mapReduxStateToProps, 
     mapDispatchToProps
   ),
-  withAuth,
+  withAsyncStorage,  
   lifecycle({
     componentDidMount() {
       const { socket, userInfo } = this.props
-      this.props.setUser(userInfo)
-      this.props.emitUser(socket, userInfo)
+      const isUserLogged = (userInfo)
+      this.props.setUser(userInfo, isUserLogged)
+      this.props.emitUserInfo(socket, userInfo)
+      this.props.navigation.navigate(isUserLogged ? 'App' : 'Auth')
     },
   })
 )(AuthLoadingScreen)

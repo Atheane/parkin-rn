@@ -12,7 +12,7 @@ import {
 } from 'react-navigation-redux-helpers'
 import appReducers from './reducers'
 import setupSocket from './sockets'
-import AuthLoadingScreen from './components/AuthLoadingScreen'
+import AuthLoadingScreen from './containers/AuthLoadingScreen'
 import HomeScreen from './components/HomeScreen'
 import ArrivalModal from './components/ArrivalModal'
 import SignScreen from './components/SignScreen'
