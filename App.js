@@ -25,10 +25,7 @@ const AppNavigator = createSwitchNavigator(
     Auth: createStackNavigator({ Sign: SignScreen }),
     App: createStackNavigator(
       { 
-        Main: createStackNavigator({
-          Home: HomeScreen, 
-          Profile: ProfileScreen,
-        }),
+        Home: HomeScreen,
         Modal: ArrivalModal,
       },
       {
