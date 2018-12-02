@@ -29,10 +29,10 @@ export default compose(
     mapReduxStateToProps, 
     mapDispatchToProps
   ),
-  branch(
+  branch(                              // flow: if userInfo not in AsyncStorage, render Login component
     () => !(getUserFromStorage()),
-    withHandlers({
-      handlePressAsync: props => {
+    withHandlers({                    // In Login component, if press on SignIn, auth with Facebook connect  
+      handlePressAsync: props => {    // and store data in AsyncStorage
         getUserFromFacebook()
       },
     })(Login)
