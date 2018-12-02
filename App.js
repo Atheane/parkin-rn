@@ -36,7 +36,7 @@ const AppNavigator = createStackNavigator(
 
 // const Root = createAppContainer(RootStack)
 
-const navReducer = createNavigationReducer(AppNavigator);
+const navReducer = createNavigationReducer(AppNavigator)
 
 const reducers = combineReducers({
   app: appReducers,
@@ -49,11 +49,12 @@ const navigationMiddleware = createReactNavigationReduxMiddleware(
   state => state.nav,
 )
 
-const App = reduxifyNavigator(AppNavigator, "root")
-
 const mapStateToProps = (state) => ({
   state: state.nav,
-});
+})
+
+const App = reduxifyNavigator(AppNavigator, "root")
+
 const AppWithNavigationState = compose(
   connect(mapStateToProps),
   importFont,                   
@@ -74,7 +75,7 @@ const store = createStore(
 
 const socket = setupSocket(store.dispatch)
 
-class Root extends React.Component {
+export default class extends React.Component {
   render() {
     return (
       <StoreProvider store={store} socket={socket}>
