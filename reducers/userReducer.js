@@ -7,7 +7,7 @@ export default (currentState = null, action) => {
   switch (action.type) {
     case types.SET_USERDATA:
       console.log("in types.SET_USER, action.payload",
-      {...currentState, userInfo: action.payload })
+      {...currentState, facebookJson: action.payload })
       return {...currentState, facebookJson: action.payload }
     case types.LOG_USER:
       console.log("in types.LOG_USER, action.payload", 

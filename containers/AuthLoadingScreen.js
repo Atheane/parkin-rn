@@ -1,8 +1,12 @@
 import React from 'react'
-import AuthLoadingScreen from '../components/AuthLoadingScreen'
-import withAsyncStorage from '../HOC/withAsyncStorage'
+
 import { connect } from 'react-redux'
 import { compose, lifecycle } from 'recompose'
+import { NavigationActions } from 'react-navigation'
+
+import AuthLoadingScreen from '../components/AuthLoadingScreen'
+import withAsyncStorage from '../HOC/withAsyncStorage'
+
 import { setUserData, logUser } from '../actions/user'
 import { emitUserData } from '../actions/socket'
 
@@ -15,13 +19,19 @@ const mapDispatchToProps = (dispatch) => {
     emitUserData: (socket, facebookJson) => {
       dispatch(emitUserData(socket, facebookJson))
     },
+    navigateToAuth: () => {
+      dispatch(NavigationActions.navigate({routeName: 'Auth'}))
+    },
+    navigateToMain: () => {
+      dispatch(NavigationActions.navigate({routeName: 'Main'}))
+    },    
   }
 }
 
 const mapReduxStateToProps = (reduxState) => {
   return {
-    user: reduxState.user,
     socket: reduxState.socket,
+    nav: reduxState.nav
   }
 }
 
@@ -34,15 +44,20 @@ export default compose(
   lifecycle({
     componentDidMount() {
       const { socket } = this.props
-      const facebookJson = this.props.loadFromStorage('ParkinUserInfo')
-      const emptyAsyncStorage = (facebookJson === null)
-      if (!emptyAsyncStorage) {
-        this.props.setUser(facebookJson, emptyAsyncStorage)
-        this.props.emitUserData(socket, facebookJson)
-        this.props.navigation.navigate('App')
-      } else {
-        this.props.navigation.navigate('Auth')
-      }
+      this.props.loadFromStorage('ParkinUserInfo').then(
+        facebookJson => {
+          const emptyAsyncStorage = (facebookJson === null)
+          if (emptyAsyncStorage) {
+            this.props.navigateToAuth()
+          } else {
+            this.props.setUser(facebookJson, emptyAsyncStorage)
+            this.props.emitUserData(socket, facebookJson)
+            // this.props.navigation.navigate('Home')
+            this.props.navigateToMain()
+          }
+        } 
+      ).catch(error => console.log(error))
+
     },
     componentWillUnmount() {
       console.log("Component AuthLoadingScreen.js unmounting")

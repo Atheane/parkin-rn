@@ -1,5 +1,4 @@
 import React from 'react'
-import { Text } from 'react-native'
 import { compose } from 'recompose'
 import importFont from './HOC/importFont'
 import { createStackNavigator } from 'react-navigation'
@@ -22,23 +21,26 @@ import AuthLoadingScreen from './containers/AuthLoadingScreen'
 import HomeScreen from './components/HomeScreen'
 import ArrivalModal from './components/ArrivalModal'
 import SignScreen from './containers/SignScreen'
+import { FooterNavigator } from './components/FooterNavigator'
 
 import logProps from './HOC/logProps'
+
+const MainNavigator = createStackNavigator(
+  { 
+    Home: FooterNavigator,  //caereful, not HomeScreen, https://reactnavigation.org/docs/en/common-mistakes.html
+    Modal: ArrivalModal,
+  },
+  {
+    mode: 'modal',
+    headerMode: 'none',
+  }
+)
 
 const AppNavigator = createStackNavigator( 
   {
     AuthLoading: AuthLoadingScreen,
-    Auth: createStackNavigator({ Sign: SignScreen }),
-    App: createStackNavigator(
-      { 
-        Home: HomeScreen,
-        Modal: ArrivalModal,
-      },
-      {
-        mode: 'modal',
-        headerMode: 'none',
-      }
-    ),
+    Auth: SignScreen,
+    Main: MainNavigator,
   },
   {
     initialRouteName: 'AuthLoading',

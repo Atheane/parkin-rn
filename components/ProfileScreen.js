@@ -17,7 +17,7 @@ export default class extends Component {
     const keys = ['ParkinUserInfo']
     await AsyncStorage.clear()
     this.setState({userInfo: null}) // to-do redux
-    this.props.navigation.navigate('Auth')
+    // this.props.navigation.navigate('Auth')
   }
 
   render() {

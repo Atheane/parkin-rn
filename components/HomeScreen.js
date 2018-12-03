@@ -3,10 +3,11 @@ import { Container, Header } from 'native-base'
 import { FooterNavigator } from './FooterNavigator';
 
 export default (props) => {
+
   return (
     <Container>
       <Header />
-      <FooterNavigator />
+      <FooterNavigator navigation={props.navigation}/>
     </Container>
   )
 }
