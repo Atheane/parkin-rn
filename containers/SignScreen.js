@@ -3,19 +3,19 @@ import { connect } from 'react-redux'
 import { compose, withHandlers, lifecycle } from 'recompose'
 import { AsyncStorage } from 'react-native'
 
-import { setUser, logUser } from '../actions/user'
-import { emitUser } from '../actions/socket'
+import { setUserData, logUser } from '../actions/user'
+import { emitUserData } from '../actions/socket'
 import withFacebookAuth from '../HOC/withFacebookAuth';
 import SignScreen from '../components/SignScreen'
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setUser: (user, isUserLogged) => {
-      dispatch(setUser(user))
-      dispatch(logUser(isUserLogged))
+    setUser: (facebookJson, firstConnection) => {
+      dispatch(setUserData(facebookJson))
+      dispatch(logUser(firstConnection))
     },
-    emitUserInfo: (socket, user) => {
-      dispatch(emitUser(socket, user))
+    emitUserData: (socket, facebookJson) => {
+      dispatch(emitUserData(socket, facebookJson))
     },
   }
 }
@@ -24,15 +24,14 @@ const mapReduxStateToProps = (reduxState) => {
   return {
     user: reduxState.user,
     socket: reduxState.socket,
-    nav: reduxState.nav
   }
 }
 
-const setUserToStorage = async (user) => {
+const setUserToStorage = async (facebookJson) => {
   console.log("In withAsyncStorage")
-  console.log("In setUserToStorage", user)
+  console.log("In setUserToStorage", facebookJson)
   try {
-    await AsyncStorage.setItem('ParkinUserInfo', JSON.stringify(user))
+    await AsyncStorage.setItem('ParkinUserInfo', JSON.stringify(facebookJson))
   } catch (error) {
     console.log({errorMessage: error, component: "withAsyncStorage.js" })
   }
@@ -44,28 +43,29 @@ export default compose(
     mapDispatchToProps
   ),
   withFacebookAuth,
+  lifecycle({
+    UNSAFE_componentWillReceiveProps(nextProps) {  //to-do replace with getDerivedStateFromProps
+      const { socket, user } = this.props
+      console.log("SignScreen, componentWillReceiveProps, user:", user)
+      console.log("SignScreen, componentWillReceiveProps, nextProps.user:", nextProps.user)
+
+      if (nextProps.user !== user) {
+        const firstConnection = (user === null)
+
+        if (firstConnection) {
+          setUserToStorage(nextProps.user.facebookJson)
+          this.props.setUser(nextProps.user.facebookJson, firstConnection)
+          this.props.emitUserData(socket, nextProps.user.facebookJson)
+          this.props.navigation.navigate('App')
+        } else {
+          this.props.navigation.navigate('Auth')
+        }
+      }
+    }
+  }),
   withHandlers({ 
     handleOnPress: props => event => {
       props.getUserFromFacebook()
-    }
-  }),
-  lifecycle({
-    componentDidMount() {
-      const { socket, user } = this.props
-      const isUserLogged = !(user === null)
-      if (isUserLogged) {
-        setUserToStorage(user)
-        this.props.setUser(user, isUserLogged)
-        this.props.emitUser(socket, user)
-        this.props.navigation.navigate('App')
-      } else {
-        this.props.navigation.navigate('Auth')
-      }
-    },
-    componentWillUnmount() {
-      console.log("Component AuthLoadingScreen.js unmounting")
-      // Can't perform a React state update on an unmounted componen.
-      // To fix this cancel all subscriptions and asynchronous tasks in the componentWillUnmount method
     }
   })
 )(SignScreen)

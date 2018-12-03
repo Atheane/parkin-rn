@@ -1,6 +1,6 @@
 // app actions
 export const LOG_USER = 'LOG_USER'
-export const SET_USER = 'SET_USER'
+export const SET_USERDATA = 'SET_USERDATA'
 export const SET_POSITION = 'SET_POSITION' 
 export const SET_SPOTS = 'SET_SPOTS' //to-do
 

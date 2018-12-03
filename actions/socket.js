@@ -10,10 +10,10 @@ export const setSocket = (socket) => {
   }
 }
 
-export const emitUser = (socket, user) => {
-  socket.emit('EMIT_USER', user)
+export const emitUserData = (socket, facebookJson) => {
+  socket.emit('EMIT_USERDATA', facebookJson)
   return {
-    type: types.EMIT_USER,
+    type: types.EMIT_USERDATA,
     payload: true
   }
 }

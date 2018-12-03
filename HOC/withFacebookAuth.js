@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import { AuthSession } from 'expo'
+import { FB_APP_ID } from '../constants/FacebookId'
 
 export default (WrappedComponent) => {
   return class extends Component {
     constructor(props) {
       super(props)
       this.state = {
-        userInfo: null,
+        facebookJson: null,
       }
     }
 
@@ -40,8 +41,8 @@ export default (WrappedComponent) => {
       let userInfoResponse = await fetch(
         `https://graph.facebook.com/me?access_token=${accessToken}&fields=id,name,picture.type(large)`
       )
-      const userInfo = await userInfoResponse.json()
-      this.setState({ userInfo }, () => console.log("userInfo in withFacebookAuth state"))
+      const facebookJson = await userInfoResponse.json()
+      this.setState({ facebookJson }, () => console.log("facebookJson in withFacebookAuth state, facebookJson:", facebookJson))
     }
 
     render() {

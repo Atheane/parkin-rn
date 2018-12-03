@@ -3,17 +3,17 @@ import AuthLoadingScreen from '../components/AuthLoadingScreen'
 import withAsyncStorage from '../HOC/withAsyncStorage'
 import { connect } from 'react-redux'
 import { compose, lifecycle } from 'recompose'
-import { setUser, logUser } from '../actions/user'
-import { emitUser } from '../actions/socket'
+import { setUserData, logUser } from '../actions/user'
+import { emitUserData } from '../actions/socket'
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setUser: (userInfo, isUserLogged) => {
-      dispatch(setUser(userInfo))
-      dispatch(logUser(isUserLogged))
+    setUser: (facebookJson, firstConnection) => {
+      dispatch(setUserData(facebookJson))
+      dispatch(logUser(firstConnection))
     },
-    emitUser: (socket, userInfo) => {
-      dispatch(emitUser(socket, userInfo))
+    emitUserData: (socket, facebookJson) => {
+      dispatch(emitUserData(socket, facebookJson))
     },
   }
 }
@@ -22,7 +22,6 @@ const mapReduxStateToProps = (reduxState) => {
   return {
     user: reduxState.user,
     socket: reduxState.socket,
-    nav: reduxState.nav
   }
 }
 
@@ -35,10 +34,11 @@ export default compose(
   lifecycle({
     componentDidMount() {
       const { socket, user } = this.props
-      const isUserLogged = !(user === null)
-      if (isUserLogged) {
-        this.props.setUser(user, isUserLogged)
-        this.props.emitUser(socket, user)
+      
+      const firstConnection = (user === null)
+      if (!firstConnection) {
+        this.props.setUser(user.facebookJson, firstConnection)
+        this.props.emitUserData(socket, user.facebookJson)
         this.props.navigation.navigate('App')
       } else {
         this.props.navigation.navigate('Auth')

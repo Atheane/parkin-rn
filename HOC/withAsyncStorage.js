@@ -6,17 +6,17 @@ export default (WrappedComponent) => {
     constructor(props) {
       super(props)
       this.state = {
-        userInfo: null,
+        facebookJson: null,
       }
       this.getUserFromStorage()
     }
 
     getUserFromStorage = async () => {
       const unparsedUserInfo = await AsyncStorage.getItem('ParkinUserInfo')
-      const userInfo = JSON.parse(unparsedUserInfo)
+      const facebookJson = JSON.parse(unparsedUserInfo)
       // This will switch to the App screen or Auth screen and this loading
       // screen will be unmounted and thrown away.
-      this.setState({ userInfo }, () => console.log("userInfo in withAsyncStorage state"))
+      this.setState({ facebookJson }, () => console.log("facebookJson in withAsyncStorage state"))
     }
 
     render() {
