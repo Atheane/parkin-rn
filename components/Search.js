@@ -7,7 +7,8 @@ import {
 } from 'react-native'
 import Map from '../containers/Map'
 
-const Search = (props) => {
+const Search = ({screenProps}) => {
+  debugger
   // console.log(">>>>>>>>>>>>>>>>> In Search.js, SearchUI")
   // console.log("spots", spots)
   // console.log("userPosition", userPosition)
@@ -16,13 +17,13 @@ const Search = (props) => {
   if (Platform.OS === 'ios') {
     display = (
       <SafeAreaView style={styles.container}>
-        <Map {...props} />
+        <Map {...screenProps} />
       </SafeAreaView>
     )
   } else {
     display = (
       <View style={styles.container}>
-        <Map {...props} />
+        <Map {...screenProps} />
       </View>
     )
   }

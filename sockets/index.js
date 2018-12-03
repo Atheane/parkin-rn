@@ -9,7 +9,9 @@ export default (dispatch) => {
   
   socket.on('connect', () => {
     console.log(socket.id, ' is connected')
-    dispatch(setSocket(socket.id))
+    console.log("setSocket action for socket", socket)
+    dispatch(setSocket(socket))
+
     socket.on('disconnect', () => {
       console.log(socket.id, ' is disconnected')
       socket.on('reconnect', (attemptNumber) => {

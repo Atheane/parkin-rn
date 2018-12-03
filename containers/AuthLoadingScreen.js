@@ -3,7 +3,8 @@ import AuthLoadingScreen from '../components/AuthLoadingScreen'
 import withAsyncStorage from '../HOC/withAsyncStorage'
 import { connect } from 'react-redux'
 import { compose, lifecycle } from 'recompose'
-import { setUserInfo, logUser, emitUserInfo} from '../actions/app'
+import { setUserInfo, logUser } from '../actions/app'
+import { emitUserInfo } from '../actions/socket'
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -19,7 +20,8 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapReduxStateToProps = (reduxState) => {
   return {
-    userInfo: reduxState.userInfo
+    userInfo: reduxState.userInfo,
+    socket: reduxState.socket
   }
 }
 
