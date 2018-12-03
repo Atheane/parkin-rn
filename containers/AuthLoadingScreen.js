@@ -8,9 +8,9 @@ import { emitUserData } from '../actions/socket'
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setUser: (facebookJson, firstConnection) => {
+    setUser: (facebookJson, emptyAsyncStorage) => {
       dispatch(setUserData(facebookJson))
-      dispatch(logUser(firstConnection))
+      dispatch(logUser(emptyAsyncStorage))
     },
     emitUserData: (socket, facebookJson) => {
       dispatch(emitUserData(socket, facebookJson))
@@ -33,12 +33,12 @@ export default compose(
   withAsyncStorage,  
   lifecycle({
     componentDidMount() {
-      const { socket, user } = this.props
-      
-      const firstConnection = (user === null)
-      if (!firstConnection) {
-        this.props.setUser(user.facebookJson, firstConnection)
-        this.props.emitUserData(socket, user.facebookJson)
+      const { socket } = this.props
+      const facebookJson = this.props.loadFromStorage('ParkinUserInfo')
+      const emptyAsyncStorage = (facebookJson === null)
+      if (!emptyAsyncStorage) {
+        this.props.setUser(facebookJson, emptyAsyncStorage)
+        this.props.emitUserData(socket, facebookJson)
         this.props.navigation.navigate('App')
       } else {
         this.props.navigation.navigate('Auth')

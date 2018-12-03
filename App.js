@@ -95,12 +95,12 @@ const store = createStore(
   )
 )
 
-const socket = setupSocket(store.dispatch) // we pass dispatch to
+setupSocket(store.dispatch)
 
 export default () => {
   return (
     <StoreProvider store={store} >
-      <AppWithNavigationState socket={socket}/>   
+      <AppWithNavigationState />   
     </StoreProvider>
   )
 }

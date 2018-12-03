@@ -14,6 +14,6 @@ export const SET_SOCKET = 'SET_SOCKET'
 // socket events listeners
 export const ON_SPOTS = 'ON_SPOTS' //to-do
 // sockets events emitters
-export const EMIT_USER = 'EMIT_USER' //doing
+export const EMIT_USERDATA = 'EMIT_USERDATA' //doing
 export const EMIT_POSITION = 'EMIT_POSITION' //to-do
 export const EMIT_SPOT = 'EMIT_SPOT' //to-do

@@ -11,8 +11,8 @@ export default (currentState = null, action) => {
       return {...currentState, facebookJson: action.payload }
     case types.LOG_USER:
       console.log("in types.LOG_USER, action.payload", 
-      {...currentState, firstConnection: action.payload })
-      return {...currentState, firstConnection: action.payload }  
+      {...currentState, emptyAsyncStorage: action.payload })
+      return {...currentState, emptyAsyncStorage: action.payload }  
     default:
       console.log("in default, currentState", currentState)
       return currentState
