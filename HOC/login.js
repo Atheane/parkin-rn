@@ -94,7 +94,6 @@ export default (WrappedComponent) => {
       } else {
         return (
           <Container>
-            <Header />
             <Grid style={styles.background}>
               <Row size={2}>
                 <Body>

@@ -6,7 +6,6 @@ import { Col, Row, Grid } from 'react-native-easy-grid'
 export default (props) => {
   return (
     <Container>
-      <Header />
       <Grid style={styles.background}>
         <Row size={2}>
           <Body>

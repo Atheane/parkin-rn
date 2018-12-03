@@ -8,7 +8,6 @@ import {
 import Map from '../containers/Map'
 
 const Search = ({screenProps}) => {
-  debugger
   // console.log(">>>>>>>>>>>>>>>>> In Search.js, SearchUI")
   // console.log("spots", spots)
   // console.log("userPosition", userPosition)
