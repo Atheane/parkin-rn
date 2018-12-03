@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Loading from '../components/SimpleLoadingScreen'
+import { AsyncStorage } from 'react-native'
 
 export default (WrappedComponent) => {
   return class extends Component {
@@ -8,6 +8,7 @@ export default (WrappedComponent) => {
       this.state = {
         userInfo: null,
       }
+      this.getUserFromStorage()
     }
 
     getUserFromStorage = async () => {
@@ -15,7 +16,7 @@ export default (WrappedComponent) => {
       const userInfo = JSON.parse(unparsedUserInfo)
       // This will switch to the App screen or Auth screen and this loading
       // screen will be unmounted and thrown away.
-      this.setState({ userInfo }, () => console.log("userInfo in withAuth state"))
+      this.setState({ userInfo }, () => console.log("userInfo in withAsyncStorage state"))
     }
 
     render() {

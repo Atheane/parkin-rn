@@ -2,7 +2,7 @@ import React from 'react'
 import Map from '../components/Map'
 import { connect } from 'react-redux'
 import { compose, lifecycle } from 'recompose'
-import { setPosition } from '../actions/app'
+import { setPosition } from '../actions/data'
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -14,7 +14,8 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapReduxStateToProps = (reduxState) => {
   return {
-    userPosition: reduxState.userPosition
+    data: reduxState.data.userPosition,
+    token: reduxState.user.id
   }
 }
 
@@ -25,7 +26,7 @@ export default compose(
   ),
   lifecycle({
     componentDidMount() {
-      const token = this.props.userInfo.id
+      const { token } = this.props
       this.props.setPosition(token)
     },
   })

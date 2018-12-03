@@ -12,7 +12,8 @@ import {
   createNavigationReducer,
 } from 'react-navigation-redux-helpers'
 
-import appReducer from './reducers/appReducer'
+import userReducer from './reducers/userReducer'
+import dataReducer from './reducers/dataReducer'
 import socketReducer from './reducers/socketReducer'
 
 import setupSocket from './sockets'
@@ -24,7 +25,7 @@ import SignScreen from './components/SignScreen'
 
 import logProps from './HOC/logProps'
 
-const AppNavigator = createSwitchNavigator( 
+const AppNavigator = createStackNavigator( 
   {
     AuthLoading: AuthLoadingScreen,
     Auth: createStackNavigator({ Sign: SignScreen }),
@@ -47,7 +48,8 @@ const AppNavigator = createSwitchNavigator(
 const navReducer = createNavigationReducer(AppNavigator)
 
 const reducers = combineReducers({
-  app: appReducer,
+  user: userReducer,
+  data: dataReducer,
   socket: socketReducer,
   nav: navReducer,
 })
@@ -76,8 +78,9 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || reduxCom
 // https://redux-observable.js.org/docs/basics/SettingUpTheMiddleware.html
 
 const INITIAL_STATE = {
-  app: {},
-  socket: {},
+  user: null,
+  data: null,
+  socket: null,
   nav: null,
 }
 

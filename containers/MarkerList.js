@@ -5,7 +5,7 @@ import { compose } from 'recompose'
 
 const mapReduxStateToProps = (reduxState) => {
   return {
-    spots: reduxState.spots
+    spots: reduxState.data.spots
   }
 }
 

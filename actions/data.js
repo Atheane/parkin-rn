@@ -3,20 +3,6 @@ import { Permissions, Location } from 'expo'
 import * as types from '../constants/ActionTypes'
 
 
-export const logUser = (isUserLogged) => {
-  return {
-    type: types.LOG_USER,
-    payload: isUserLogged
-  }
-}
-
-export const setUserInfo = (userInfo) => {
-  return {
-    type: types.SET_USERINFO,
-    payload: userInfo
-  }
-}
-
 export const setPosition = () => {
 
   const getLocationAsync = async () => {

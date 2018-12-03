@@ -1,12 +1,12 @@
 import * as types from '../constants/ActionTypes'
 
 export default (currentState = null, action) => {
-  console.log("socketReducer")
+  console.log("userReducer")
   console.log("action.type", action.type)
 
   switch (action.type) {
-    case types.SET_SOCKET:
-      console.log("in types.SET_SOCKET, action.payload", action.payload)
+    case types.SET_USER:
+      console.log("in types.SET_USER, action.payload", action.payload)
       return action.payload
     default:
       console.log("in default, currentState", currentState)

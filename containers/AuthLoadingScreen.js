@@ -3,25 +3,26 @@ import AuthLoadingScreen from '../components/AuthLoadingScreen'
 import withAsyncStorage from '../HOC/withAsyncStorage'
 import { connect } from 'react-redux'
 import { compose, lifecycle } from 'recompose'
-import { setUserInfo, logUser } from '../actions/app'
-import { emitUserInfo } from '../actions/socket'
+import { setUser, logUser } from '../actions/user'
+import { emitUser } from '../actions/socket'
 
 const mapDispatchToProps = (dispatch) => {
   return {
     setUser: (userInfo, isUserLogged) => {
-      dispatch(setUserInfo(userInfo))
+      dispatch(setUser(userInfo))
       dispatch(logUser(isUserLogged))
     },
-    emitUserInfo: (socket, userInfo) => {
-      dispatch(emitUserInfo(socket, userInfo))
+    emitUser: (socket, userInfo) => {
+      dispatch(emitUser(socket, userInfo))
     },
   }
 }
 
 const mapReduxStateToProps = (reduxState) => {
   return {
-    userInfo: reduxState.userInfo,
-    socket: reduxState.socket
+    user: reduxState.user,
+    socket: reduxState.socket,
+    nav: reduxState.nav
   }
 }
 
@@ -33,11 +34,18 @@ export default compose(
   withAsyncStorage,  
   lifecycle({
     componentDidMount() {
-      const { socket, userInfo } = this.props
-      const isUserLogged = (userInfo)
-      this.props.setUser(userInfo, isUserLogged)
-      this.props.emitUserInfo(socket, userInfo)
-      this.props.navigation.navigate(isUserLogged ? 'App' : 'Auth')
+      const { socket, user } = this.props
+      const isUserLogged = !(user === null)
+      if (isUserLogged) {
+        this.props.setUser(user, isUserLogged)
+        this.props.emitUser(socket, user)
+        this.props.navigation.navigate('App')
+      } else {
+        this.props.navigation.navigate('Auth')
+      }
     },
+    componentWillUnmount() {
+      console.log("Component AuthLoadingScreen.js unmounting")
+    }
   })
 )(AuthLoadingScreen)

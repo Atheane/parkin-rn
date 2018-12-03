@@ -1,6 +1,6 @@
 // app actions
 export const LOG_USER = 'LOG_USER'
-export const SET_USERINFO = 'SET_USERINFO'
+export const SET_USER = 'SET_USER'
 export const SET_POSITION = 'SET_POSITION' 
 export const SET_SPOTS = 'SET_SPOTS' //to-do
 
@@ -14,6 +14,6 @@ export const SET_SOCKET = 'SET_SOCKET'
 // socket events listeners
 export const ON_SPOTS = 'ON_SPOTS' //to-do
 // sockets events emitters
-export const EMIT_USERINFO = 'EMIT_USERINFO' //doing
+export const EMIT_USER = 'EMIT_USER' //doing
 export const EMIT_POSITION = 'EMIT_POSITION' //to-do
 export const EMIT_SPOT = 'EMIT_SPOT' //to-do

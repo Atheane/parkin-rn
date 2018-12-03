@@ -1,5 +1,4 @@
 
-import { Permissions, Location } from 'expo'
 import * as types from '../constants/ActionTypes'
 
 
@@ -11,10 +10,10 @@ export const setSocket = (socket) => {
   }
 }
 
-export const emitUserInfo = (socket, userInfo) => {
-  socket.emit('EMIT_USERINFO', userInfo)
+export const emitUser = (socket, user) => {
+  socket.emit('EMIT_USER', user)
   return {
-    type: types.EMIT_USERINFO,
+    type: types.EMIT_USER,
     payload: true
   }
 }
