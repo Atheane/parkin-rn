@@ -2,8 +2,7 @@ import socketIOClient from 'socket.io-client'
 import { setSocket, onSpots, onArrival } from '../actions'
 import { NavigationActions } from 'react-navigation'
 
-// const endpoint = "https://parkin-mesn.herokuapp.com"
-const endpoint = "http://localhost:3000"
+const endpoint = "https://parkin-mesn.herokuapp.com"
 
 export default (dispatch) => {
   console.log("in setupSocket")
