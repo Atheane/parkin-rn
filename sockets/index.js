@@ -1,5 +1,6 @@
 import socketIOClient from 'socket.io-client'
 import { setSocket, onSpots, onArrival } from '../actions'
+import { NavigationActions } from 'react-navigation'
 
 // const endpoint = "https://parkin-mesn.herokuapp.com"
 const endpoint = "http://localhost:3000"
@@ -34,6 +35,7 @@ export default (dispatch) => {
     console.log("<3 <3 <3 <3 <3 <3, ON_ARRIVAL data")
     console.log(data)
     dispatch(onArrival(data))
+    dispatch(NavigationActions.navigate({routeName: 'Modal'}))
   })
 
   return socket

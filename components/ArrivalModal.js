@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import { View } from "react-native"
 import Modal from "react-native-modal"
 import { onSpotNearMe } from '../utils/sockets'
-import CardModal from './ModalScreen'
+import CardModal from './CardModal'
 
 export default class extends Component {
   constructor(props) {
