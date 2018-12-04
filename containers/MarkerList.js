@@ -38,18 +38,13 @@ export default compose(
       const token = facebookJson.id
       const location = e.nativeEvent.coordinate
       props.emitSelectSpot(socket, location, token)
-      props.watchLocationAsync()
-      // props.setWatchId(watchId)
+      const watchId = props.watchLocationAsync()
+      props.setWatchId(watchId)
       props.handleGetDirections(e)
       e.persist()
     }
   }),
   lifecycle({
-    componentWillReceiveProps(nextProps) {
-      if (this.props.watchId) {
-        console.log(this.props.watchId)
-      }
-    },
     componentWillUnmount() {
       console.log("MarkerList will unmount")
       if (this.props.watchId) {
