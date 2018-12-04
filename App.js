@@ -17,13 +17,14 @@ import facebookJson from './reducers/facebookJson'
 import userPosition from './reducers/userPosition'
 import spots from './reducers/spots'
 import watchId from './reducers/watchId'
+import arrivalSpot from './reducers/arrivalSpot.js'
 
 import setupSocket from './sockets'
 import { INITIAL_STATE } from './constants/InitialReduxState'
 
 import AuthLoadingScreen from './containers/AuthLoadingScreen'
 import SignScreen from './containers/SignScreen'
-import ArrivalModal from './components/ArrivalModal'
+import { ModalScreen } from './components/ModalScreen'
 import LocationAuthScreen from './components/LocationAuthScreen'
 import { FooterNavigator } from './components/FooterNavigator'
 
@@ -37,7 +38,7 @@ const AppNavigator = createStackNavigator(
     Main: createStackNavigator(
       { 
         Home: FooterNavigator,  //careful, not HomeScreen, https://reactnavigation.org/docs/en/common-mistakes.html
-        Modal: ArrivalModal,
+        Modal: ModalScreen,
         LocationAuth: LocationAuthScreen
       },
       {
@@ -62,6 +63,7 @@ const reducers = combineReducers({
   userPosition,
   spots,
   watchId,
+  arrivalSpot,
   nav: navReducer,
 })
 
