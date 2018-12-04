@@ -68,13 +68,14 @@ export const setWatchId = (watchId) => {
   }
 }
 
-// export const emitMovingUserPosition = (socket, userPosition, token) => {
-//   socket.emit(types.EMIT_MOVINGUSERPOSITION, {userPosition, token})
-//   return {
-//     type: types.EMIT_MOVINGUSERPOSITION,
-//     payload: true
-//   }
-// }
+// EMIT_MOVINGUSERPOSITION in WithLocation. to-do find a way to bring it back here.
+
+export const onArrival = (data) => {
+  return {
+    type: types.ON_ARRIVAL,
+    payload: data
+  }
+}
 
 
 
