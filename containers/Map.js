@@ -40,14 +40,13 @@ export default compose(
     componentDidMount() {
       const { socket, token } = this.props
       this.props.getLocationAsync().then((location) => {
-          if (location !== undefined) {
-            debugger
-            this.props.setPosition(location)
-            this.props.emitUserPosition(socket, location, token)
-          } else {
-            this.props.navigateToLocationAuth()
-            Permissions.askAsync(Permissions.LOCATION)
-          }
+        if (location !== undefined) {
+          this.props.setPosition(location)
+          this.props.emitUserPosition(socket, location, token)
+        } else {
+          this.props.navigateToLocationAuth()
+          Permissions.askAsync(Permissions.LOCATION)
+        }
       }).catch(error => console.log("getLocationAsync", error))
     },
   })

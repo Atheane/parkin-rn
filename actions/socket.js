@@ -26,9 +26,9 @@ export const emitUserPosition = (socket, userPosition, token) => {
   }
 }
 
-// export const onSpots = (spots) => {
-//   return {
-//     type: types.GET_SPOTS,
-//     payload: spots
-//   }
-// }
+export const onSpots = (spots) => {
+  return {
+    type: types.ON_SPOTS,
+    payload: spots
+  }
+}

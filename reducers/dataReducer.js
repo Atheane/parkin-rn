@@ -8,6 +8,9 @@ export default (currentState = null, action) => {
     case types.SET_POSITION:
       console.log("in types.SET_POSITION, action.payload", action.payload)
       return {...currentState, userPosition: action.payload}
+    case types.ON_SPOTS:
+      console.log("in types.ON_SPOTS, action.payload", action.payload)
+      return {...currentState, spots: action.payload}
     default:
       console.log("in default, currentState", currentState)
       return currentState

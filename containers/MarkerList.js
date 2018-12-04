@@ -28,5 +28,5 @@ export default compose(
   //     handleGetDirections(e)
   //   }
   // }),
-)(React.memo(MarkerList)) // https://reactjs.org/blog/2018/10/23/react-v-16-6.html
+)(MarkerList) // https://reactjs.org/blog/2018/10/23/react-v-16-6.html
 

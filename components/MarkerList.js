@@ -10,7 +10,7 @@ export default (props) => {
       <Marker 
         key={i}
         title={spot.name}
-        coordinate={spot.coords}
+        coordinate={spot.spot.coords}
         image={(spot.selected) ? require('../assets/selectedSpot.png') : require('../assets/spot.png')}
         onPress={handleOnPress}
       />

@@ -1,5 +1,5 @@
 import socketIOClient from 'socket.io-client'
-import { setSocket } from '../actions/socket'
+import { setSocket, onSpots } from '../actions/socket'
 
 const endpoint = "http://localhost:3000"
 
@@ -24,25 +24,12 @@ export default (dispatch) => {
     console.log(err)
   })
 
-  // socket.on("ON_SPOTS", (data) => {
-  //   console.log("<3 <3 <3 <3 <3 <3, data")
-  //   console.log(data)
-  //   if (event === types.GET_SPOTS) {
-  //     dispatch(onSpots(data))
-  //   }
-  // })
+  socket.on("ON_SPOTS", (data) => {
+    console.log("<3 <3 <3 <3 <3 <3, data")
+    console.log(data)
+    dispatch(onSpots(data))
+  })
 
-  // EVENT_LISTENERS.forEach((event) => {
-  //   console.log("<3 <3 <3 <3 <3 <3, event")
-  //   console.log(event)
-  //   socket.on(event, (data) => {
-  //     console.log("<3 <3 <3 <3 <3 <3, data")
-  //     console.log(data)
-  //     if (event === types.GET_SPOTS) {
-  //       dispatch(getSpots(data))
-  //     }
-  //   })
-  // })
   return socket
 }
 
