@@ -12,7 +12,7 @@ export default (currentState = null, action) => {
     case types.LOG_USER:
       console.log("in types.LOG_USER, action.payload", 
       {...currentState, emptyAsyncStorage: action.payload })
-      return {...currentState, emptyAsyncStorage: action.payload }  
+      return {...currentState, emptyAsyncStorage: action.payload }      
     default:
       console.log("in default, currentState", currentState)
       return currentState

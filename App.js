@@ -18,8 +18,10 @@ import socketReducer from './reducers/socketReducer'
 import setupSocket from './sockets'
 
 import AuthLoadingScreen from './containers/AuthLoadingScreen'
-import ArrivalModal from './components/ArrivalModal'
 import SignScreen from './containers/SignScreen'
+import ArrivalModal from './components/ArrivalModal'
+import LocationAuthScreen from './components/LocationAuthScreen'
+
 import { FooterNavigator } from './components/FooterNavigator'
 
 import logProps from './HOC/logProps'
@@ -33,6 +35,7 @@ const AppNavigator = createStackNavigator(
       { 
         Home: FooterNavigator,  //careful, not HomeScreen, https://reactnavigation.org/docs/en/common-mistakes.html
         Modal: ArrivalModal,
+        LocationAuth: LocationAuthScreen
       },
       {
         mode: 'modal',
@@ -80,9 +83,18 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || reduxCom
 // https://redux-observable.js.org/docs/basics/SettingUpTheMiddleware.html
 
 const INITIAL_STATE = {
-  user: null,
-  data: null,
-  socket: null,
+  user: {
+    facebookJson: null,
+    emptyAsyncStorage: null,
+  },
+  data: {
+    userPosition: null,
+    spots: null,
+  },
+  socket: {
+    socketInstance: null,
+    userPositionEmitted: null,
+  },
   nav: null,
 }
 

@@ -18,13 +18,13 @@ export const emitUserData = (socket, facebookJson) => {
   }
 }
 
-// export const emitPosition = (socket, userPosition, token) => {
-//   socket.emit('EMIT_POSITION', {userPosition, token})
-//   return {
-//     type: types.EMIT_POSITION,
-//     payload: true
-//   }
-// }
+export const emitUserPosition = (socket, userPosition, token) => {
+  socket.emit('EMIT_USERPOSITION', {userPosition, token})
+  return {
+    type: types.EMIT_USERPOSITION,
+    payload: true
+  }
+}
 
 // export const onSpots = (spots) => {
 //   return {

@@ -7,22 +7,18 @@ import {
 } from 'react-native'
 import Map from '../containers/Map'
 
-const Search = ({screenProps}) => {
-  // console.log(">>>>>>>>>>>>>>>>> In Search.js, SearchUI")
-  // console.log("spots", spots)
-  // console.log("userPosition", userPosition)
-
+const Search = (props) => {
   let display
   if (Platform.OS === 'ios') {
     display = (
       <SafeAreaView style={styles.container}>
-        <Map {...screenProps} />
+        <Map />
       </SafeAreaView>
     )
   } else {
     display = (
       <View style={styles.container}>
-        <Map {...screenProps} />
+        <Map />
       </View>
     )
   }
@@ -38,15 +34,3 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 })
-
-// import { connect } from 'react-redux';
-// import { sendMessage, navigateTo } from './actions';
-
-// const mapDispatchToProps = dispatch => ({
-//  sendMessage: messaga => {
-//  dispatch(sendMessage(message));
-//  dispatch(navigateTo({ routeName: 'messagesList' }));
-//  },
-// });
-
-// export default connect(null, mapDispatchToProps)(MessageSending);
