@@ -2,7 +2,7 @@ import socketIOClient from 'socket.io-client'
 import { setSocket, onSpots } from '../actions'
 
 const endpoint = "https://parkin-mesn.herokuapp.com"
-// const endpoint = "http://312c465a.ngrok.io"
+// const endpoint = "http://localhost:3000"
 
 export default (dispatch) => {
   console.log("in setupSocket")

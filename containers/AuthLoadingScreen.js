@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { connect } from 'react-redux'
-import { compose, lifecycle } from 'recompose'
+import { compose, lifecycle, branch, renderComponent } from 'recompose'
 import { NavigationActions } from 'react-navigation'
 
 import AuthLoadingScreen from '../components/AuthLoadingScreen'
@@ -38,7 +38,11 @@ export default compose(
     mapReduxStateToProps, 
     mapDispatchToProps
   ),
-  withAsyncStorage,  
+  branch(
+    ({ socket }) =>  (socket === null),
+    renderComponent(AuthLoadingScreen) 
+  ),
+  withAsyncStorage, 
   lifecycle({
     componentDidMount() {
       const { socket } = this.props
@@ -54,7 +58,6 @@ export default compose(
           }
         } 
       ).catch(error => console.log(error))
-
     },
     componentWillUnmount() {
       console.log("Component AuthLoadingScreen.js unmounting")
