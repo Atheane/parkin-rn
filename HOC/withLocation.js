@@ -1,6 +1,8 @@
 import React from 'react'
 import { Permissions, Location } from 'expo'
 import getDirections from 'react-native-google-maps-directions'
+import * as types from '../constants/ActionTypes'
+import { socketInstance } from '../App'
 
 export default (WrappedComponent) => {
   const getLocationAsync = async () => {
@@ -18,7 +20,7 @@ export default (WrappedComponent) => {
     }
   }
 
-  const watchLocationAsync = async () => {
+  const watchLocationAsync = async (token) => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION)
     if (status !== 'granted') {
       console.log('Permission to access location was denied')
@@ -27,6 +29,7 @@ export default (WrappedComponent) => {
         enableHighAccuracy: true,
         distanceInterval: 10,
       }
+
       const callback = (location) => {
         const userPosition = {
           latitude: location.coords.latitude,
@@ -34,10 +37,12 @@ export default (WrappedComponent) => {
           latitudeDelta: 0.0522,
           longitudeDelta: 0.0221
         }
-        console.log("E> E> E> E> E> userPosition", userPosition)
+        console.log(userPosition)
+        socketInstance.emit(types.EMIT_MOVINGUSERPOSITION, {userPosition, token})
       }
-  
+
       const watchId = await Location.watchPositionAsync(options, callback)
+
       return watchId
     }
   }

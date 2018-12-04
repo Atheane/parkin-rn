@@ -2,7 +2,7 @@ import React from 'react'
 import MarkerList from '../components/MarkerList'
 import { connect } from 'react-redux'
 import { compose, withHandlers, lifecycle } from 'recompose'
-import { emitSelectSpot, setWatchId } from '../actions'
+import { emitSelectSpot, setWatchId, emitMovingUserPosition } from '../actions'
 import withLocation from '../HOC/withLocation'
 
 const mapDispatchToProps = (dispatch) => {
@@ -12,7 +12,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     setWatchId: (watchId) => {
       dispatch(setWatchId(watchId))
-    }
+    },
   }
 }
 
@@ -38,8 +38,10 @@ export default compose(
       const token = facebookJson.id
       const location = e.nativeEvent.coordinate
       props.emitSelectSpot(socket, location, token)
-      const watchId = props.watchLocationAsync()
-      props.setWatchId(watchId)
+      const watchId = props.watchLocationAsync(token)
+      if (watchId !== undefined) {
+        props.setWatchId(watchId)
+      }
       props.handleGetDirections(e)
       e.persist()
     }

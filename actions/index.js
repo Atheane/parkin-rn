@@ -68,6 +68,14 @@ export const setWatchId = (watchId) => {
   }
 }
 
+// export const emitMovingUserPosition = (socket, userPosition, token) => {
+//   socket.emit(types.EMIT_MOVINGUSERPOSITION, {userPosition, token})
+//   return {
+//     type: types.EMIT_MOVINGUSERPOSITION,
+//     payload: true
+//   }
+// }
+
 
 
 

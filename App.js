@@ -97,7 +97,7 @@ const store = createStore(
   )
 )
 
-setupSocket(store.dispatch)
+export const socketInstance = setupSocket(store.dispatch)
 
 export default () => {
   return (
