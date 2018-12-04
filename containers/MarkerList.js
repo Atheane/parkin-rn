@@ -38,20 +38,16 @@ export default compose(
       const token = facebookJson.id
       const location = e.nativeEvent.coordinate
       props.emitSelectSpot(socket, location, token)
-      const watchId = props.watchLocationAsync()
-      props.setWatchId(watchId)
+      props.watchLocationAsync()
+      // props.setWatchId(watchId)
       props.handleGetDirections(e)
       e.persist()
     }
   }),
   lifecycle({
     componentWillReceiveProps(nextProps) {
-      console.log("In componentWillReceiveProps")
-      console.log("this.props.spots",this.props.spots)
-
-      if (nextProps.spots !== this.props.spots) {
-        console.log("nextProps.spots", nextProps.spots)
-        console.log("this.props.spots",this.props.spots)
+      if (this.props.watchId) {
+        console.log(this.props.watchId)
       }
     },
     componentWillUnmount() {
@@ -61,4 +57,4 @@ export default compose(
       }
     }
   }),
-)(MarkerList) 
+)(React.memo(MarkerList)) 

@@ -18,7 +18,7 @@ export default (WrappedComponent) => {
     }
   }
 
-  const watchLocationAsync = async (token) => {
+  const watchLocationAsync = async () => {
     let { status } = await Permissions.askAsync(Permissions.LOCATION)
     if (status !== 'granted') {
       console.log('Permission to access location was denied')
@@ -31,9 +31,12 @@ export default (WrappedComponent) => {
         const userPosition = {
           latitude: location.coords.latitude,
           longitude: location.coords.longitude,
-          ...deltas
+          latitudeDelta: 0.0522,
+          longitudeDelta: 0.0221
         }
+        console.log("E> E> E> E> E> userPosition", userPosition)
       }
+  
       const watchId = await Location.watchPositionAsync(options, callback)
       return watchId
     }
@@ -63,8 +66,8 @@ export default (WrappedComponent) => {
   return (props) => (
     <WrappedComponent
       getLocationAsync={getLocationAsync}
-      watchLocationAsync={watchLocationAsync}
       handleGetDirections={handleGetDirections}
+      watchLocationAsync={watchLocationAsync}
       {...props}
     />
   )

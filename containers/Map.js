@@ -50,5 +50,5 @@ export default compose(
       }).catch(error => console.log("getLocationAsync", error))
     },
   })
-)(Map)
+)(React.memo(Map))
 
