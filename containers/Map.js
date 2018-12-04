@@ -26,7 +26,6 @@ const mapReduxStateToProps = (reduxState) => {
     socket: reduxState.socket,
     facebookJson: reduxState.facebookJson,
     userPosition: reduxState.userPosition,
-    spots: reduxState.spots
   }
 }
 
