@@ -11,20 +11,21 @@ import {
   createNavigationReducer,
 } from 'react-navigation-redux-helpers'
 
-import userReducer from './reducers/userReducer'
-import dataReducer from './reducers/dataReducer'
-import socketReducer from './reducers/socketReducer'
+import socket from './reducers/socket'
+import emptyAsyncStorage from './reducers/emptyAsyncStorage'
+import facebookJson from './reducers/facebookJson'
+import userPosition from './reducers/userPosition'
+import spots from './reducers/spots'
+import watchId from './reducers/watchId'
 
 import setupSocket from './sockets'
+import { INITIAL_STATE } from './constants/InitialReduxState'
 
 import AuthLoadingScreen from './containers/AuthLoadingScreen'
 import SignScreen from './containers/SignScreen'
 import ArrivalModal from './components/ArrivalModal'
 import LocationAuthScreen from './components/LocationAuthScreen'
-
 import { FooterNavigator } from './components/FooterNavigator'
-
-import { INITIAL_STATE } from './constants/InitialReduxState'
 
 import logProps from './HOC/logProps'
 
@@ -55,9 +56,12 @@ const AppNavigator = createStackNavigator(
 const navReducer = createNavigationReducer(AppNavigator)
 
 const reducers = combineReducers({
-  user: userReducer,
-  data: dataReducer,
-  socket: socketReducer,
+  socket,
+  emptyAsyncStorage,
+  facebookJson,
+  userPosition,
+  spots,
+  watchId,
   nav: navReducer,
 })
 

@@ -2,8 +2,7 @@ import React from 'react'
 import MarkerList from '../components/MarkerList'
 import { connect } from 'react-redux'
 import { compose, withHandlers, lifecycle } from 'recompose'
-import { emitSelectSpot } from '../actions/socket'
-import { setWatchId } from '../actions/data'
+import { emitSelectSpot, setWatchId } from '../actions'
 import withLocation from '../HOC/withLocation'
 
 const mapDispatchToProps = (dispatch) => {
@@ -19,9 +18,9 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapReduxStateToProps = (reduxState) => {
   return {
-    user: reduxState.user,
+    facebookJson: reduxState.facebookJson,
     socket: reduxState.socket,
-    data: reduxState.data,
+    spots: reduxState.spots,
   }
 }
 
@@ -33,11 +32,10 @@ export default compose(
   withLocation,
   withHandlers({ 
     handleOnPress: props => e => {
-      const { socket, user } = props
-      const token = user.facebookJson.id
-      const { socketInstance } = socket
+      const { socket, facebookJson } = props
+      const token = facebookJson.id
       const location = e.nativeEvent.coordinate
-      props.emitSelectSpot(socketInstance, location, token)
+      props.emitSelectSpot(socket, location, token)
       const watchId = props.watchLocationAsync()
       props.setWatchId(watchId)
       props.handleGetDirections(e)

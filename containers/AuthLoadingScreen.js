@@ -7,8 +7,7 @@ import { NavigationActions } from 'react-navigation'
 import AuthLoadingScreen from '../components/AuthLoadingScreen'
 import withAsyncStorage from '../HOC/withAsyncStorage'
 
-import { setUserData, logUser } from '../actions/user'
-import { emitUserData } from '../actions/socket'
+import { setUserData, logUser, emitUserData } from '../actions'
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -30,7 +29,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapReduxStateToProps = (reduxState) => {
   return {
-    socket: reduxState.socket.socketInstance
+    socket: reduxState.socket
   }
 }
 

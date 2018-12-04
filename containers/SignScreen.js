@@ -3,8 +3,7 @@ import { connect } from 'react-redux'
 import { compose, withHandlers, lifecycle } from 'recompose'
 import { NavigationActions } from 'react-navigation'
 
-import { setUserData, logUser } from '../actions/user'
-import { emitUserData } from '../actions/socket'
+import { setUserData, logUser, emitUserData } from '../actions'
 import withAsyncStorage from '../HOC/withAsyncStorage'
 import withFacebookAuth from '../HOC/withFacebookAuth'
 import SignScreen from '../components/SignScreen'
@@ -29,7 +28,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapReduxStateToProps = (reduxState) => {
   return {
-    socket: reduxState.socket.socketInstance,
+    socket: reduxState.socket,
   }
 }
 

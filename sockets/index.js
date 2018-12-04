@@ -1,5 +1,5 @@
 import socketIOClient from 'socket.io-client'
-import { setSocket, onSpots } from '../actions/socket'
+import { setSocket, onSpots } from '../actions'
 
 const endpoint = "http://localhost:3000"
 

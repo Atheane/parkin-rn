@@ -4,8 +4,7 @@ import { NavigationActions } from 'react-navigation'
 import { Permissions } from 'expo'
 import { connect } from 'react-redux'
 import { compose, lifecycle } from 'recompose'
-import { setPosition } from '../actions/data'
-import { emitUserPosition } from '../actions/socket'
+import { setPosition, emitUserPosition } from '../actions'
 import withLocation from '../HOC/withLocation'
 
 const mapDispatchToProps = (dispatch) => {
@@ -24,9 +23,9 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapReduxStateToProps = (reduxState) => {
   return {
-    socket: reduxState.socket.socketInstance,
-    user: reduxState.user,
-    userPosition: reduxState.data.userPosition
+    socket: reduxState.socket,
+    facebookJson: reduxState.facebookJson,
+    userPosition: reduxState.userPosition
   }
 }
 
@@ -39,7 +38,7 @@ export default compose(
   lifecycle({
     componentDidMount() {
       const { socket, user } = this.props
-      const token = user.facebookJson.id
+      const token = facebookJson.id
       this.props.getLocationAsync().then((location) => {
         if (location !== undefined) {
           this.props.setPosition(location)
