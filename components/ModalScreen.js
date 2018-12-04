@@ -26,7 +26,7 @@ export default class extends Component {
         imageBig: require('../assets/ParkingSpot.jpg'),
       }
     ]
-  }
+  } 
 
   _deleteSpot = () => {
     const { navigate, message, userInfo, _toggleModal } = this.props
@@ -56,7 +56,8 @@ export default class extends Component {
           <DeckSwiper
             ref={(c) => this._deckSwiper = c}
             dataSource={this.cards()}
-            renderItem={item =>
+            renderItem={item => 
+
             <Card style={{ elevation: 3, marginTop: 50}} >
               <CardItem>
                 <Left>

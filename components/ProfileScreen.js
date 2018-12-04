@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import { Image, AsyncStorage, StyleSheet } from 'react-native'
-import { Container, Header, Body, Button, Text } from 'native-base'
+import { Container, Body, Button, Text } from 'native-base'
 import { Row, Grid, Col } from 'react-native-easy-grid'
-import login from '../utils/login'
-import Loading from './Loading'
+import AuthLoadingScreen from './AuthLoadingScreen'
 
-export default class Profile extends Component {
+export default class extends Component {
   // console.log("In Profile, ScreenProps", screenProps)
   constructor(props) {
     super(props)
@@ -14,14 +13,11 @@ export default class Profile extends Component {
     }
   }
 
-  _logOut = () => {
+  _logOut = async () => {
     const keys = ['ParkinUserInfo']
-    AsyncStorage.multiRemove( keys, (error) => {
-      if (error) { console.log(error) }
-    })
-    this.setState({userInfo: null})
-    alert("You are Logged out")
-    console.log("AsyncStorage is cleaning#################")
+    await AsyncStorage.clear()
+    this.setState({userInfo: null}) // to-do redux
+    // this.props.navigation.navigate('Auth')
   }
 
   render() {
@@ -33,7 +29,7 @@ export default class Profile extends Component {
             <Row size={3}>
               <Body>
                 <Image
-                  source={{ uri: userInfo.picture.data.url }}
+                  source={{ uri: (userInfo === undefined ) ? userInfo.picture.data.url : ''}}
                   style={{ width: 100, height: 100, borderRadius: 50 }}
                 />
                 <Text style={styles.text}>{userInfo.name}</Text>

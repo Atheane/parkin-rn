@@ -1,33 +1,27 @@
 import React from 'react'
 import { MapView } from 'expo'
 import { PROVIDER_GOOGLE } from 'react-native-maps'
-
 import NightStyle from './NightStyle'
-import MarkerList from './MarkerList'
+import MarkerList from '../containers/MarkerList'
 
-const Map = (props) => {
-  const { currentUserPosition } = props
-  console.log('>>>>>>>>>>>>>>>> In Map.js')
-  console.log('currentUserPosition')
-  console.log(currentUserPosition)
+export default (props) => {
+  const { userPosition, spots } = props
   return (
       <MapView
         provider={PROVIDER_GOOGLE}
         customMapStyle={NightStyle}
         style={styles.container}
-        region={currentUserPosition}
+        region={userPosition}
         showsUserLocation
         showsMyLocationButton
         showsTraffic
         minZoomLevel={15}
         loadingEnabled
       >
-        <MarkerList {...props} />
+        <MarkerList spots={spots}/>
       </MapView>
   )
 }
-
-export default Map;
 
 const styles = {
   container: {

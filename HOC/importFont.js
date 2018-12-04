@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import Expo from 'expo'
-import Loading from '../components/Loading'
+import * as Expo from 'expo'
+import Loading from '../components/SimpleLoadingScreen'
 
 export default (WrappedComponent) => {
   return class extends Component {

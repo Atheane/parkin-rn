@@ -5,7 +5,7 @@ import getDirections from 'react-native-google-maps-directions'
 import { 
   onSpotsAroundMe, 
   emitMovingUserPosition,
-  emitCurrentUserPosition,
+  emitUserPosition,
 } from '../utils/sockets'
 
 const deltas = {
@@ -18,7 +18,7 @@ export const getSpots = (WrappedComponent) => {
     constructor(props) {
       super(props)
       this.state = {
-        currentUserPosition: null,
+        userPosition: null,
         spots: [],
         status: null,
         errorMessage: null,
@@ -46,18 +46,15 @@ export const getSpots = (WrappedComponent) => {
         console.log(this.state.errorMessage)
       } else {
         let location = await Location.getCurrentPositionAsync({enableHighAccuracy: true})
-        const currentUserPosition = {
+        const userPosition = {
           latitude: location.coords.latitude,
           longitude: location.coords.longitude,
           ...deltas
         }
-        console.log(">>>>>>>>>>>>>>>>> In localize.js")
-        console.log("In getSpots, getLocationAsync, get current Position", currentUserPosition)
-        this.setState({ currentUserPosition }, () => console.log('setState currentUserPosition in getSpots'))
+        this.setState({ userPosition }, () => console.log('setState userPosition in getSpots'))
         const { userInfo } = this.props.screenProps
-        console.log(">>>>>>>>>>>>>>>>>> userInfo", userInfo)
-        if (currentUserPosition && userInfo) {
-          emitCurrentUserPosition({userPosition: currentUserPosition, token: userInfo.id})
+        if (userPosition && userInfo) {
+          emitUserPosition({userPosition: userPosition, token: userInfo.id})
         }
       }
     }

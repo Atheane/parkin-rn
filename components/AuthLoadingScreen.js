@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet } from 'react-native'
-import { Container, Header, Body, Spinner } from 'native-base'
+import { Container, Body, Spinner } from 'native-base'
 import { Row, Grid } from 'react-native-easy-grid'
 
 export default () => {

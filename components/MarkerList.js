@@ -5,16 +5,14 @@ const Marker = MapView.Marker
 
 export default (props) => {
   const { spots, handleOnPress } = props
-  console.log('>>>>>>>>>>>>>>>> In MarkerList.js')
-  console.log('spots')
-  console.log(spots)
-  if (spots && spots.constructor === Array) {
-    return spots.map((spotObj, i) => (
+  console.log("################################### MarkerList spots:", spots)
+  if (spots && spots.length > 0) {
+    return spots.map((spot, i) => (
       <Marker 
         key={i}
-        title={spotObj.spot.name}
-        coordinate={spotObj.spot.coords}
-        image={(spotObj.selected) ? require('../assets/selectedSpot.png') : require('../assets/spot.png')}
+        title={spot.spot.name}
+        coordinate={spot.spot.coords}
+        image={(spot.selected) ? require('../assets/selectedSpot.png') : require('../assets/spot.png')}
         onPress={handleOnPress}
       />
     ))
@@ -23,3 +21,4 @@ export default (props) => {
     return null
   }
 }
+
