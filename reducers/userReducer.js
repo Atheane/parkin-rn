@@ -1,12 +1,13 @@
 import * as types from '../constants/ActionTypes'
 
+
 export default (currentState = null, action) => {
   console.log("userReducer")
   console.log("action.type", action.type)
 
   switch (action.type) {
     case types.SET_USERDATA:
-      console.log("in types.SET_USER, action.payload",
+      console.log("in types.SET_USERDATA, action.payload",
       {...currentState, facebookJson: action.payload })
       return {...currentState, facebookJson: action.payload }
     case types.LOG_USER:

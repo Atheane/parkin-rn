@@ -11,6 +11,9 @@ export default (currentState = null, action) => {
     case types.ON_SPOTS:
       console.log("in types.ON_SPOTS, action.payload", action.payload)
       return {...currentState, spots: action.payload}
+    case types.SET_WATCHID:
+      console.log("in types.SET_WATCHID, action.payload", action.payload)
+      return {...currentState, watchId: action.payload}
     default:
       console.log("in default, currentState", currentState)
       return currentState

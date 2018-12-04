@@ -30,8 +30,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapReduxStateToProps = (reduxState) => {
   return {
-    socket: reduxState.socket.socketInstance,
-    nav: reduxState.nav
+    socket: reduxState.socket.socketInstance
   }
 }
 

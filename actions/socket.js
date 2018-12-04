@@ -26,6 +26,14 @@ export const emitUserPosition = (socket, userPosition, token) => {
   }
 }
 
+export const emitSelectSpot = (socket, location, token) => {
+  socket.emit('EMIT_SELECTSPOT', {coord: location, token})
+  return {
+    type: types.EMIT_SELECTSPOT,
+    payload: true
+  }
+}
+
 export const onSpots = (spots) => {
   return {
     type: types.ON_SPOTS,

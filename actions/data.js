@@ -8,3 +8,10 @@ export const setPosition = (location) => {
     payload: location
   }
 }
+
+export const setWatchId = (watchId) => {
+  return {
+    type: types.SET_WATCHID,
+    payload: watchId
+  }
+}

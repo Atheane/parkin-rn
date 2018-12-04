@@ -24,6 +24,8 @@ import LocationAuthScreen from './components/LocationAuthScreen'
 
 import { FooterNavigator } from './components/FooterNavigator'
 
+import { INITIAL_STATE } from './constants/InitialReduxState'
+
 import logProps from './HOC/logProps'
 
 
@@ -81,22 +83,6 @@ const AppWithNavigationState = compose(
 // composing redux middleWares in React Native
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || reduxCompose
 // https://redux-observable.js.org/docs/basics/SettingUpTheMiddleware.html
-
-const INITIAL_STATE = {
-  user: {
-    facebookJson: null,
-    emptyAsyncStorage: null,
-  },
-  data: {
-    userPosition: null,
-    spots: null,
-  },
-  socket: {
-    socketInstance: null,
-    userPositionEmitted: null,
-  },
-  nav: null,
-}
 
 // reduxStore
 const store = createStore(

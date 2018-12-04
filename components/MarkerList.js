@@ -4,12 +4,13 @@ import { MapView } from 'expo'
 const Marker = MapView.Marker
 
 export default (props) => {
-  const { spots, handleOnPress } = props
-  if (spots && spots.length > 0) {
-    return spots.map((spot, i) => (
+  const { data, handleOnPress } = props
+  console.log("################################### MarkerList data:", data)
+  if (data && data.spots && data.spots.length > 0) {
+    return data.spots.map((spot, i) => (
       <Marker 
         key={i}
-        title={spot.name}
+        title={spot.spot.name}
         coordinate={spot.spot.coords}
         image={(spot.selected) ? require('../assets/selectedSpot.png') : require('../assets/spot.png')}
         onPress={handleOnPress}
