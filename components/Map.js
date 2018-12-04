@@ -5,7 +5,7 @@ import NightStyle from './NightStyle'
 import MarkerList from '../containers/MarkerList'
 
 export default (props) => {
-  const { userPosition } = props
+  const { userPosition, spots } = props
   return (
       <MapView
         provider={PROVIDER_GOOGLE}
@@ -18,7 +18,7 @@ export default (props) => {
         minZoomLevel={15}
         loadingEnabled
       >
-        <MarkerList />
+        <MarkerList spots={spots}/>
       </MapView>
   )
 }

@@ -43,14 +43,13 @@ export default compose(
     componentDidMount() {
       const { socket } = this.props
       this.props.loadFromStorage('ParkinFacebookJson').then(
-        facebookJson => {
+        (facebookJson) => {
           const emptyAsyncStorage = (facebookJson === null)
           if (emptyAsyncStorage) {
             this.props.navigateToAuth()
           } else {
             this.props.setUser(facebookJson, emptyAsyncStorage)
             this.props.emitUserData(socket, facebookJson)
-            // this.props.navigation.navigate('Home')
             this.props.navigateToMain()
           }
         } 

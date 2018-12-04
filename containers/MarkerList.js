@@ -1,7 +1,7 @@
 import React from 'react'
 import MarkerList from '../components/MarkerList'
 import { connect } from 'react-redux'
-import { compose, withHandlers, lifecycle } from 'recompose'
+import { compose, withHandlers, lifecycle, withProps } from 'recompose'
 import { emitSelectSpot, setWatchId } from '../actions'
 import withLocation from '../HOC/withLocation'
 
@@ -20,7 +20,6 @@ const mapReduxStateToProps = (reduxState) => {
   return {
     facebookJson: reduxState.facebookJson,
     socket: reduxState.socket,
-    spots: reduxState.spots,
   }
 }
 
@@ -43,11 +42,20 @@ export default compose(
     }
   }),
   lifecycle({
+    // componentWillReceiveProps(nextProps) {
+    //   console.log("In componentWillReceiveProps")
+    //   console.log("this.props.spots",this.props.spots)
+
+    //   if (nextProps.spots !== this.props.spots) {
+    //     console.log("nextProps.spots", nextProps.spots)
+    //     console.log("this.props.spots",this.props.spots)
+    //   }
+    // },
     componentWillUnmount() {
       console.log("MarkerList will unmount")
       if (this.props.data.watchId) {
         this.props.data.watchId.remove()
       }
     }
-  })
+  }),
 )(MarkerList) 

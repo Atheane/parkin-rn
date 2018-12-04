@@ -25,7 +25,8 @@ const mapReduxStateToProps = (reduxState) => {
   return {
     socket: reduxState.socket,
     facebookJson: reduxState.facebookJson,
-    userPosition: reduxState.userPosition
+    userPosition: reduxState.userPosition,
+    spots: reduxState.spots
   }
 }
 
@@ -37,7 +38,7 @@ export default compose(
   withLocation,
   lifecycle({
     componentDidMount() {
-      const { socket, user } = this.props
+      const { socket, facebookJson } = this.props
       const token = facebookJson.id
       this.props.getLocationAsync().then((location) => {
         if (location !== undefined) {
