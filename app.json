@@ -1,5 +1,9 @@
 {
   "expo": {
-    "sdkVersion": "31.0.0"
+    "sdkVersion": "31.0.0",
+    "name": "parkin-rn",
+    "slug": "parkin-rn",
+    "version": "0.1.0",
+    "description": ""
   }
 }
