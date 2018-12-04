@@ -44,7 +44,7 @@ export default compose(
   lifecycle({
     componentDidMount() {
       const { socket } = this.props
-      this.props.loadFromStorage('ParkinUserInfo').then(
+      this.props.loadFromStorage('ParkinFacebookJson').then(
         facebookJson => {
           const emptyAsyncStorage = (facebookJson === null)
           if (emptyAsyncStorage) {

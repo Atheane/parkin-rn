@@ -18,29 +18,27 @@ import socketReducer from './reducers/socketReducer'
 import setupSocket from './sockets'
 
 import AuthLoadingScreen from './containers/AuthLoadingScreen'
-import HomeScreen from './components/HomeScreen'
 import ArrivalModal from './components/ArrivalModal'
 import SignScreen from './containers/SignScreen'
 import { FooterNavigator } from './components/FooterNavigator'
 
 import logProps from './HOC/logProps'
 
-const MainNavigator = createStackNavigator(
-  { 
-    Home: FooterNavigator,  //caereful, not HomeScreen, https://reactnavigation.org/docs/en/common-mistakes.html
-    Modal: ArrivalModal,
-  },
-  {
-    mode: 'modal',
-    headerMode: 'none',
-  }
-)
 
 const AppNavigator = createStackNavigator( 
   {
     AuthLoading: AuthLoadingScreen,
     Auth: SignScreen,
-    Main: MainNavigator,
+    Main: createStackNavigator(
+      { 
+        Home: FooterNavigator,  //careful, not HomeScreen, https://reactnavigation.org/docs/en/common-mistakes.html
+        Modal: ArrivalModal,
+      },
+      {
+        mode: 'modal',
+        headerMode: 'none',
+      }
+    ),
   },
   {
     initialRouteName: 'AuthLoading',

@@ -21,7 +21,7 @@ const mapDispatchToProps = (dispatch) => {
     navigateToAuth: () => {
       dispatch(NavigationActions.navigate({routeName: 'Auth'}))
     },
-    navigateToApp: () => {
+    navigateToMain: () => {
       dispatch(NavigationActions.navigate({routeName: 'Main'}))
     },  
   }
@@ -42,17 +42,19 @@ export default compose(
   withFacebookAuth,
   withHandlers({ 
     handleOnPress: props => event => {
-      debugger
-      const facebookJson = props.getUserDataFromFacebook('ParkinFacebookJson')
-      const emptyResponse = (facebookJson === null)
-      if (emptyResponse) {
-        props.navigateToAuth()
-      } else {
-        props.saveToStorage('ParkinFacebookJson', facebookJson)
-        props.setUser(facebookJson, true)
-        props.emitUserData(props.socket, facebookJson)
-        props.navigateToApp()
-      }
+      props.getUserDataFromFacebook().then(
+        (facebookJson) => {
+          const emptyResponse = (facebookJson === null)
+          if (emptyResponse) {
+            props.navigateToAuth()
+          } else {
+            props.saveToStorage('ParkinFacebookJson', JSON.stringify(facebookJson))
+            props.setUser(facebookJson, true)
+            props.emitUserData(props.socket, facebookJson)
+            props.navigateToMain()
+          }
+        }
+      ).catch(error => console.log(error))
     }
   }),
   lifecycle({

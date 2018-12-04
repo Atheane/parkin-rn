@@ -4,7 +4,7 @@ import { FB_APP_ID } from '../constants/FacebookId'
 
 export default (WrappedComponent) => {
   
-  const getUserFromFacebook = async () => {
+  const getUserDataFromFacebook = async () => {
     let redirectUrl = AuthSession.getRedirectUrl()
   
     // You need to add this url to your authorized redirect urls on your Facebook app
