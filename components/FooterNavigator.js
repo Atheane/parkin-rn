@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from 'react-navigation-tabs'
 // import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs'
 import { AntDesign } from '@expo/vector-icons';
 import Search from './Search'
-import Profile from './ProfileScreen'
+import Profile from '../containers/ProfileScreen'
 
 
 export const FooterNavigator = createBottomTabNavigator(
