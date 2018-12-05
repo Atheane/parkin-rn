@@ -1,6 +1,5 @@
 import React from 'react'
-import { View, Image } from 'react-native'
-import { Image } from 'react-native'
+import { View as RNView, Image } from 'react-native'
 import Modal from 'react-native-modal'
 import { 
   Container, 
@@ -28,7 +27,7 @@ export default (props) => {
     ]
   }
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <RNView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Modal isVisible={props.isArrivalModalVisible}>
         <Container style={{ elevation: 3, backgroundColor: 'rgba(52, 52, 52, 0.01)'}}>
           <View >
@@ -69,6 +68,6 @@ export default (props) => {
           </View>
         </Container>
       </Modal>
-    </View>
+    </RNView>
   )
 }

@@ -11,11 +11,11 @@ const mapDispatchToProps = (dispatch) => {
     emitDeleteSpot: (socket, arrivalSpot, token) => {
       dispatch(emitDeleteSpot(socket, arrivalSpot, token))
     },
-    toggleModal: () => {
-      dispatch(toggleModal())
+    toggleModal: (isArrivalModalVisible) => {
+      dispatch(toggleModal(isArrivalModalVisible))
     },
-    navigateToMain: () => {
-      dispatch(NavigationActions.navigate({routeName: 'Main'}))
+    navigateToHome: () => {
+      dispatch(NavigationActions.navigate({routeName: 'Home'}))
     },
   }
 }
@@ -35,16 +35,18 @@ export default compose(
     mapDispatchToProps
   ),
   withHandlers({
-    _deleteSpot: ({ socket, arrivalSpot, facebookJson }) => e => {
+    _deleteSpot: (props) => e => {
+      const { socket, arrivalSpot, facebookJson, isArrivalModalVisible } = props
       const token = facebookJson.id
       const coord = arrivalSpot.coord
       props.emitDeleteSpot(socket, coord, token)
-      props.toggleModal()
-      props.navigateToMain()
+      props.toggleModal(isArrivalModalVisible)
+      props.navigateToHome()
     },
     _thanksSpot: (props) => e => {
-      props.toggleModal()
-      props.navigateToMain()
+      const { isArrivalModalVisible } = props
+      props.toggleModal(isArrivalModalVisible)
+      props.navigateToHome()
     },
   })
 )(React.memo(ModalScreen))

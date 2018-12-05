@@ -1,11 +1,12 @@
 import socketIOClient from 'socket.io-client'
-import { setSocket, onSpots, onArrival } from '../actions'
+import { setSocket, onSpots, onArrival, toggleModal } from '../actions'
 import { NavigationActions } from 'react-navigation'
 
-const endpoint = "https://parkin-mesn.herokuapp.com"
+const endpoint = "http://localhost:3000"
 
 export default (dispatch) => {
   console.log("in setupSocket")
+  let counter = 0
   const socket = socketIOClient(endpoint, {transports: ['websocket']})
   
   socket.on('connect', () => {
@@ -27,14 +28,19 @@ export default (dispatch) => {
 
   socket.on("ON_SPOTS", (data) => {
     console.log(data)
+    counter = 0
     dispatch(onSpots(data))
   })
 
   socket.on("ON_ARRIVAL", (data) => {
     console.log("<3 <3 <3 <3 <3 <3, ON_ARRIVAL data")
     console.log(data)
-    dispatch(onArrival(data))
-    dispatch(NavigationActions.navigate({routeName: 'Modal'}))
+    if (counter === 0) {
+      counter +=1
+      dispatch(onArrival(data))
+      dispatch(toggleModal())
+      dispatch(NavigationActions.navigate({routeName: 'Modal'}))
+    }
   })
 
   return socket
