@@ -18,13 +18,13 @@ import userPosition from './reducers/userPosition'
 import spots from './reducers/spots'
 import watchId from './reducers/watchId'
 import arrivalSpot from './reducers/arrivalSpot.js'
-
+import isArrivalModalVisible from './reducers/isArrivalModalVisible.js'
 import setupSocket from './sockets'
 import { INITIAL_STATE } from './constants/InitialReduxState'
 
 import AuthLoadingScreen from './containers/AuthLoadingScreen'
 import SignScreen from './containers/SignScreen'
-import { ModalScreen } from './components/ModalScreen'
+import ModalScreen from './containers/ModalScreen'
 import LocationAuthScreen from './components/LocationAuthScreen'
 import { FooterNavigator } from './components/FooterNavigator'
 
@@ -64,6 +64,7 @@ const reducers = combineReducers({
   spots,
   watchId,
   arrivalSpot,
+  isArrivalModalVisible,
   nav: navReducer,
 })
 
