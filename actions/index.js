@@ -77,6 +77,23 @@ export const onArrival = (data) => {
   }
 }
 
+export const toggleModal = (bool) => {
+  console.log("\\\\\\////// isArrivalModalVisible", bool)
+  console.log("\\\\\\////// !isArrivalModalVisible", !bool)
+  return {
+    type: types.TOGGLE_MODAL,
+    payload: !bool
+  }
+}
+
+export const emitDeleteSpot = (socket, coord, token) => {
+  socket.emit(types.EMIT_DELETESPOT, {coord, token})
+  return {
+    type: types.EMIT_DELETESPOT,
+    payload: true
+  }
+}
+
 
 
 

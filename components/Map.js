@@ -1,7 +1,7 @@
 import React from 'react'
 import { MapView } from 'expo'
 import { PROVIDER_GOOGLE } from 'react-native-maps'
-import NightStyle from './NightStyle'
+import NightStyle from '../constants/NightStyle'
 import MarkerList from '../containers/MarkerList'
 
 export default (props) => {
