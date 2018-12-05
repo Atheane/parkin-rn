@@ -1,5 +1,4 @@
 import React from 'react'
-import Map from '../components/Map'
 import { NavigationActions } from 'react-navigation'
 import { connect } from 'react-redux'
 import { compose, withHandlers } from 'recompose'

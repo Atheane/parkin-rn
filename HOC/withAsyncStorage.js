@@ -16,11 +16,11 @@ export default (WrappedComponent) => {
   
   return (props) => (
     <WrappedComponent
-          loadFromStorage={loadFromStorage}
-          saveToStorage={saveToStorage}
-          removeFromStorage={removeFromStorage}
-          {...props}
-      />
+      loadFromStorage={loadFromStorage}
+      saveToStorage={saveToStorage}
+      removeFromStorage={removeFromStorage}
+      {...props}
+    />
   )
 }
 
