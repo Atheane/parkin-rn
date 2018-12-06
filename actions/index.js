@@ -78,8 +78,6 @@ export const onArrival = (data) => {
 }
 
 export const toggleModal = (bool) => {
-  console.log("\\\\\\////// isArrivalModalVisible", bool)
-  console.log("\\\\\\////// !isArrivalModalVisible", !bool)
   return {
     type: types.TOGGLE_MODAL,
     payload: !bool

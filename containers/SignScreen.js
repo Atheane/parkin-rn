@@ -58,7 +58,7 @@ export default compose(
   }),
   lifecycle({
     componentWillUnmount() {
-      console.log("Component SignSCreen.js unmounting")
+      // console.log("Component SignSCreen.js unmounting")
     }
   })
 )(SignScreen)

@@ -5,13 +5,13 @@ import { NavigationActions } from 'react-navigation'
 const endpoint = "https://parkin-mesn.herokuapp.com"
 
 export default (dispatch) => {
-  console.log("in setupSocket")
+  // console.log("in setupSocket")
   let counter = 0
   const socket = socketIOClient(endpoint, {transports: ['websocket']})
   
   socket.on('connect', () => {
     console.log(socket.id, ' is connected')
-    console.log("setSocket action for socket", socket)
+    // console.log("setSocket action for socket", socket)
     dispatch(setSocket(socket))
 
     socket.on('disconnect', () => {
@@ -27,14 +27,14 @@ export default (dispatch) => {
   })
 
   socket.on("ON_SPOTS", (data) => {
-    console.log(data)
+    // console.log(data)
     counter = 0
     dispatch(onSpots(data))
   })
 
   socket.on("ON_ARRIVAL", (data) => {
-    console.log("<3 <3 <3 <3 <3 <3, ON_ARRIVAL data")
-    console.log(data)
+    // console.log("ON_ARRIVAL data")
+    // console.log(data)
     if (counter === 0) {
       counter +=1
       dispatch(onArrival(data))

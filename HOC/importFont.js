@@ -21,10 +21,6 @@ export default (WrappedComponent) => {
       this.setState({fontLoaded: true})
     }
 
-    componentWillUnmount() {
-      console.log("importFont.js Will Unmount")
-    }
-
     render() {
       const { fontLoaded } = this.state
       console.log("importFont", fontLoaded)

@@ -37,7 +37,7 @@ export default (WrappedComponent) => {
           latitudeDelta: 0.0522,
           longitudeDelta: 0.0221
         }
-        console.log(userPosition)
+        // console.log(userPosition)
         socketInstance.emit(types.EMIT_MOVINGUSERPOSITION, {userPosition, token})
       }
 
@@ -48,7 +48,7 @@ export default (WrappedComponent) => {
   }
 
   const handleGetDirections = (e) => {
-    console.log("handleGetDirections")
+    // console.log("handleGetDirections")
     const data = {
       destination: {
         latitude: e.nativeEvent.coordinate.latitude,

@@ -8,7 +8,7 @@ export default (WrappedComponent) => {
     let redirectUrl = AuthSession.getRedirectUrl()
   
     // You need to add this url to your authorized redirect urls on your Facebook app
-    console.log({ redirectUrl })
+    // console.log({ redirectUrl })
   
     // NOTICE: Please do not actually request the token on the client (see:
     // response_type=token in the authUrl), it is not secure. Request a code

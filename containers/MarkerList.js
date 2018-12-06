@@ -48,7 +48,7 @@ export default compose(
   }),
   lifecycle({
     componentWillUnmount() {
-      console.log("MarkerList will unmount")
+      // console.log("MarkerList will unmount")
       if (this.props.watchId) {
         this.props.watchId.remove()
       }
