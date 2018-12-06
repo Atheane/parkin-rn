@@ -59,8 +59,8 @@ export default compose(
         } 
       ).catch(error => console.log(error))
     },
-    componentWillUnmount() {
-      console.log("Component AuthLoadingScreen.js unmounting")
-    }
+    // componentWillUnmount() {
+    //   console.log("Component AuthLoadingScreen.js unmounting")
+    // }
   })
 )(AuthLoadingScreen)

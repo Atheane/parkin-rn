@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import { Permissions, Notifications } from 'expo'
 import { emitTokenPushNotification } from '../utils/sockets'
 
+
+// THIS COMPONENT IS NOT USED YET
+
 export default (WrappedComponent) => {
   return class extends Component {
     constructor(props) {

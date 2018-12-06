@@ -5,7 +5,6 @@ const Marker = MapView.Marker
 
 export default (props) => {
   const { spots, handleOnPress } = props
-  console.log("################################### MarkerList spots:", spots)
   if (spots && spots.length > 0) {
     return spots.map((spot, i) => (
       <Marker 
