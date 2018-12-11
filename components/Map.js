@@ -23,12 +23,22 @@ export default (props) => {
         >
           <MarkerList spots={spots}/>
         </MapView>
-        <TouchableHighlight onPress={console.log('Should give a spot')}>
+        {/* <TouchableHighlight onPress={console.log('Should give a spot')}>
           <Image
             style={styles.button}
             source={require('../assets/map-marker-2.svg')}
           />
-        </TouchableHighlight>
+        </TouchableHighlight> */}
+        <Svg style={styles.button}>
+          <Svg.Circle
+            cx={50}
+            cy={50}
+            r={45}
+            strokeWidth={2.5}
+            stroke="#e74c3c"
+            fill="#f1c40f"
+          />
+        </Svg>
       </View>
   )
 }
