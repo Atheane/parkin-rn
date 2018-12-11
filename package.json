@@ -30,6 +30,7 @@
     "react-native-google-maps-directions": "^2.0.0",
     "react-native-linear-gradient": "^2.5.2",
     "react-native-modal": "^7.0.1",
+    "react-native-svg": "^8.0.9",
     "react-navigation": "^3.0.2",
     "react-navigation-redux-helpers": "^2.0.8",
     "react-navigation-tabs": "^1.0.0",

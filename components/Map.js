@@ -16,29 +16,37 @@ export default (props) => {
           style={styles.container}
           region={userPosition}
           showsUserLocation
-          showsMyLocationButton
           showsTraffic
           minZoomLevel={15}
           loadingEnabled
         >
           <MarkerList spots={spots}/>
         </MapView>
-        {/* <TouchableHighlight onPress={console.log('Should give a spot')}>
-          <Image
-            style={styles.button}
-            source={require('../assets/map-marker-2.svg')}
-          />
-        </TouchableHighlight> */}
-        <Svg style={styles.button}>
-          <Svg.Circle
-            cx={50}
-            cy={50}
-            r={45}
-            strokeWidth={2.5}
-            stroke="#e74c3c"
-            fill="#f1c40f"
-          />
-        </Svg>
+        <TouchableHighlight onPress={console.log('Should give a spot')} style={styles.button}>
+          <Svg height="100" width="100" fill="none" style={styles.svg} >
+            <Svg.Defs>
+              <Svg.LinearGradient
+                id="grad"
+                gradientUnits="userSpaceOnUse"
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="50"
+            >          
+                <Svg.Stop offset="0" stopColor="red" stopOpacity="0" />
+                <Svg.Stop offset="1" stopColor="blue" stopOpacity="1" />
+              </Svg.LinearGradient>
+            </Svg.Defs>
+            <Svg.Circle
+              cx="30"
+              cy="30"
+              r="27"
+              strokeWidth={2}
+              stroke="rgb(255,255,255)"
+              fill="url(#grad)"
+            />
+          </Svg>
+        </TouchableHighlight>
       </View>
   )
 }
@@ -54,11 +62,17 @@ const styles = {
   },
   button: {
     position: 'absolute',
-    width: 50, 
-    height: 50, 
-    bottom: 80, 
-    right: 80, 
+    width: 70, 
+    height: 70, 
+    bottom: 30, 
+    right: 30,
     zIndex: 1,
-    backgroundColor: "#f79933"
+    // backgroundColor: "transparent"
+  },
+  svg: {
+    position: 'relative',
+    bottom: 0, 
+    right: 0, 
+    zIndex: 2
   }
 }
