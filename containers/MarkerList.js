@@ -12,7 +12,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     setWatchId: (watchId) => {
       dispatch(setWatchId(watchId))
-    },
+    }
   }
 }
 

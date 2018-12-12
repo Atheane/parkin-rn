@@ -1,5 +1,12 @@
 import socketIOClient from 'socket.io-client'
-import { setSocket, onSpots, onArrival, toggleModal } from '../actions'
+import { 
+  setSocket, 
+  onSpots, 
+  onDeleteSpot,
+  onNewSpot, 
+  onArrival, 
+  toggleModal
+} from '../actions'
 import { NavigationActions } from 'react-navigation'
 
 // const endpoint = "https://parkin-mesn.herokuapp.com"
@@ -29,10 +36,21 @@ export default (dispatch) => {
   })
 
   socket.on("ON_SPOTS", (data) => {
+    // console.log("ON_SPOTS data")
     // console.log(data)
     counter = 0
     dispatch(onSpots(data))
   })
+
+  socket.on("ON_DELETESPOT", (data) => {
+    // console.log("ON_DELETESPOT data")
+    dispatch(onDeleteSpot(data))
+  })
+
+  socket.on("ON_NEWSPOT", (data) => {
+    // console.log("ON_NEWSPOT data")
+    dispatch(onNewSpot(data))
+  }) 
 
   socket.on("ON_ARRIVAL", (data) => {
     // console.log("ON_ARRIVAL data")
