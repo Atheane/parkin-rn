@@ -30,7 +30,7 @@ export default (props) => {
           stroke="rgb(255,255,255)"
           fill="url(#grad)"
         />
-        <Svg.Circle
+        <Svg.Circle 
           cx="40"
           cy="40"
           r="15"
@@ -38,7 +38,7 @@ export default (props) => {
           stroke="rgb(255,255,255)"
           fill="rgb(255,214,157)"
         />
-        <Svg.Polygon             
+        <Svg.Polygon     
             points="34,54 46,54 40,62"
             fill="rgb(255,255,255)"
             stroke="rgb(255,255,255)"
@@ -50,6 +50,7 @@ export default (props) => {
 
 // to-do : look for filter implementation in react-native-svg for dropShadow in giveSpotButton
 // https://github.com/react-native-community/react-native-svg/issues/150
+// https://stackoverflow.com/questions/40568460/using-css-filters-in-react-native
 
 const styles = {
   button: {
@@ -66,5 +67,8 @@ const styles = {
     bottom: 0, 
     right: 0, 
     zIndex: 2
-  }
+  },
+  // triangleShadow: {
+  //   filter: `drop-shadow( -15px -15px 15px #000)`  
+  // }
 }
