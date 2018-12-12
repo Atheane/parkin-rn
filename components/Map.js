@@ -4,7 +4,7 @@ import { PROVIDER_GOOGLE } from 'react-native-maps'
 import { View } from 'react-native'
 import NightStyle from '../constants/NightStyle'
 import MarkerList from '../containers/MarkerList'
-import SpotButton from './SpotButton.js'
+import SpotButton from '../containers/SpotButton.js'
 
 
 export default (props) => {

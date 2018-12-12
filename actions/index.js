@@ -92,6 +92,14 @@ export const emitDeleteSpot = (socket, coord, token) => {
   }
 }
 
+export const emitGiveSpot = (socket, coord, token) => {
+  socket.emit(types.EMIT_GIVESPOT, {coord, token})
+  return {
+    type: types.EMIT_GIVESPOT,
+    payload: true
+  }
+}
+
 
 
 

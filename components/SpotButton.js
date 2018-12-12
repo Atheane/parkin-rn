@@ -4,11 +4,8 @@ import { TouchableHighlight } from 'react-native'
 
 export default (props) => {
 
-
-  // debugger
   return (
-    <TouchableHighlight onPress={console.log('Should give a spot')} style={styles.button} >
-      <Svg height="100" width="100" fill="rgb(238,162,35)" style={styles.svg} >
+      <Svg height="100" width="100" fill="rgb(238,162,35)" style={styles.button} onPress={props.handleOnPress} >
         <Svg.Defs>
           <Svg.LinearGradient
             id="grad"
@@ -44,7 +41,6 @@ export default (props) => {
             stroke="rgb(255,255,255)"
             strokeWidth={1} /> 
         </Svg>
-    </TouchableHighlight>
   )
 }
 
@@ -57,18 +53,8 @@ const styles = {
     position: 'absolute',
     width: 70, 
     height: 70, 
-    bottom: 30, 
-    right: 30,
-    zIndex: 1,
-    // backgroundColor: "transparent"
-  },
-  svg: {
-    position: 'relative',
-    bottom: 0, 
-    right: 0, 
-    zIndex: 2
-  },
-  // triangleShadow: {
-  //   filter: `drop-shadow( -15px -15px 15px #000)`  
-  // }
+    bottom: 10, 
+    right: 10,
+    zIndex: 1
+  }
 }
