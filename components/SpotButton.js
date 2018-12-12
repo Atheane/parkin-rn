@@ -4,6 +4,8 @@ import { TouchableHighlight } from 'react-native'
 
 export default (props) => {
 
+
+  // debugger
   return (
     <TouchableHighlight onPress={console.log('Should give a spot')} style={styles.button} >
       <Svg height="100" width="100" fill="rgb(238,162,35)" style={styles.svg} >
@@ -46,8 +48,8 @@ export default (props) => {
   )
 }
 
-
-
+// to-do : look for filter implementation in react-native-svg for dropShadow in giveSpotButton
+// https://github.com/react-native-community/react-native-svg/issues/150
 
 const styles = {
   button: {
