@@ -21,7 +21,7 @@ export default () => {
 
 const styles = StyleSheet.create({
   background: {
-    backgroundColor: 'rgba(51, 79, 141, 0.50)',
+    backgroundColor: '#dde1ee',
     height: 200
   },
 })

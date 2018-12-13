@@ -15,8 +15,8 @@ const mapDispatchToProps = (dispatch) => {
     emitUserPosition: (socket, location, token) => {
       dispatch(emitUserPosition(socket, location, token))
     },
-    navigateToLocationAuth: () => {
-      dispatch(NavigationActions.navigate({routeName: 'LocationAuth'}))
+    navigateToSettings: () => {
+      dispatch(NavigationActions.navigate({routeName: 'Settings'}))
     }
   }
 }
@@ -25,7 +25,6 @@ const mapReduxStateToProps = (reduxState) => {
   return {
     socket: reduxState.socket,
     facebookJson: reduxState.facebookJson,
-    userPosition: reduxState.userPosition,
   }
 }
 
@@ -40,15 +39,13 @@ export default compose(
       const { socket, facebookJson } = this.props
       const token = facebookJson.id
       this.props.getLocationAsync().then((location) => {
-        if (location !== undefined) {
-          this.props.setPosition(location)
-          this.props.emitUserPosition(socket, location, token)
-        } else {
-          this.props.navigateToLocationAuth()
-          Permissions.askAsync(Permissions.LOCATION)
-        }
-      }).catch(error => console.log("getLocationAsync in containers/Map.js", error))
-    },
+        this.props.setPosition(location)
+        this.props.emitUserPosition(socket, location, token)
+      }).catch((error) => {
+        console.log("getLocationAsync in containers/Map.js", error)
+        this.props.navigateToSettings()
+      })
+    }
   })
 )(React.memo(Map))
 

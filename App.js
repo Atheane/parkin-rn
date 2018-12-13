@@ -25,7 +25,7 @@ import { INITIAL_STATE } from './constants/InitialReduxState'
 import AuthLoadingScreen from './containers/AuthLoadingScreen'
 import SignScreen from './containers/SignScreen'
 import ModalScreen from './containers/ModalScreen'
-import LocationAuthScreen from './components/LocationAuthScreen'
+import SettingsScreen from './components/SettingsScreen'
 import { FooterNavigator } from './components/FooterNavigator'
 
 import logProps from './HOC/logProps'
@@ -37,13 +37,37 @@ const AppNavigator = createStackNavigator(
     Auth: SignScreen,
     Main: createStackNavigator(
       { 
-        Home: FooterNavigator,  //careful, not HomeScreen, https://reactnavigation.org/docs/en/common-mistakes.html
-        Modal: ModalScreen,
-        LocationAuth: LocationAuthScreen
-      },
-      {
-        mode: 'modal',
-        headerMode: 'none',
+        Home: {
+          screen: FooterNavigator,
+          navigationOptions: {
+            header: null,
+            headerMode: 'none',
+          }
+        },
+        Modal: {
+          screen: ModalScreen,
+          navigationOptions: {
+            mode: 'modal',
+            header: null,
+            headerMode: 'none',
+          }
+        },
+        Settings: {
+          screen: SettingsScreen,
+          navigationOptions: {
+            mode: 'modal',
+            headerStyle: {
+              backgroundColor: '#dde1ee',
+              color: 'rgb(82, 6, 252)',
+              borderBottom: 'solid 0px #dde1ee',
+              boxShadow: '0px 0px 0px #dde1ee'
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }
+        }
       }
     ),
   },
