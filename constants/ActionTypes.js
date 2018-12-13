@@ -11,5 +11,8 @@ export const EMIT_MOVINGUSERPOSITION = 'EMIT_MOVINGUSERPOSITION'
 export const ON_ARRIVAL = 'ON_ARRIVAL'
 export const TOGGLE_MODAL = 'TOGGLE_MODAL'
 export const EMIT_DELETESPOT = 'EMIT_DELETESPOT'
-export const EMIT_SPOT = 'EMIT_SPOT' //to-do
+export const ON_DELETESPOT = 'ON_DELETESPOT'
+export const EMIT_GIVESPOT = 'EMIT_GIVESPOT'
+export const ON_NEWSPOT = 'ON_NEWSPOT'  //doing
+
 

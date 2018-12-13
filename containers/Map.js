@@ -47,7 +47,7 @@ export default compose(
           this.props.navigateToLocationAuth()
           Permissions.askAsync(Permissions.LOCATION)
         }
-      }).catch(error => console.log("getLocationAsync", error))
+      }).catch(error => console.log("getLocationAsync in containers/Map.js", error))
     },
   })
 )(React.memo(Map))

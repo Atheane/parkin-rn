@@ -70,6 +70,20 @@ export const setWatchId = (watchId) => {
 
 // EMIT_MOVINGUSERPOSITION in WithLocation. to-do find a way to bring it back here.
 
+export const onDeleteSpot = (data) => {
+  return {
+    type: types.ON_DELETESPOT,
+    payload: data
+  }
+}
+
+export const onNewSpot = (data) => {
+  return {
+    type: types.ON_NEWSPOT,
+    payload: data
+  }
+}
+
 export const onArrival = (data) => {
   return {
     type: types.ON_ARRIVAL,
@@ -88,6 +102,14 @@ export const emitDeleteSpot = (socket, coord, token) => {
   socket.emit(types.EMIT_DELETESPOT, {coord, token})
   return {
     type: types.EMIT_DELETESPOT,
+    payload: true
+  }
+}
+
+export const emitGiveSpot = (socket, coord, token) => {
+  socket.emit(types.EMIT_GIVESPOT, {coord, token})
+  return {
+    type: types.EMIT_GIVESPOT,
     payload: true
   }
 }
