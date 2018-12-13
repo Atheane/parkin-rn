@@ -9,8 +9,8 @@ import {
 } from '../actions'
 import { NavigationActions } from 'react-navigation'
 
-// const endpoint = "https://parkin-mesn.herokuapp.com"
-const endpoint = "http://localhost:3000"
+const endpoint = "https://parkin-mesn.herokuapp.com"
+// const endpoint = "http://localhost:3000"
 
 
 export default (dispatch) => {
