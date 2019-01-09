@@ -6,9 +6,14 @@ import NightStyle from '../constants/NightStyle'
 import MarkerList from '../containers/MarkerList'
 import SpotButton from '../containers/SpotButton.js'
 
+let nbRender = 0
 
 export default (props) => {
   const { userPosition, spots } = props
+  console.log("Render position : ", nbRender)
+  nbRender+=1
+  console.log("userPosition : ", userPosition)
+
   return (
       <View>
         <MapView
